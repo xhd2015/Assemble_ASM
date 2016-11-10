@@ -4,6 +4,9 @@ Exporting assemble language under linux by writing ASM files  and run it.
 # Navigation
 You read README.md at first,then decide which file you want to go.
 
+# A hint
+You shall read this file in 'RAW' mode,say,click 'RAW' in top right of this viewer,it will change to the original format I wrote.
+
 # Introduction
 All those .s files represent ASM files(written in AT&T style).And all of them are written,complied,ran under linux.The tools/command I used to do that are:
 	[writing] [ use emacs ]
