@@ -31,4 +31,5 @@ Other two type of files were uploaded because of the completeness.You can downlo
 
 # The complete command
 $ SF=linux_exit_32;as --64 -g -o ${SF}.o ${SF}.s ; ld  ${SF}.o -o ${SF} ;objdump -dx ${SF}
+
 $ ddd $SF
