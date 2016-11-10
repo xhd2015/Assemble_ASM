@@ -1,0 +1,4 @@
+
+.global k
+.data
+k =  .

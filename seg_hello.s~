@@ -1,0 +1,87 @@
+#hello.s
+	.code32 #under 32 , to make pushl,popl work normally
+	.data
+msg:	.string "Hello World !\n"
+	len =	. -msg
+arr:	.byte 45,56
+	.text
+	.global _start  #entry
+
+_start:
+	movl $len,%edx
+	movl $msg,%ecx
+	movl $1,%ebx
+	movl $4,%eax
+	int $0x80
+
+	movl $len,%edx
+	leal msg,%ecx  #if no prefix given,ds assumed
+	#the default is that , is an instruction is
+	#related to data operation, ds: used ; related to code, cs: used , esp related , ss is used
+	movl $1,%ebx
+	movl $4,%eax
+	int $0x80
+	movl $len,%edx
+#	pushb $0x44  #unsupported
+	pushw $0x3333
+	#for push , once you can push 1 byte or 4 bytes.2 is considered to be 1.
+	movzwl (%esp),%eax
+	pushl $0x11112222
+	movl (%esp),%eax  # ss is assumed. esp+4  esp+3  esp+2 esp+1 esp
+		#after pushx any thing,you don't need to calculate these offset by yourself,instead you'll always use movx %(esp),...
+	#which segment is used?
+	popl %eax
+	popw %ax
+
+	#use test to clearify that
+
+	#=========Test START : segment descriptor.(ds=es=fs=gs)=========
+	# IP,CS can't be used in dst
+#	movl %cs:0,%eax
+	#tested , cs can't be used here
+	#	leal %cs:0,%ebx
+#	movl %ds:msg,%eax
+	movl $msg,%eax
+	movl $10,%es:(%eax)
+	
+	#========Test END=========
+	#=========Test START=========
+	
+	#========Test END=========
+	#=========Test START:JMP & RET=========
+	call _dump_ds_to_ax_as_call
+	#========Test END=========
+	#=========Test START  :  Call=========
+#	jmp _dump_cs_to_ax
+	#========Test END=========
+
+	#=========Test START  : LIDT , SIDT -- CPL , IDTR =========
+	movl $msg,%ebx
+	#	SIDT %ebx
+	#error : unsupported instruction
+	#========Test END=========
+	#=========Test START  :  iret int  -- IDT=========
+	#when the computer starts,the operation system as a software and a provider should firstly set the IDT.IDT is pointed by a register , which will have different values in different modes,like real mode and protection mode.
+	#========Test END=========
+
+	#=========Test START  :  Call=========
+	jmp _dump_cs_to_ax
+	#========Test END=========
+
+
+	
+	movl $0,%ebx
+	movl $1,%eax
+	int $0x80
+	#some information about using gdb
+	#format  x/nfu	addr
+	#	n--->how many trunck to show
+	#	f--->format , x:hex
+	#	u---->length of trunck, b:Byte, h:Halfword,w:Word
+	# x/10xb	0x7fffffff2430
+	
+_dump_cs_to_ax:
+	movw %cs,%ax
+_dump_ds_to_ax_as_call:
+	movw %ds,%ax
+	ret
