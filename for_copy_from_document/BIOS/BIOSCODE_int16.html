@@ -1,0 +1,60 @@
+<html>
+<head>
+        <title>int 0x16</title>
+</head>
+<body>
+        <header>
+                <h2>int 0x16</h2>
+        </header>
+<section id="">
+<pre class="code">
+<h6 id="000fe82e"></h6>
+000fe82e: (                    ): sti                       ; fb
+000fe82f: (                    ): push ds                   ; 1e
+000fe830: (                    ): pushf                     ; 9c
+000fe831: (                    ): pusha                     ; 60
+000fe832: (                    ): push 0x0040               ; 6a40
+000fe834: (                    ): pop ds                    ; 1f
+000fe835: (                    ): cmp ah, 0x00              ; 80fc00
+000fe838: (                    ): jz .+31                   ; 741f
+000fe83a: (                    ): cmp ah, 0x10              ; 80fc10
+000fe83d: (                    ): jz .+26                   ; 741a
+000fe83f: (                    ): call .+26566              ; e8c667
+000fe842: (                    ): popa                      ; 61
+000fe843: (                    ): popf                      ; 9d
+000fe844: (                    ): pop ds                    ; 1f
+000fe845: (                    ): jz .+9                    ; 7409
+000fe847: (                    ): push bp                   ; 55
+000fe848: (                    ): mov bp, sp                ; 89e5
+000fe84a: (                    ): and byte ptr ss:[bp+6], 0xbf ; 806606bf
+000fe84e: (                    ): pop bp                    ; 5d
+000fe84f: (                    ): iret                      ; cf
+000fe850: (                    ): push bp                   ; 55
+000fe851: (                    ): mov bp, sp                ; 89e5
+000fe853: (                    ): or byte ptr ss:[bp+6], 0x40 ; 804e0640
+000fe857: (                    ): pop bp                    ; 5d
+000fe858: (                    ): iret                      ; cf
+000fe859: (                    ): cli                       ; fa
+000fe85a: (                    ): mov ax, word ptr ds:0x001a ; a11a00
+000fe85d: (                    ): cmp ax, word ptr ds:0x001c ; 3b061c00
+000fe861: (                    ): jnz .+19                  ; 7513
+000fe863: (                    ): sti                       ; fb
+000fe864: (                    ): mov ax, 0x9002            ; b80290
+000fe867: (                    ): int 0x15                  ; cd15
+000fe869: (                    ): cli                       ; fa
+000fe86a: (                    ): mov ax, word ptr ds:0x001a ; a11a00
+000fe86d: (                    ): cmp ax, word ptr ds:0x001c ; 3b061c00
+000fe871: (                    ): jnz .+3                   ; 7503
+000fe873: (                    ): sti                       ; fb
+000fe874: (                    ): jmp .-13                  ; ebf3
+000fe876: (                    ): call .+26511              ; e88f67
+000fe879: (                    ): popa                      ; 61
+000fe87a: (                    ): popf                      ; 9d
+000fe87b: (                    ): pop ds                    ; 1f
+000fe87c: (                    ): iret                      ; cf
+
+</pre>
+</section>
+</body>
+</html>
+

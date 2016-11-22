@@ -97,7 +97,7 @@ int copy_seg(int segfrom,int offsetfrom,int segto,int offsetto,int len)
 	OUT_PORT(PORT_SECSTART+1,(char)start);\
 	start=start>>8;\
 	OUT_PORT(PORT_SECSTART+2,(char)start);\
-	start=(start>>8) ^ 0xef;\
+	start=(start>>8) & 0xef;\
 	OUT_PORT(PORT_SECSTART+3,(char)start);})
 
 
@@ -108,7 +108,7 @@ int copy_seg(int segfrom,int offsetfrom,int segto,int offsetto,int len)
 	{	\
 		READ_PORT(PORT_READY);\
 		ASSIGN_VALUE(status);\
-		status = status ^ 0x88;/*Test bit 7 and 3*/\
+		status = status & 0x88;/*Test bit 7 and 3*/\
 		if(status == 0x08)/* Not Busy and Ready */\
 		{ \
 			break;\

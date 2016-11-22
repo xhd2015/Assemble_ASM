@@ -1,0 +1,613 @@
+<html>
+<head>
+        <title>Source Code</title>
+</head>
+<body>
+        <header>
+                <h2></h2>
+        </header>
+
+<section id="1">
+<pre>
+	#define BX_PANIC(format, p...)  bios_printf(BIOS_PRINTF_DEBHALT, format, ##p)
+</pre>
+<pre class="code code_c">
+//--------------------------------------------------------------------------
+// bios_printf()
+//   A compact variable argument printf function.
+//
+//   Supports %[format_width][length]format
+//   where format can be x,X,u,d,s,S,c
+//   and the optional length modifier is l (ell)
+//--------------------------------------------------------------------------
+  void
+bios_printf(action, s)
+  Bit16u action;
+  Bit8u *s;
+{
+  Bit8u c, format_char;
+  bx_bool  in_format;
+  short i;
+  Bit16u  *arg_ptr;
+  Bit16u  arg, nibble, hibyte, shift_count, format_width;
+  Bit16u  old_ds = set_DS(get_CS());
+
+  arg_ptr = &s;
+
+  in_format = 0;
+  format_width = 0;
+
+  if ((action & BIOS_PRINTF_DEBHALT) == BIOS_PRINTF_DEBHALT) {
+#if BX_VIRTUAL_PORTS
+    outb(PANIC_PORT2, 0x00);
+#endif
+    bios_printf (BIOS_PRINTF_SCREEN, "FATAL: ");
+  }
+
+  while (c = read_byte_DS(s)) {
+    if ( c == '%' ) {
+      in_format = 1;
+      format_width = 0;
+    }
+    else if (in_format) {
+      if ( (c>='0') && (c<='9') ) {
+        format_width = (format_width * 10) + (c - '0');
+      }
+      else {
+        arg_ptr++; // increment to next arg
+        arg = read_word_SS(arg_ptr);
+        if ((c & 0xdf) == 'X') {
+          if (format_width == 0)
+            format_width = 4;
+          for (i=format_width-1; i>=0; i--) {
+            nibble = (arg >> (4 * i)) & 0x000f;
+            send (action, (nibble<=9)? (nibble+'0') : (nibble+c-33));
+          }
+        }
+        else if (c == 'u') {
+          put_uint(action, arg, format_width, 0);
+        }
+        else if (c == 'l') {
+          s++;
+          c = read_byte_DS(s); /* is it ld,lx,lu? */
+          arg_ptr++; /* increment to next arg */
+          hibyte = read_word_SS(arg_ptr);
+          if (c == 'd') {
+            if (hibyte & 0x8000)
+              put_luint(action, 0L-(((Bit32u) hibyte << 16) | arg), format_width-1, 1);
+            else
+              put_luint(action, ((Bit32u) hibyte << 16) | arg, format_width, 0);
+          }
+          else if (c == 'u') {
+            put_luint(action, ((Bit32u) hibyte << 16) | arg, format_width, 0);
+          }
+          else if ((c & 0xdf) == 'X')
+          {
+            if (format_width == 0)
+              format_width = 8;
+            for (i=format_width-1; i>=0; i--) {
+              nibble = ((((Bit32u) hibyte <<16) | arg) >> (4 * i)) & 0x000f;
+              send (action, (nibble<=9)? (nibble+'0') : (nibble+c-33));
+            }
+          }
+        }
+        else if (c == 'd') {
+          if (arg & 0x8000)
+            put_uint(action, -arg, format_width - 1, 1);
+          else
+            put_uint(action, arg, format_width, 0);
+        }
+        else if (c == 's') {
+          put_str(action, get_CS(), arg);
+        }
+        else if (c == 'S') {
+          hibyte = arg;
+          arg_ptr++;
+          arg = read_word_SS(arg_ptr);
+          put_str(action, hibyte, arg);
+        }
+        else if (c == 'c') {
+          send(action, arg);
+        }
+        else
+          BX_PANIC("bios_printf: unknown format\n");
+          in_format = 0;
+      }
+    }
+    else {
+      send(action, c);
+    }
+    s ++;
+  }
+
+  if (action & BIOS_PRINTF_HALT) {
+    // freeze in a busy loop.
+ASM_START
+    cli
+ halt2_loop:
+    hlt
+    jmp halt2_loop
+ASM_END
+  }
+  set_DS(old_ds);
+}
+
+</pre>
+</section>
+
+<section id="2">
+<h4>Print a character, if debug options are present, send to debug port</h4>
+<p>
+About <a href="UART.html">UART</a>
+</p>
+<p>
+Description:this function can send data to different destination.
+If action = BIOS_PRINTF_SCREEN:
+	then print to screen
+If action = BIOS_PRINTF_INFO
+	send to INFO_PORT
+If action = BIOS_PRINTF_DEBUG
+	send to DEBUG_PORT
+If defined BX_DEBUG_SERIAL
+	send to UART_PORT--&gt;BX_DEBUG_PORT
+</p>
+<pre class="code code_c">
+  void
+send(action, c)
+  Bit16u action;
+  Bit8u  c;
+{
+#if BX_DEBUG_SERIAL
+  if (c == '\n') uart_tx_byte(BX_DEBUG_PORT, '\r');
+  uart_tx_byte(BX_DEBUG_PORT, c);
+#endif
+#if BX_VIRTUAL_PORTS
+  if (action & BIOS_PRINTF_DEBUG) outb(DEBUG_PORT, c);
+  if (action & BIOS_PRINTF_INFO) outb(INFO_PORT, c);
+#endif
+  if (action & BIOS_PRINTF_SCREEN) {
+    if (c == '\n') wrch('\r');
+    wrch(c);
+  }
+}
+</pre>
+</section>
+
+<section id="3">
+<h4>Write a character to video RAM</h4>
+<pre class="code code_c">
+  void
+wrch(c)
+  Bit8u  c;
+{
+  ASM_START
+  push bp
+  mov  bp, sp
+
+  push bx
+  mov  ah, #0x0e
+  mov  al, 4[bp]
+  xor  bx,bx
+  int  #0x10
+  pop  bx
+
+  pop  bp
+  ASM_END
+}
+</pre>
+</section>
+
+<section id="4">
+<h4>Write data to port</h4>
+<pre class="code code_c">
+  void
+outb(port, val)
+  Bit16u port;
+  Bit8u  val;
+{
+ASM_START
+  push bp
+  mov  bp, sp
+
+    push ax
+    push dx
+    mov  dx, 4[bp]
+    mov  al, 6[bp]
+    out  dx, al
+    pop  dx
+    pop  ax
+
+  pop  bp
+ASM_END
+}
+</pre>
+</section>
+<section id="5">
+<h4>The strings located in 0xf000:0xd82a</h4>
+<pre class="raw">
+0x00000000000fd82a:%s..INT18: BOOT FAILURE..NMI Handler called..CDROM boot failure 
+0x00000000000fd86a:code : %04x.....: could not read the boot disk.: not a bootable 
+0x00000000000fd8aa:disk.Boot failed.Bad drive type....... [%S].Booting from %s.Bad 
+0x00000000000fd8ea:drive type...... [%S].%s.%s..%d. .Select boot device:...Press F1
+0x00000000000fd92a:2 for boot menu....apmbios pcibios pnpbios eltorito rombios32 ..
+0x00000000000fd96a:.04/18/15.Bochs BIOS - build: %s.%s.Options: .Returned from s3_r
+0x00000000000fd9aa:esume...Unimplemented shutdown status: %02x..Keyboard error:%u..
+0x00000000000fd9ea:bios_printf: unknown format..FATAL: 
+</pre>
+
+<h4>Strings localted in 0xf000:0x0165</h4>
+<pre>
+0x00000000000f0165:$Revision: 12579 $ $Date: 2014-12-26 11:31:39 +0100 (Fr, 26. Dez
+0x00000000000f01a5: 2014) 
+</pre>
+</section>
+<section id="6">
+<h4>Description</h4>
+<pre>
+        set int 0~0x78 point to 0xf000:0xff53----&gt;iret (first 120 Vectors Default to UNHANDLED)
+        set the offset of int 0x20~0x28 to 0xe9e6,but not their segment address (Master PIC Vector)
+        set the offset of 0x180~0x188 to 0xe9ec.		(Slave PIC Vector)
+        setup int 0x5c,0x60,0x64,0x48,0x44,0x54,0x74,0x7c	(Print Service Vector)
+        clear int 0x60~0x67 (=0)
+        clear int 0x78~0x100(=0)					(Clear Interrupts)
+</pre>
+<pre class="code code_c">
+post_init_ivt:
+  ;; set first 120 interrupts to default handler
+  xor  di, di         ;; offset index
+  mov  cx, #0x0078    ;; counter (120 interrupts)
+  mov  ax, #0xF000
+  shl  eax, #16
+  mov  ax, #dummy_iret_handler
+  cld
+  rep
+    stosd
+
+  ;; Master PIC vector
+  mov  bx, #0x0020
+  mov  cl, #0x08
+  mov  ax, #dummy_master_pic_irq_handler
+post_default_master_pic_ints:
+  mov  [bx], ax
+  add  bx, #4
+  loop post_default_master_pic_ints
+
+  ;; Slave PIC vector
+  add  bx, #0x0180
+  mov  cl, #0x08
+  mov  ax, #dummy_slave_pic_irq_handler
+post_default_slave_pic_ints:
+  mov  [bx], ax
+  add  bx, #4
+  loop post_default_slave_pic_ints
+
+  ;; Printer Services vector
+  SET_INT_VECTOR(0x17, #0xF000, #int17_handler)
+
+  ;; Bootstrap failure vector
+  SET_INT_VECTOR(0x18, #0xF000, #int18_handler)
+
+  ;; Bootstrap Loader vector
+  SET_INT_VECTOR(0x19, #0xF000, #int19_handler)
+
+  ;; Memory Size Check vector
+  SET_INT_VECTOR(0x12, #0xF000, #int12_handler)
+
+  ;; Equipment Configuration Check vector
+  SET_INT_VECTOR(0x11, #0xF000, #int11_handler)
+
+  ;; System Services
+  SET_INT_VECTOR(0x15, #0xF000, #int15_handler)
+
+  ;; MDA/CGA Video Parameter Table is not available
+  SET_INT_VECTOR(0x1D, #0, #0)
+
+  ;; Character Font for upper 128 characters is not available
+  SET_INT_VECTOR(0x1F, #0, #0)
+
+  ;; set vectors 0x60 - 0x67h to zero (0:180..0:19f)
+  xor  ax, ax
+  mov  cx, #0x0010 ;; 16 words
+  mov  di, #0x0180
+  cld
+  rep
+    stosw
+
+  ;; set vector 0x78 and above to zero
+  xor  eax, eax
+  mov  cl, #0x88 ;; 136 dwords
+  mov  di, #0x1e0
+  rep
+    stosd
+  ret
+</pre>
+
+</section>
+
+<section id="7">
+<h2>Source Code of Main Process</h2>
+<pre class="code code_c">
+;--------
+;- POST -
+;--------
+.org 0xe05b ; POST Entry Point
+post:
+
+  xor ax, ax
+
+  ;; first reset the DMA controllers
+  out PORT_DMA1_MASTER_CLEAR,al
+  out PORT_DMA2_MASTER_CLEAR,al
+
+  ;; then initialize the DMA controllers
+  mov al, #0xC0
+  out PORT_DMA2_MODE_REG, al ; cascade mode of channel 4 enabled
+  mov al, #0x00
+  out PORT_DMA2_MASK_REG, al ; unmask channel 4
+
+  ;; Examine CMOS shutdown status.
+  mov AL, #0x0f
+  out PORT_CMOS_INDEX, AL
+  in  AL, PORT_CMOS_DATA
+
+  ;; backup status
+  mov bl, al
+
+  ;; Reset CMOS shutdown status.
+  mov AL, #0x0f
+  out PORT_CMOS_INDEX, AL          ; select CMOS register Fh
+  mov AL, #0x00
+  out PORT_CMOS_DATA, AL          ; set shutdown action to normal
+
+  ;; Examine CMOS shutdown status.
+  mov al, bl
+
+  ;; 0x00, 0x0D+ = normal startup
+  cmp AL, #0x00
+  jz normal_post
+  cmp AL, #0x0d
+  jae normal_post
+
+  ;; 0x05 = eoi + jmp via [0x40:0x67] jump
+  cmp al, #0x05
+  je  eoi_jmp_post
+
+  ;; 0x0A = jmp via [0x40:0x67] jump
+  cmp al, #0x0a
+  je  jmp_post_0x467
+
+  ;; 0x0B = iret via [0x40:0x67]
+  cmp al, #0x0b
+  je  iret_post_0x467
+
+  ;; 0x0C = retf via [0x40:0x67]
+  cmp al, #0x0c
+  je  retf_post_0x467
+
+  ;; Examine CMOS shutdown status.
+  ;;  0x01,0x02,0x03,0x04,0x06,0x07,0x08,0x09 = Unimplemented shutdown status.
+  push bx
+  call _shutdown_status_panic
+
+#if 0
+  HALT(__LINE__)
+  ;
+  ;#if 0
+  ;  0xb0, 0x20,       /* mov al, #0x20 */
+  ;  0xe6, 0x20,       /* out PORT_PIC1_CMD, al    ;send EOI to PIC */
+  ;#endif
+  ;
+  pop es
+  pop ds
+  popa
+  iret
+#endif
+
+normal_post:
+  ; case 0: normal startup
+
+  cli
+  mov  ax, #0xfffe
+  mov  sp, ax
+  xor  ax, ax
+  mov  ds, ax
+  mov  ss, ax
+
+  ;; Save shutdown status
+  mov 0x04b0, bl
+
+  cmp bl, #0xfe
+  jz s3_post
+
+  ;; zero out BIOS data area (40:00..40:ff)
+  mov  es, ax
+  mov  cx, #0x0080 ;; 128 words
+  mov  di, #0x0400
+  cld
+  rep
+    stosw
+
+  call _log_bios_start
+
+  call post_init_ivt
+
+  ;; base memory in K 40:13 (word)
+  mov  ax, #BASE_MEM_IN_K
+  mov  0x0413, ax
+
+  ;; Manufacturing Test 40:12
+  ;;   zerod out above
+
+  ;; Warm Boot Flag 0040:0072
+  ;;   value of 1234h = skip memory checks
+  ;;   zerod out above
+
+  ;; EBDA setup
+  call ebda_post
+
+  ;; PIT setup
+  SET_INT_VECTOR(0x08, #0xF000, #int08_handler)
+  ;; int 1C already points at dummy_iret_handler (above)
+  mov al, #0x34 ; timer0: binary count, 16bit count, mode 2
+  out PORT_PIT_MODE, al
+  mov al, #0x00 ; maximum count of 0000H = 18.2Hz
+  out PORT_PIT_COUNTER0, al
+  out PORT_PIT_COUNTER0, al
+
+  ;; Keyboard
+  SET_INT_VECTOR(0x09, #0xF000, #int09_handler)
+  SET_INT_VECTOR(0x16, #0xF000, #int16_handler)
+
+  xor  ax, ax
+  mov  ds, ax
+  mov  0x0417, al /* keyboard shift flags, set 1 */
+  mov  0x0418, al /* keyboard shift flags, set 2 */
+  mov  0x0419, al /* keyboard alt-numpad work area */
+  mov  0x0471, al /* keyboard ctrl-break flag */
+  mov  0x0497, al /* keyboard status flags 4 */
+  mov  al, #0x10
+  mov  0x0496, al /* keyboard status flags 3 */
+
+
+  /* keyboard head of buffer pointer */
+  mov  bx, #0x001E
+  mov  0x041A, bx
+
+  /* keyboard end of buffer pointer */
+  mov  0x041C, bx
+
+  /* keyboard pointer to start of buffer */
+  mov  bx, #0x001E
+  mov  0x0480, bx
+
+  /* keyboard pointer to end of buffer */
+  mov  bx, #0x003E
+  mov  0x0482, bx
+
+  /* init the keyboard */
+  call _keyboard_init
+
+  ;; mov CMOS Equipment Byte to BDA Equipment Word
+  mov  ax, 0x0410
+  mov  al, #0x14
+  out  PORT_CMOS_INDEX, al
+  in   al, PORT_CMOS_DATA
+  mov  0x0410, ax
+
+
+  ;; Parallel setup
+  xor ax, ax
+  mov ds, ax
+  xor bx, bx
+  mov cl, #0x14 ; timeout value
+  mov dx, #0x378 ; Parallel I/O address, port 1
+  call detect_parport
+  mov dx, #0x278 ; Parallel I/O address, port 2
+  call detect_parport
+  shl bx, #0x0e
+  mov ax, 0x410   ; Equipment word bits 14..15 determine # parallel ports
+  and ax, #0x3fff
+  or  ax, bx ; set number of parallel ports
+  mov 0x410, ax
+
+  ;; Serial setup
+  SET_INT_VECTOR(0x14, #0xF000, #int14_handler)
+  xor bx, bx
+  mov cl, #0x0a ; timeout value
+  mov dx, #0x03f8 ; Serial I/O address, port 1
+  call detect_serial
+  mov dx, #0x02f8 ; Serial I/O address, port 2
+  call detect_serial
+  mov dx, #0x03e8 ; Serial I/O address, port 3
+  call detect_serial
+  mov dx, #0x02e8 ; Serial I/O address, port 4
+  call detect_serial
+  shl bx, #0x09
+  mov ax, 0x410   ; Equipment word bits 9..11 determine # serial ports
+  and ax, #0xf1ff
+  or  ax, bx ; set number of serial port
+  mov 0x410, ax
+
+  ;; CMOS RTC
+  SET_INT_VECTOR(0x1A, #0xF000, #int1a_handler)
+  SET_INT_VECTOR(0x4A, #0xF000, #dummy_iret_handler)
+  SET_INT_VECTOR(0x70, #0xF000, #int70_handler)
+  ;; BIOS DATA AREA 0x4CE ???
+  call timer_tick_post
+
+  ;; IRQ9 (IRQ2 redirect) setup
+  SET_INT_VECTOR(0x71, #0xF000, #int71_handler)
+
+  ;; PS/2 mouse setup
+  SET_INT_VECTOR(0x74, #0xF000, #int74_handler)
+
+  ;; IRQ13 (FPU exception) setup
+  SET_INT_VECTOR(0x75, #0xF000, #int75_handler)
+
+  ;; Video setup
+  SET_INT_VECTOR(0x10, #0xF000, #int10_handler)
+
+  ;; PIC
+  call post_init_pic
+
+#if BX_ROMBIOS32
+  call rombios32_init
+#else
+#if BX_PCIBIOS
+  call pcibios_init_iomem_bases
+  call pcibios_init_irqs
+#endif //BX_PCIBIOS
+#endif
+
+  mov  cx, #0xc000  ;; init vga bios
+  mov  ax, #0xc780
+  call rom_scan
+
+  call _print_bios_banner
+
+  ;;
+  ;; Floppy setup
+  ;;
+  call floppy_drive_post
+
+  ;;
+  ;; Hard Drive setup
+  ;;
+  call hard_drive_post
+
+#if BX_USE_ATADRV
+
+  ;;
+  ;; ATA/ATAPI driver setup
+  ;;
+  call _ata_init
+  call _ata_detect
+  ;;
+
+#endif // BX_USE_ATADRV
+
+#if BX_ELTORITO_BOOT
+  ;;
+  ;; eltorito floppy/harddisk emulation from cd
+  ;;
+  call _cdemu_init
+  ;;
+#endif // BX_ELTORITO_BOOT
+
+  call _init_boot_vectors
+
+  mov  cx, #0xc800  ;; init option roms
+  mov  ax, #0xe000
+  call rom_scan
+
+#if BX_ELTORITO_BOOT
+  call _interactive_bootkey
+#endif // BX_ELTORITO_BOOT
+
+  sti        ;; enable interrupts
+  int  #0x19
+</pre>
+</body>
+
+</html>
+

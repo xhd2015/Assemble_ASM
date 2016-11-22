@@ -21,17 +21,24 @@
 	</ul>
 </header>
 <section>
+<p>see <a href="BIOSCODE_call_1_call__source.html#7">source code</a> </p>
+<pre>NOTE :
+When I analyze the codes below,I did not reference to this source code.Other codes may be referenced.
+</pre>
 <pre id="BIOSCODE_main">
+
+<h6 id="000fe05b"></h6>
 000fe05b: (                    ): xor ax, ax                ; 31c0
-<e>clear ax</e>
+clear ax
+
 
 000fe05d: (                    ): out 0x0d, al              ; e60d
-<e>request to clear DMA</e>
-<e>000D	w	DMA master clear</e>
+request to clear DMA
+000D	w	DMA master clear
 
 000fe05f: (                    ): out 0xda, al              ; e6da
-<e>request to clear DMA channel 4-7</e>
-<e>00DA	w	DMA channel 4-7 master clear (ISA, EISA)</e>
+request to clear DMA channel 4-7
+00DA	w	DMA channel 4-7 master clear (ISA, EISA)
 
 000fe061: (                    ): mov al, 0xc0              ; b0c0
 000fe063: (                    ): out 0xd6, al              ; e6d6
@@ -98,7 +105,7 @@ The following codes test read byte and jump to the corresponding place.
 000fe07b: (                    ): cmp al, 0x00              ; 3c00
 000fe07d: (                    ): jz .+36                   ; 7424
 if the read register A is 0,then jump to normal execution of POST.
-<a href="#0x000fe0a3">HERE</a>
+<a href="#0x000fe0a3">Do Normal POST</a>
 
 
 
@@ -165,38 +172,38 @@ copy 0 to 0:0x0400 - 0:0x500 (clear them)
 
 <p id="000fe0c6"></p>
 000fe0c6: (                    ): call .+13898              ; e84a36
-<a href="BIOSCODE_call_1.html">HERE</a>
+<a href="BIOSCODE_call_1.html">Send a Message to INFO_PORT</a>
 000fe0c9: (                    ): call .-15594              ; e816c3
-<a href="BIOSCODE_call_2.html">HERE</a>
+<a href="BIOSCODE_call_2.html">Setup PCI,Print Service and Clear Other Interrupts</a>
 
 000fe0cc: (                    ): mov ax, 0x027f            ; b87f02
 000fe0cf: (                    ): mov word ptr ds:0x0413, ax ; a31304
-let short y=ds:0x413 , then 0x27f==&gt;y
 000fe0d2: (                    ): call .-18212              ; e8dcb8
-<a href="#000f99b1">HERE</a>,argumet(void)
-	this procedure setup 0x9fc0:0=0x1,then let 0x0:0x40e point to it.e.g 
+<a href="BIOSCODE_call_3.html#000f99b1">Setup EBDA Segment Address to 0x9FC0</a>
 set	0x0:0x413 = 0x27f
-	0x0:0x40e = 0x9fc0
+	0x0:0x40e(pEBDA) = 0x9fc0(EBDA)
 	0x9fc0:0x0 = 0x1
 
 000fe0d5: (                    ): mov ax, 0xfea5            ; b8a5fe
 000fe0d8: (                    ): mov word ptr ds:0x0020, ax ; a32000
 000fe0db: (                    ): mov ax, 0xf000            ; b800f0
 000fe0de: (                    ): mov word ptr ds:0x0022, ax ; a32200
-	interupt number 8 points to 0xf000:0xfea4
+	set int 0x8 to <a href="BIOSCODE_int8.html#000ffea5">0xf000:0xfea5</a>.It is set for the following PIT setting.
 
 000fe0e1: (                    ): mov al, 0x34              ; b034
 000fe0e3: (                    ): out 0x43, al              ; e643
-0x00110100==&gt; IO(0x43),<a href="http://wiki.osdev.org/Programmable_Interval_Timer">PIT(Program Interrupt Timer,8253,8254)</a>
-00	select counter 0
-11	w counter bits 0-7 first,then 8-15
-010	mode 2 selected,rate generator
-0	binary counter 16 bits
-
 000fe0e5: (                    ): mov al, 0x00              ; b000
 000fe0e7: (                    ): out 0x40, al              ; e640
 000fe0e9: (                    ): out 0x40, al              ; e640
-PIT counter 0,counter divisor
+00	select counter 0
+11	write counter bits 0-7 first,then 8-15
+010	mode 2 selected,rate generator
+0	binary counter 16 bits
+0x00110100==&gt; IO(0x43),<a href="http://wiki.osdev.org/Programmable_Interval_Timer">PIT(Program Interrupt Timer,8253,8254)</a>
+<a href="http://wiki.osdev.org/Programmable_Interval_Timer#Channel_0">PIT counter 0</a>,counter divisor
+Channel 0 is only channel that connects to IRQ 0.So it is the most useful PIT channel.
+It frequently generates an IRQ 0,with the frequency no less than 18Hz.
+If it is set to 65535(0 is considered 65535),then is generates an interruption every 54.9254ms(18.2065Hz).
 
 000fe0eb: (                    ): mov ax, 0xe987            ; b887e9
 000fe0ee: (                    ): mov word ptr ds:0x0024, ax ; a32400
@@ -206,13 +213,12 @@ PIT counter 0,counter divisor
 000fe0fa: (                    ): mov word ptr ds:0x0058, ax ; a35800
 000fe0fd: (                    ): mov ax, 0xf000            ; b800f0
 000fe100: (                    ): mov word ptr ds:0x005a, ax ; a35a00
-	interrupt number 0x9 points to 0xf000:0xe987
-			0x16 points to 0xf000:0xe82e
+	int 	0x9 points to <a href="BIOSCODE_int9.html#000fe987">0xf000:0xe987</a>,keyboard interrupt
+		0x16 points to <a href="BIOSCODE_int16.html#000fe82e">0xf000:0xe82e</a>
+	About <a href="http://www.ctyme.com/intr/int.htm">Interrupt Table</a> and <a href="http://stanislavs.org/helppc/idx_interrupt.html">Useful Interrupt</a>
 
 000fe103: (                    ): xor ax, ax                ; 31c0
 000fe105: (                    ): mov ds, ax                ; 8ed8
-set ds=0
-
 000fe107: (                    ): mov byte ptr ds:0x0417, al ; a21704
 000fe10a: (                    ): mov byte ptr ds:0x0418, al ; a21804
 000fe10d: (                    ): mov byte ptr ds:0x0419, al ; a21904
@@ -223,39 +229,41 @@ set ds=0
 000fe11b: (                    ): mov bx, 0x001e            ; bb1e00
 000fe11e: (                    ): mov word ptr ds:0x041a, bx ; 891e1a04
 000fe122: (                    ): mov word ptr ds:0x041c, bx ; 891e1c04
-set
-	0x417 00
-	0x418 00
-	0x419 00
-	0x41a 1e
-	0x41b 00
-	0x41c 1e
-	0x41d 00
-
-	0x496 10
 000fe126: (                    ): mov bx, 0x001e            ; bb1e00
 000fe129: (                    ): mov word ptr ds:0x0480, bx ; 891e8004
 000fe12d: (                    ): mov bx, 0x003e            ; bb3e00
 000fe130: (                    ): mov word ptr ds:0x0482, bx ; 891e8204
-set
-	0x480 1e
-	0x481 00
-	0x482 3e
-	0x483 00
+	0x417 00
+	0x418 00	keyboard flags
 
+	0x419 00	Storage for alternate keypad entry
+
+	0x41a 1e
+	0x41b 00	Offset from 0x400 to keyboard buffer head
+
+	0x41c 1e
+	0x41d 00	Offset from 0x400 to keyboard buffer tail
+
+	0x496 10	Keyboard mode/type
+
+	0x480 1e
+	0x481 00	Keyboard buffer start offset (seg=40h,BIOS 10-27-82)
+
+	0x482 3e
+	0x483 00	Keyboard buffer end offset (seg=40h,BIOS 10-27-82)
+
+	see <a href="http://stanislavs.org/helppc/bios_data_area.html">BIOS Data Area</a>
 000fe134: (                    ): call .+11145              ; e8892b
-<a href="000fe134"></a>, argument(void)
+<a href="BIOSCODE_call_4.html#000fe134">call 4</a>, argument(void)
 
 000fe137: (                    ): mov ax, word ptr ds:0x0410 ; a11004
-something return by the last call process.
-In my case,it is 0x0.
-
 000fe13a: (                    ): mov al, 0x14              ; b014
 000fe13c: (                    ): out 0x70, al              ; e670
 000fe13e: (                    ): in al, 0x71               ; e471
 000fe140: (                    ): mov word ptr ds:0x0410, ax ; a31004
-set
-	0x0:0x410 = CMOS(0x1)
+	read CMOS(0x14),the Equipment Byte, save it to 0x410.(the equipment lists flag)
+	0x410(EQUPF)=CMOS(0x14)
+	
 CMOS(0x14) is the equipment byte
 bit 7-6	diskette drives installed
 	00 -- one drive
@@ -270,6 +278,24 @@ bit 3-2 reserved
 bit 1
 	1 -- coprocessor installed
 bit 0	diskette drive available for boot
+
+<h6 id="EQUPF"></h6>
+EQUPF(@0x410) is the equipment flags,Equipment list flags (see INT 11)
+		|7|6|5|4|3|2|1|0| 40:10 (value in INT 11 register AL)
+		 | | | | | | | `- IPL diskette installed
+		 | | | | | | `-- math coprocessor
+		 | | | | |-+--- old PC system board RAM &lt; 256K
+		 | | | | | `-- pointing device installed (PS/2)
+		 | | | | `--- not used on PS/2
+		 | | `------ initial video mode
+		 `--------- # of diskette drives, less 1
+
+		|7|6|5|4|3|2|1|0| 40:11  (value in INT 11 register AH)
+		 | | | | | | | `- 0 if DMA installed
+		 | | | | `------ number of serial ports
+		 | | | `------- game adapter
+		 | | `-------- not used, internal modem (PS/2)
+		 `----------- number of printer ports
 
 in my case,ax=
 00	--	one drive
@@ -291,27 +317,30 @@ set
 	dx = 0x0378
 
 000fe14e: (                    ): call .-16170              ; e8d6c0
+<a href="BIOSCODE_call_5.html#000fa227">Detect and Setup LTP 0, with timeout cl=0x14</a>
 Very simple call,some IO operations
 
 000fe151: (                    ): mov dx, 0x0278            ; ba7802
 set
 	dx = 0x0278
 000fe154: (                    ): call .-16176              ; e8d0c0
+<a href="BIOSCODE_call_5.html#000fa227">Detect and Setup LTP 1, by IO address 0x278</a>
 The same calling procedure as the last one.
+These two callings will detect LTP 0 from 0x378,if it exists,then check LTP 1 from 0x278.
+						else go on check LTP 0 from 0x278.
+In my case,0x378 is set,0x278 is not.The last LPT equipment id is 0x1.
 000fe157: (                    ): shl bx, 0x0e              ; c1e30e
-left shift bx for 14 bit.keep the lowest 1-0 bit
+left shift bx for 14 bit.keep the lowest 1-0 bit,these two bits is the last available LTP equipment number,zero means no LTP equipment
 
 000fe15a: (                    ): mov ax, word ptr ds:0x0410 ; a11004
 set
 	ax = CMOS(0x14) , the original equipment byte
 000fe15d: (                    ): and ax, 0x3fff            ; 25ff3f
-	ax = ax ^ 0x00111..1 ,clear the highest 2 bits.
+	ax = ax &amp; 0x00111..1 ,clear the highest 2 bits.
 000fe160: (                    ): or ax, bx                 ; 09d8
-set
 000fe162: (                    ): mov word ptr ds:0x0410, ax ; a31004
-set
-	0x0:0x410 = bx[15-14]:CMOS(0x14)[13-0]
-	save the retrived information into 0x410
+	0x0:0x410(EQUPF) = bx[15-14]:CMOS(0x14)[13-0]
+	save the number of printer ports into EQUPF
 000fe165: (                    ): mov ax, 0xe739            ; b839e7
 000fe168: (                    ): mov word ptr ds:0x0050, ax ; a35000
 000fe16b: (                    ): mov ax, 0xf000            ; b800f0
@@ -319,11 +348,12 @@ set
 000fe171: (                    ): xor bx, bx                ; 31db
 000fe173: (                    ): mov cl, 0x0a              ; b10a
 000fe175: (                    ): mov dx, 0x03f8            ; baf803
-	set interrupt 0x14 points to 0xf000:0xe739
+	set interrupt 0x14 points to <a href="BIOSCODE_int14.html">0xf000:0xe739</a> (serial port communication)
 	bx = 0
 	cl = 0xa
 	dx = 0x3f8
 000fe178: (                    ): call .-16181              ; e8cbc0
+	<a href="BIOSCODE_call_6#000fa246">Detect COM Port and Setup</a>
 	small calling procedure, IO operations
 000fe17b: (                    ): mov dx, 0x02f8            ; baf802
 000fe17e: (                    ): call .-16187              ; e8c5c0
@@ -335,18 +365,14 @@ set
 000fe18a: (                    ): call .-16199              ; e8b9c0
 	The same one as the second of the last
 000fe18d: (                    ): shl bx, 0x09              ; c1e309
-keep the lowest 7 bits.e.g 
-set
-	bx = bx[6:0]000...0
-
 000fe190: (                    ): mov ax, word ptr ds:0x0410 ; a11004
 000fe193: (                    ): and ax, 0xf1ff            ; 25fff1
 set
 	ax = 0x0:0x410,ax[11,10,9]=0
 000fe196: (                    ): or ax, bx                 ; 09d8
 000fe198: (                    ): mov word ptr ds:0x0410, ax ; a31004
-set update
-	0x0:0x410
+	as 0x3f8,0x2f8,0x3e8,0x2e8 are all available COM ports,then it is sure to say that the process above just detects each IO ports(address),then save the number of effective COM ports to EQUPF[11~9]( serial ports numbers ).
+
 000fe19b: (                    ): mov ax, 0xfe6e            ; b86efe
 000fe19e: (                    ): mov word ptr ds:0x0068, ax ; a36800
 000fe1a1: (                    ): mov ax, 0xf000            ; b800f0
@@ -359,7 +385,7 @@ set update
 000fe1b6: (                    ): mov word ptr ds:0x01c0, ax ; a3c001
 000fe1b9: (                    ): mov ax, 0xf000            ; b800f0
 000fe1bc: (                    ): mov word ptr ds:0x01c2, ax ; a3c201
-	interrupt 0x1a points to 0xf000:0xfe6e
+	interrupt 0x1a points to <a href="BIOSCODE_int1a.html#000ffe6e">0xf000:0xfe6e</a>, System and Real Time Clock BIOS Services.
 	0x0:
 		0x128 = 53
 		0x129 = ff
@@ -436,7 +462,6 @@ set update
 000fe222: (                    ): sti                       ; fb
 000fe223: (                    ): int 0x19                  ; cd19
 000fe225: (                    ): add byte ptr ds:[bx+si], al ; 0000
-000fe227: (                    ): add byte ptr ds:[bx+si], al ; 0000
 .....(All of the rest are 0s)
 </section>
 

@@ -1,0 +1,49 @@
+<html>
+<head>
+        <title>int 0x08</title>
+</head>
+<body>
+        <header>
+                <h2>int 0x08</h2>
+        </header>
+<section>
+<pre class="code code_s">
+<h6 id="000ffea5"></h6>
+000ffea5: (                    ): sti                       ; fb
+000ffea6: (                    ): push eax                  ; 6650
+000ffea8: (                    ): push ds                   ; 1e
+000ffea9: (                    ): xor ax, ax                ; 31c0
+000ffeab: (                    ): mov ds, ax                ; 8ed8
+000ffead: (                    ): mov al, byte ptr ds:0x0440 ; a04004
+000ffeb0: (                    ): or al, al                 ; 08c0
+000ffeb2: (                    ): jz .+16                   ; 7410
+000ffeb4: (                    ): dec al                    ; fec8
+000ffeb6: (                    ): mov byte ptr ds:0x0440, al ; a24004
+000ffeb9: (                    ): jnz .+9                   ; 7509
+000ffebb: (                    ): push dx                   ; 52
+000ffebc: (                    ): mov dx, 0x03f2            ; baf203
+000ffebf: (                    ): in al, dx                 ; ec
+000ffec0: (                    ): and al, 0xcf              ; 24cf
+000ffec2: (                    ): out dx, al                ; ee
+000ffec3: (                    ): pop dx                    ; 5a
+000ffec4: (                    ): mov eax, dword ptr ds:0x046c ; 66a16c04
+000ffec8: (                    ): inc eax                   ; 6640
+000ffeca: (                    ): cmp eax, 0x001800b0       ; 663db0001800
+000ffed0: (                    ): jb .+7                    ; 7207
+000ffed2: (                    ): xor eax, eax              ; 6631c0
+000ffed5: (                    ): inc byte ptr ds:0x0470    ; fe067004
+000ffed9: (                    ): mov dword ptr ds:0x046c, eax ; 66a36c04
+000ffedd: (                    ): int 0x1c                  ; cd1c
+000ffedf: (                    ): cli                       ; fa
+000ffee0: (                    ): call .-25782              ; e84a9b
+000ffee3: (                    ): pop ds                    ; 1f
+000ffee4: (                    ): pop eax                   ; 6658
+000ffee6: (                    ): iret                      ; cf
+
+</pre>
+
+</section>
+</body>
+
+</html>
+

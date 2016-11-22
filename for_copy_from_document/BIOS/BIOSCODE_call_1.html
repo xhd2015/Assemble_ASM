@@ -19,16 +19,13 @@ Called by <a href="BIOSCODE_main.html#000fe0c6">BIOS main</a>
 000f171d: (                    ): push bx                   ; 53
 000f171e: (                    ): mov ax, 0x0004            ; b80400
 000f1721: (                    ): push ax                   ; 50
-
 <p id="000f1722"></p>
 000f1722: (                    ): call .-3579               ; e805f2
-	call_<a href="BIOSCODE_call_1_call.html#000f092a">func</a>( 0x0004, 0xd82a, 0x165 );
-
+	<a href="BIOSCODE_call_1_call__source.html#1">bios_printf</a>(<a href="#">BIOS_PRINTF_INFO</a>,<a href="BIOSCODE_call_1_call__source.html#5">"%s\n"</a>,<a href="BIOSCODE_call_1_call__source.html#5">REVISION_INFO</a>)
+	This process simply send a string message to a port INFO_PORT(=0x402)
 000f1725: (                    ): mov sp, bp                ; 89ec
 000f1727: (                    ): pop bp                    ; 5d
 000f1728: (                    ): ret                       ; c3
-
-
 
 000f1729: (                    ): push bp                   ; 55
 000f172a: (                    ): mov bp, sp                ; 89e5

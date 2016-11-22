@@ -1,0 +1,46 @@
+<html>
+<head>
+        <title>call 5, check LPT equipment</title>
+</head>
+<body>
+        <header>
+                <h2>check LPT</h2>
+        </header>
+<section id="">
+<h4>Discription</h4>
+<pre>
+	This routine checks the 0/1/2/3 LPT equipment,if it exists,then save its IO address to 0x408[0/1/2/3],and set timeout to 0x478.
+</pre>
+<pre class="code">
+<h6 id="000fa227"></h6>
+000fa227: (                    ): push dx                   ; 52
+000fa228: (                    ): add dx, 0x0002            ; 83c202
+000fa22b: (                    ): in al, dx                 ; ec
+	read from DMA channel 1,its address. see <a href="http://bochs.sourceforge.net/techspec/PORTS.LST">IO Ports Map</a>
+000fa22c: (                    ): and al, 0xdf              ; 24df
+	mask bit 5
+000fa22e: (                    ): out dx, al                ; ee
+	write back to that channel
+000fa22f: (                    ): pop dx                    ; 5a
+000fa230: (                    ): mov al, 0xaa              ; b0aa
+000fa232: (                    ): out dx, al                ; ee
+000fa233: (                    ): in al, dx                 ; ec
+000fa234: (                    ): cmp al, 0xaa              ; 3caa
+	write 0xaa to 0x0378 ( parallel printer port )
+000fa236: (                    ): jnz .+13                  ; 750d
+	if received data is the same,then save it to 0x0:0x408[bx]( <a href="http://stanislavs.org/helppc/bios_data_area.html">LPT1 port address </a>)
+	else return
+000fa238: (                    ): push bx                   ; 53
+000fa239: (                    ): shl bx, 1                 ; d1e3
+000fa23b: (                    ): mov word ptr ds:[bx+1032], dx ; 89970804
+000fa23f: (                    ): pop bx                    ; 5b
+000fa240: (                    ): mov byte ptr ds:[bx+1144], cl ; 888f7804
+	set timeout
+000fa244: (                    ): inc bx                    ; 43
+000fa245: (                    ): ret                       ; c3
+
+</pre>
+</section>
+</body>
+</html>
+

@@ -1,0 +1,38 @@
+<html>
+<head>
+        <title>int 0x1a</title>
+</head>
+<body>
+        <header>
+                <h2>int 0x1A -- System and Real Time Clock BIOS Services</h2>
+		<a href="http://stanislavs.org/helppc/int_1a.html">int 0x1a</a>
+        </header>
+<section id="">
+<pre class="code">
+<h6 id="000ffe6e"></h6>
+000ffe6e: (                    ): cmp ah, 0xb1              ; 80fcb1
+000ffe71: (                    ): jnz .+20                  ; 7514
+000ffe73: (                    ): call .-24395              ; e8b5a0
+000ffe76: (                    ): jb .+3                    ; 7203
+000ffe78: (                    ): retf 0x0002               ; ca0200
+000ffe7b: (                    ): mov bl, ah                ; 88e3
+000ffe7d: (                    ): mov ah, 0xb1              ; b4b1
+000ffe7f: (                    ): push ds                   ; 1e
+000ffe80: (                    ): pusha                     ; 60
+000ffe81: (                    ): mov ax, ss                ; 8cd0
+000ffe83: (                    ): mov ds, ax                ; 8ed8
+000ffe85: (                    ): jmp .+6                   ; eb06
+000ffe87: (                    ): push ds                   ; 1e
+000ffe88: (                    ): pusha                     ; 60
+000ffe89: (                    ): xor ax, ax                ; 31c0
+000ffe8b: (                    ): mov ds, ax                ; 8ed8
+000ffe8d: (                    ): call .-27940              ; e8dc92
+000ffe90: (                    ): popa                      ; 61
+000ffe91: (                    ): pop ds                    ; 1f
+000ffe92: (                    ): iret                      ; cf
+
+</pre>
+</section>
+</body>
+</html>
+

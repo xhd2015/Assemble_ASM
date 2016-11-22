@@ -6,6 +6,85 @@
         <header>
                 <h2></h2>
         </header>
+
+<section>
+<h4>Description</h4>
+<p>Source code see <a href="BIOSCODE_call_1_call__source.html#6"></a></p>
+<pre>
+	set int 0~0x78 point to 0xf000:0xff53----&gt;iret (the first 120 vectors)
+	set the offset of int 0x20~0x28 to 0xe9e6,but not their segment address
+	set the offset of 0x180~0x188 to 0xe9ec.	
+	setup int 0x5c,0x60,0x64,0x48,0x44,0x54,0x74,0x7c
+	clear 0x180~0x1a0
+	clear 0x1e0~0x400
+</pre>
+
+<pre class="code code_s">
+000fa3e2: (                    ): xor di, di                ; 31ff
+000fa3e4: (                    ): mov cx, 0x0078            ; b97800
+000fa3e7: (                    ): mov ax, 0xf000            ; b800f0
+000fa3ea: (                    ): shl eax, 0x10             ; 66c1e010
+000fa3ee: (                    ): mov ax, 0xff53            ; b853ff
+000fa3f1: (                    ): cld                       ; fc
+000fa3f2: (                    ): rep stosd dword ptr es:[di], eax ; f366ab
+000fa3f5: (                    ): mov bx, 0x0020            ; bb2000
+000fa3f8: (                    ): mov cl, 0x08              ; b108
+000fa3fa: (                    ): mov ax, 0xe9e6            ; b8e6e9
+000fa3fd: (                    ): mov word ptr ds:[bx], ax  ; 8907
+000fa3ff: (                    ): add bx, 0x0004            ; 83c304
+000fa402: (                    ): loop .-7                  ; e2f9
+000fa404: (                    ): add bx, 0x0180            ; 81c38001
+000fa408: (                    ): mov cl, 0x08              ; b108
+000fa40a: (                    ): mov ax, 0xe9ec            ; b8ece9
+000fa40d: (                    ): mov word ptr ds:[bx], ax  ; 8907
+000fa40f: (                    ): add bx, 0x0004            ; 83c304
+000fa412: (                    ): loop .-7                  ; e2f9
+000fa414: (                    ): mov ax, 0xefd2            ; b8d2ef
+000fa417: (                    ): mov word ptr ds:0x005c, ax ; a35c00
+000fa41a: (                    ): mov ax, 0xf000            ; b800f0
+000fa41d: (                    ): mov word ptr ds:0x005e, ax ; a35e00
+000fa420: (                    ): mov ax, 0x96d2            ; b8d296
+000fa423: (                    ): mov word ptr ds:0x0060, ax ; a36000
+000fa426: (                    ): mov ax, 0xf000            ; b800f0
+000fa429: (                    ): mov word ptr ds:0x0062, ax ; a36200
+000fa42c: (                    ): mov ax, 0xe6f2            ; b8f2e6
+000fa42f: (                    ): mov word ptr ds:0x0064, ax ; a36400
+000fa432: (                    ): mov ax, 0xf000            ; b800f0
+000fa435: (                    ): mov word ptr ds:0x0066, ax ; a36600
+000fa438: (                    ): mov ax, 0xf841            ; b841f8
+000fa43b: (                    ): mov word ptr ds:0x0048, ax ; a34800
+000fa43e: (                    ): mov ax, 0xf000            ; b800f0
+000fa441: (                    ): mov word ptr ds:0x004a, ax ; a34a00
+000fa444: (                    ): mov ax, 0xf84d            ; b84df8
+000fa447: (                    ): mov word ptr ds:0x0044, ax ; a34400
+000fa44a: (                    ): mov ax, 0xf000            ; b800f0
+000fa44d: (                    ): mov word ptr ds:0x0046, ax ; a34600
+000fa450: (                    ): mov ax, 0xf859            ; b859f8
+000fa453: (                    ): mov word ptr ds:0x0054, ax ; a35400
+000fa456: (                    ): mov ax, 0xf000            ; b800f0
+000fa459: (                    ): mov word ptr ds:0x0056, ax ; a35600
+000fa45c: (                    ): mov ax, 0x0000            ; b80000
+000fa45f: (                    ): mov word ptr ds:0x0074, ax ; a37400
+000fa462: (                    ): mov ax, 0x0000            ; b80000
+000fa465: (                    ): mov word ptr ds:0x0076, ax ; a37600
+000fa468: (                    ): mov ax, 0x0000            ; b80000
+000fa46b: (                    ): mov word ptr ds:0x007c, ax ; a37c00
+000fa46e: (                    ): mov ax, 0x0000            ; b80000
+000fa471: (                    ): mov word ptr ds:0x007e, ax ; a37e00
+000fa474: (                    ): xor ax, ax                ; 31c0
+000fa476: (                    ): mov cx, 0x0010            ; b91000
+000fa479: (                    ): mov di, 0x0180            ; bf8001
+000fa47c: (                    ): cld                       ; fc
+000fa47d: (                    ): rep stosw word ptr es:[di], ax ; f3ab
+000fa47f: (                    ): xor eax, eax              ; 6631c0
+000fa482: (                    ): mov cl, 0x88              ; b188
+000fa484: (                    ): mov di, 0x01e0            ; bfe001
+000fa487: (                    ): rep stosd dword ptr es:[di], eax ; f366ab
+000fa48a: (                    ): ret                       ; c3
+
+</pre>
+
+</section>
 </body>
 
 </html>

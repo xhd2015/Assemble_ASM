@@ -1,0 +1,37 @@
+<html>
+<head>
+        <title>int 0x14</title>
+</head>
+<body>
+        <header>
+                <h2>int 0x14</h2>
+<pre>
+BIOS Asynchronous Communications Services.
+This is for serial port communications.
+see <a href="http://stanislavs.org/helppc/int_14.html">BIOS int 0x14</a>
+</pre>
+        </header>
+<section id="">
+<pre class="code">
+
+000fe739: (                    ): push ds                   ; 1e
+000fe73a: (                    ): pusha                     ; 60
+000fe73b: (                    ): xor ax, ax                ; 31c0
+000fe73d: (                    ): mov ds, ax                ; 8ed8
+000fe73f: (                    ): call .+21683              ; e8b354
+000fe742: (                    ): popa                      ; 61
+000fe743: (                    ): pop ds                    ; 1f
+000fe744: (                    ): iret                      ; cf
+
+</pre>
+</section>
+<section>
+<pre class="code code_s">
+
+</pre>
+
+</section>
+
+</body>
+</html>
+

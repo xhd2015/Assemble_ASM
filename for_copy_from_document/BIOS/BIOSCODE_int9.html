@@ -1,0 +1,80 @@
+<html>
+<head>
+        <title>int 9</title>
+</head>
+<body>
+        <header>
+                <h2>int 9</h2>
+        </header>
+
+<section>
+
+<pre class="code code_s">
+<h6 id="000fe987"></h6>
+000fe987: (                    ): cli                       ; fa
+000fe988: (                    ): push ax                   ; 50
+000fe989: (                    ): mov al, 0xad              ; b0ad
+000fe98b: (                    ): out 0x64, al              ; e664
+000fe98d: (                    ): mov al, 0x0b              ; b00b
+000fe98f: (                    ): out 0x20, al              ; e620
+000fe991: (                    ): in al, 0x20               ; e420
+000fe993: (                    ): and al, 0x02              ; 2402
+000fe995: (                    ): jz .+64                   ; 7440
+000fe997: (                    ): in al, 0x60               ; e460
+000fe999: (                    ): sti                       ; fb
+000fe99a: (                    ): push ds                   ; 1e
+000fe99b: (                    ): pusha                     ; 60
+000fe99c: (                    ): mov ah, 0x4f              ; b44f
+000fe99e: (                    ): stc                       ; f9
+000fe99f: (                    ): int 0x15                  ; cd15
+000fe9a1: (                    ): push bp                   ; 55
+000fe9a2: (                    ): mov bp, sp                ; 89e5
+000fe9a4: (                    ): mov byte ptr ss:[bp+16], al ; 884610
+000fe9a7: (                    ): pop bp                    ; 5d
+000fe9a8: (                    ): jnb .+34                  ; 7322
+000fe9aa: (                    ): push 0x0040               ; 6a40
+000fe9ac: (                    ): pop ds                    ; 1f
+000fe9ad: (                    ): cmp al, 0xe0              ; 3ce0
+000fe9af: (                    ): jnz .+10                  ; 750a
+000fe9b1: (                    ): mov al, byte ptr ds:0x0096 ; a09600
+000fe9b4: (                    ): or al, 0x02               ; 0c02
+000fe9b6: (                    ): mov byte ptr ds:0x0096, al ; a29600
+000fe9b9: (                    ): jmp .+17                  ; eb11
+000fe9bb: (                    ): cmp al, 0xe1              ; 3ce1
+000fe9bd: (                    ): jnz .+10                  ; 750a
+000fe9bf: (                    ): mov al, byte ptr ds:0x0096 ; a09600
+000fe9c2: (                    ): or al, 0x01               ; 0c01
+000fe9c4: (                    ): mov byte ptr ds:0x0096, al ; a29600
+000fe9c7: (                    ): jmp .+3                   ; eb03
+000fe9c9: (                    ): call .+27899              ; e8fb6c
+000fe9cc: (                    ): popa                      ; 61
+000fe9cd: (                    ): pop ds                    ; 1f
+000fe9ce: (                    ): cli                       ; fa
+000fe9cf: (                    ): call .-20389              ; e85bb0
+000fe9d2: (                    ): mov ax, 0x9102            ; b80291
+000fe9d5: (                    ): int 0x15                  ; cd15
+000fe9d7: (                    ): mov al, 0xae              ; b0ae
+000fe9d9: (                    ): out 0x64, al              ; e664
+000fe9db: (                    ): pop ax                    ; 58
+000fe9dc: (                    ): iret                      ; cf
+000fe9dd: (                    ): push ax                   ; 50
+000fe9de: (                    ): mov al, 0x20              ; b020
+000fe9e0: (                    ): out 0xa0, al              ; e6a0
+000fe9e2: (                    ): pop ax                    ; 58
+000fe9e3: (                    ): int 0x0a                  ; cd0a
+000fe9e5: (                    ): iret                      ; cf
+000fe9e6: (                    ): push ax                   ; 50
+000fe9e7: (                    ): call .-20413              ; e843b0
+000fe9ea: (                    ): pop ax                    ; 58
+000fe9eb: (                    ): iret                      ; cf
+000fe9ec: (                    ): push ax                   ; 50
+000fe9ed: (                    ): call .-20423              ; e839b0
+000fe9f0: (                    ): pop ax                    ; 58
+000fe9f1: (                    ): iret                      ; cf
+
+</pre>
+</section>
+
+</body>
+</html>
+

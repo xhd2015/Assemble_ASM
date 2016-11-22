@@ -1,0 +1,52 @@
+<html>
+<head>
+        <title></title>
+</head>
+<body>
+        <header>
+                <h2>COM Detectation and Setup</h2>
+<pre>
+0x400(1024)	COM1 port address
+0x402
+0x404
+0x406		COM6 port address
+
+IO 0x3f8	Serial Port
+see <a href="http://stanislavs.org/helppc/bios_data_area.html">BIOS Data Area</a>
+
+This process is similar to <a href="BIOSCODE_call_5.html">Check & Setup LPT</a>
+THis process check &amp; setup COM serial port.
+</pre>
+        </header>
+<section id="">
+<pre class="code">
+<h6 id="000fa246"></h6>
+000fa246: (                    ): push dx                   ; 52
+000fa247: (                    ): inc dx                    ; 42
+000fa248: (                    ): mov al, 0x02              ; b002
+000fa24a: (                    ): out dx, al                ; ee
+000fa24b: (                    ): in al, dx                 ; ec
+000fa24c: (                    ): cmp al, 0x02              ; 3c02
+	to confirm that DMA channel 1 address reader has no error.
+000fa24e: (                    ): jnz .+25                  ; 7519
+000fa250: (                    ): inc dx                    ; 42
+000fa251: (                    ): in al, dx                 ; ec
+000fa252: (                    ): cmp al, 0x02              ; 3c02
+000fa254: (                    ): jnz .+19                  ; 7513
+000fa256: (                    ): dec dx                    ; 4a
+000fa257: (                    ): xor al, al                ; 30c0
+000fa259: (                    ): out dx, al                ; ee
+000fa25a: (                    ): pop dx                    ; 5a
+000fa25b: (                    ): push bx                   ; 53
+000fa25c: (                    ): shl bx, 1                 ; d1e3
+000fa25e: (                    ): mov word ptr ds:[bx+1024], dx ; 89970004
+000fa262: (                    ): pop bx                    ; 5b
+000fa263: (                    ): mov byte ptr ds:[bx+1148], cl ; 888f7c04
+000fa267: (                    ): inc bx                    ; 43
+000fa268: (                    ): ret                       ; c3
+
+</pre>
+</section>
+</body>
+</html>
+
