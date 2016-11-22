@@ -1,0 +1,195 @@
+====Reference : 
+
+000c6efe: (                    ): push bp                   ; 55
+000c6eff: (                    ): mov bp, sp                ; 89e5
+000c6f01: (                    ): add sp, 0xfff8            ; 83c4f8
+000c6f04: (                    ): lea bx, word ptr ss:[bp-4] ; 8d5efc
+000c6f07: (                    ): push bx                   ; 53
+000c6f08: (                    ): lea bx, word ptr ss:[bp-6] ; 8d5efa
+000c6f0b: (                    ): push bx                   ; 53
+000c6f0c: (                    ): mov al, byte ptr ss:[bp+6] ; 8a4606
+000c6f0f: (                    ): xor ah, ah                ; 30e4
+000c6f11: (                    ): push ax                   ; 50
+000c6f12: (                    ): call .-10922              ; e856d5
+=========== call 0xc446b , this does not produces "Hello World"
+000c6f15: (                    ): add sp, 0x0006            ; 83c406
+000c6f18: (                    ): mov al, byte ptr ss:[bp+12] ; 8a460c
+000c6f1b: (                    ): cmp al, 0xff              ; 3cff
+000c6f1d: (                    ): jnz .+18                  ; 7512
+=========== jnz 0xc6f31
+000c6f1f: (                    ): mov al, byte ptr ss:[bp-4] ; 8a46fc
+000c6f22: (                    ): mov byte ptr ss:[bp+14], al ; 88460e
+000c6f25: (                    ): mov ax, word ptr ss:[bp-4] ; 8b46fc
+000c6f28: (                    ): xor al, al                ; 30c0
+000c6f2a: (                    ): mov al, ah                ; 88e0
+
+
+....
+000c6f31: (                    ): mov al, byte ptr ss:[bp+12] ; 8a460c
+000c6f34: (                    ): xor ah, ah                ; 30e4
+000c6f36: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+000c6f39: (                    ): mov ax, word ptr ss:[bp-2] ; 8b46fe
+000c6f3c: (                    ): mov ah, al                ; 88c4
+000c6f3e: (                    ): xor al, al                ; 30c0
+000c6f40: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+000c6f43: (                    ): mov ax, word ptr ss:[bp-2] ; 8b46fe
+000c6f46: (                    ): add al, byte ptr ss:[bp+14] ; 02460e
+000c6f49: (                    ): adc ah, 0x00              ; 80d400
+000c6f4c: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+000c6f4f: (                    ): push word ptr ss:[bp-2]   ; ff76fe
+000c6f52: (                    ): mov al, byte ptr ss:[bp+6] ; 8a4606
+000c6f55: (                    ): xor ah, ah                ; 30e4
+000c6f57: (                    ): push ax                   ; 50
+000c6f58: (                    ): call .-11248              ; e810d4
+=========== call 0xc436b
+000c6f5b: (                    ): add sp, 0x0004            ; 83c404
+000c6f5e: (                    ): jmp .+79                  ; eb4f
+=========== jmp 0xc6faf
+000c6f60: (                    ): mov ax, word ptr ss:[bp+18] ; 8b4612
+000c6f63: (                    ): inc ax                    ; 40
+000c6f64: (                    ): mov word ptr ss:[bp+18], ax ; 894612
+000c6f67: (                    ): dec ax                    ; 48
+000c6f68: (                    ): push ax                   ; 50
+000c6f69: (                    ): push word ptr ss:[bp+16]  ; ff7610
+000c6f6c: (                    ): call .+3794               ; e8d20e
+000c6f6f: (                    ): add sp, 0x0004            ; 83c404
+000c6f72: (                    ): mov byte ptr ss:[bp-7], al ; 8846f9
+000c6f75: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000c6f78: (                    ): and al, 0x02              ; 2402
+000c6f7a: (                    ): test al, al               ; 84c0
+000c6f7c: (                    ): jz .+21                   ; 7415
+000c6f7e: (                    ): mov ax, word ptr ss:[bp+18] ; 8b4612
+000c6f81: (                    ): inc ax                    ; 40
+000c6f82: (                    ): mov word ptr ss:[bp+18], ax ; 894612
+000c6f85: (                    ): dec ax                    ; 48
+000c6f86: (                    ): push ax                   ; 50
+000c6f87: (                    ): push word ptr ss:[bp+16]  ; ff7610
+000c6f8a: (                    ): call .+3764               ; e8b40e
+000c6f8d: (                    ): add sp, 0x0004            ; 83c404
+000c6f90: (                    ): mov byte ptr ss:[bp+8], al ; 884608
+000c6f93: (                    ): mov ax, 0x0003            ; b80300
+000c6f96: (                    ): push ax                   ; 50
+000c6f97: (                    ): mov al, byte ptr ss:[bp+8] ; 8a4608
+000c6f9a: (                    ): xor ah, ah                ; 30e4
+000c6f9c: (                    ): push ax                   ; 50
+000c6f9d: (                    ): mov al, byte ptr ss:[bp+6] ; 8a4606
+000c6fa0: (                    ): xor ah, ah                ; 30e4
+000c6fa2: (                    ): push ax                   ; 50
+000c6fa3: (                    ): mov al, byte ptr ss:[bp-7] ; 8a46f9
+000c6fa6: (                    ): xor ah, ah                ; 30e4
+000c6fa8: (                    ): push ax                   ; 50
+000c6fa9: (                    ): call .-4384               ; e8e0ee
+=========== call 0xc5e8c  , print 'H'
+000c6fac: (                    ): add sp, 0x0008            ; 83c408
+000c6faf: (                    ): mov ax, word ptr ss:[bp+10] ; 8b460a
+000c6fb2: (                    ): dec ax                    ; 48
+000c6fb3: (                    ): mov word ptr ss:[bp+10], ax ; 89460a
+000c6fb6: (                    ): cmp ax, 0xffff            ; 3dffff
+000c6fb9: (                    ): jnz .-91                  ; 75a5
+========== jnz 0xc6f60
+=========== jnz 0xc6f60
+000c6fbb: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000c6fbe: (                    ): and al, 0x01              ; 2401
+000c6fc0: (                    ): test al, al               ; 84c0
+000c6fc2: (                    ): jnz .+15                  ; 750f
+000c6fc4: (                    ): push word ptr ss:[bp-4]   ; ff76fc
+000c6fc7: (                    ): mov al, byte ptr ss:[bp+6] ; 8a4606
+000c6fca: (                    ): xor ah, ah                ; 30e4
+000c6fcc: (                    ): push ax                   ; 50
+000c6fcd: (                    ): call .-11365              ; e89bd3
+000c6fd0: (                    ): add sp, 0x0004            ; 83c404
+000c6fd3: (                    ): mov sp, bp                ; 89ec
+000c6fd5: (                    ): pop bp                    ; 5d
+000c6fd6: (                    ): ret                       ; c3
+000c6fd7: (                    ): cmp al, 0x00              ; 3c00
+000c6fd9: (                    ): jz .+5                    ; 7405
+
+
+
+....
+000c436b: (                    ): push bp                   ; 55
+000c436c: (                    ): mov bp, sp                ; 89e5
+000c436e: (                    ): add sp, 0xfff4            ; 83c4f4
+000c4371: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000c4374: (                    ): cmp al, 0x07              ; 3c07
+000c4376: (                    ): jbe .+4                   ; 7604
+============ jbe 0xc437c
+000c4378: (                    ): mov sp, bp                ; 89ec
+000c437a: (                    ): pop bp                    ; 5d
+000c437b: (                    ): ret                       ; c3
+000c437c: (                    ): push word ptr ss:[bp+6]   ; ff7606
+000c437f: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000c4382: (                    ): xor ah, ah                ; 30e4
+000c4384: (                    ): shl ax, 1                 ; d1e0
+000c4386: (                    ): add ax, 0x0050            ; 055000
+000c4389: (                    ): push ax                   ; 50
+000c438a: (                    ): mov ax, 0x0040            ; b84000
+000c438d: (                    ): push ax                   ; 50
+000c438e: (                    ): call .+15086              ; e8ee3a
+=========== call 0xc7e7f , this does not produces message
+000c4391: (                    ): add sp, 0x0006            ; 83c406
+000c4394: (                    ): mov ax, 0x0062            ; b86200
+000c4397: (                    ): push ax                   ; 50
+000c4398: (                    ): mov ax, 0x0040            ; b84000
+000c439b: (                    ): push ax                   ; 50
+000c439c: (                    ): call .+15010              ; e8a23a
+========== call 0xc7e41, no message
+000c439f: (                    ): add sp, 0x0004            ; 83c404
+000c43a2: (                    ): mov byte ptr ss:[bp-3], al ; 8846fd
+000c43a5: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000c43a8: (                    ): cmp al, byte ptr ss:[bp-3] ; 3a46fd
+000c43ab: (                    ): jnz .+184                 ; 0f85b800
+=========== jnz 0xc4467
+000c43af: (                    ): mov ax, 0x004a            ; b84a00
+000c43b2: (                    ): push ax                   ; 50
+000c43b3: (                    ): mov ax, 0x0040            ; b84000
+000c43b6: (                    ): push ax                   ; 50
+000c43b7: (                    ): call .+15002              ; e89a3a
+=========== call 0xc7e54 , no m.
+000c43ba: (                    ): add sp, 0x0004            ; 83c404
+000c43bd: (                    ): mov word ptr ss:[bp-6], ax ; 8946fa
+000c43c0: (                    ): mov ax, 0x0084            ; b88400
+000c43c3: (                    ): push ax                   ; 50
+000c43c4: (                    ): mov ax, 0x0040            ; b84000
+000c43c7: (                    ): push ax                   ; 50
+000c43c8: (                    ): call .+14966              ; e8763a
+=========== call 0xc7e41, no m.
+000c43cb: (                    ): add sp, 0x0004            ; 83c404
+000c43ce: (                    ): xor ah, ah                ; 30e4
+000c43d0: (                    ): inc ax                    ; 40
+000c43d1: (                    ): mov word ptr ss:[bp-8], ax ; 8946f8
+000c43d4: (                    ): mov al, byte ptr ss:[bp+6] ; 8a4606
+000c43d7: (                    ): mov byte ptr ss:[bp-1], al ; 8846ff
+000c43da: (                    ): mov ax, word ptr ss:[bp+6] ; 8b4606
+000c43dd: (                    ): xor al, al                ; 30c0
+000c43df: (                    ): mov al, ah                ; 88e0
+000c43e1: (                    ): xor ah, ah                ; 30e4
+000c43e3: (                    ): mov byte ptr ss:[bp-2], al : (                    ): xor ah, ah                ; 30e4
+000c443d: (                    ): push ax                   ; 50
+000c443e: (                    ): mov ax, word ptr ss:[bp-12] ; 8b46f4
+000c4441: (                    ): inc ax                    ; 40
+000c4442: (                    ): push ax                   ; 50
+000c4443: (                    ): call .+14951              ; e8673a
+=========== call 0xc7ead, no m.
+000c4446: (                    ): add sp, 0x0004            ; 83c404
+000c4449: (                    ): mov ax, 0x000f            ; b80f00
+000c444c: (                    ): push ax                   ; 50
+000c444d: (                    ): push word ptr ss:[bp-12]  ; ff76f4
+000c4450: (                    ): call .+14938              ; e85a3a
+=========== call 0xc7ead, no m.
+000c4453: (                    ): add sp, 0x0004            ; 83c404
+000c4456: (                    ): mov al, byte ptr ss:[bp-10] ; 8a46f6
+000c4459: (                    ): xor ah, ah                ; 30e4
+000c445b: (                    ): push ax                   ; 50
+000c445c: (                    ): mov ax, word ptr ss:[bp-12] ; 8b46f4
+000c445f: (                    ): inc ax                    ; 40
+000c4460: (                    ): push ax                   ; 50
+000c4461: (                    ): call .+14921              ; e8493a
+=========== call 0xc7ead, no m.
+000c4464: (                    ): add sp, 0x0004            ; 83c404
+000c4467: (                    ): mov sp, bp                ; 89ec
+000c4469: (                    ): pop bp                    ; 5d
+000c446a: (                    ): ret                       ; c3
+000c446b: (                    ): push bp                   ; 55
+
+

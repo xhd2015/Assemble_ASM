@@ -1,0 +1,4 @@
+1.Any reference should be correctly wrote down
+2.You do not need to write a full document,you may write indexes to denote the very detailed document that separated in many files.
+3.To write a piece document that both human and the future program can read, you use HTML to organize your document,with slightly formated.Those formatting mark with subsequently used to generate a HTML style document.
+4.There is a universal absolute location for each document,they can reference to each other under this absolute namespace,no matter where their physical location is.

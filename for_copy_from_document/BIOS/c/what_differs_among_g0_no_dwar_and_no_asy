@@ -1,0 +1,11 @@
+
+Firstly, -g0 is the same with that it is not present.So it has no affection
+The original generated file of gcc has such information:
+	.cfi directives for Call Frame Traceback
+	.LF[A-Z][1-9] lables are presented
+
+If with option -fno-dwarf2-cif-asm,then just the .cfi directives disappear.The LFXX lables are kept.But at this time,it generates the section .eh_frame automactically.
+While with option -fno-asynchronous-unwind-tables,then all above information has gone.There is left a nearly pure assemble file for us.
+
+Well,to conclude,the -fno-asynchronous-unwind-tables is exactly what we want to generate pure assemble codes.
+

@@ -1,0 +1,38 @@
+
+000c7e67: (                    ): push bp                   ; 55
+000c7e68: (                    ): mov bp, sp                ; 89e5
+000c7e6a: (                    ): push ax                   ; 50
+000c7e6b: (                    ): push bx                   ; 53
+000c7e6c: (                    ): push ds                   ; 1e
+000c7e6d: (                    ): mov ax, word ptr ss:[bp+4] ; 8b4604
+000c7e70: (                    ): mov ds, ax                ; 8ed8
+000c7e72: (                    ): mov bx, word ptr ss:[bp+6] ; 8b5e06
+000c7e75: (                    ): mov al, byte ptr ss:[bp+8] ; 8a4608
+000c7e78: (                    ): mov byte ptr ds:[bx], al  ; 8807
+=========== this printed char,to 0xb800:0xaa0
+000c7e7a: (                    ): pop ds                    ; 1f
+000c7e7b: (                    ): pop bx                    ; 5b
+000c7e7c: (                    ): pop ax                    ; 58
+000c7e7d: (                    ): pop bp                    ; 5d
+000c7e7e: (                    ): ret                       ; c3
+
+=========Memory Dump
+0xb800:0x0 ( x /20cb 0xb800:0x0 )
+0x00000000000b8000 <bogus+       0>:  P   \x0B  l   \x0B  e   \x0B  x   \x0B
+0x00000000000b8008 <bogus+       8>:  8   \x0B  6   \x0B  /   \x0B  B   \x0B
+0x00000000000b8010 <bogus+      16>:  o   \x0B  c   \x0B
+
+Plex86/Bochs... (This is exactly the message showed initially)
+
+0xb800:0xa00
+0x00000000000b8a00 <bogus+       0>:  B   \7    o   \7    o   \7    t   \7  
+0x00000000000b8a08 <bogus+       8>:  i   \7    n   \7    g   \7        \7  
+0x00000000000b8a10 <bogus+      16>:  f   \7    r   \7  
+Booting from Floppy
+
+
+0xb800:0xaa0
+0x00000000000b8aa0 <bogus+       0>:  H   \7    e   \7    l   \7    l   \7  
+0x00000000000b8aa8 <bogus+       8>:      \7        \7        \7        \7  
+0x00000000000b8ab0 <bogus+      16>:      \7        \7  
+

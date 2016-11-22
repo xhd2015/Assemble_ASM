@@ -1,0 +1,1170 @@
+
+<html>
+<head>
+        <title>call 1 -- call</title>
+</head>
+<body>
+        <header>
+                <h2></h2>
+        </header>
+<!--************************* -->
+<section>
+
+<pre class="code">
+
+<h6 id="000f053f">out_to_port( port, data )</h6>
+000f053f: (                    ): push bp                   ; 55
+000f0540: (                    ): mov bp, sp                ; 89e5
+000f0542: (                    ): push ax                   ; 50
+000f0543: (                    ): push dx                   ; 52
+000f0544: (                    ): mov dx, word ptr ss:[bp+4] ; 8b5604
+000f0547: (                    ): mov al, byte ptr ss:[bp+6] ; 8a4606
+000f054a: (                    ): out dx, al                ; ee
+000f054b: (                    ): pop dx                    ; 5a
+000f054c: (                    ): pop ax                    ; 58
+000f054d: (                    ): pop bp                    ; 5d
+000f054e: (                    ): ret                       ; c3
+
+
+
+
+000f054f: (                    ): push bp                   ; 55
+000f0550: (                    ): mov bp, sp                ; 89e5
+000f0552: (                    ): push ax                   ; 50
+000f0553: (                    ): push dx                   ; 52
+000f0554: (                    ): mov dx, word ptr ss:[bp+4] ; 8b5604
+000f0557: (                    ): mov ax, word ptr ss:[bp+6] ; 8b4606
+000f055a: (                    ): out dx, ax                ; ef
+000f055b: (                    ): pop dx                    ; 5a
+000f055c: (                    ): pop ax                    ; 58
+000f055d: (                    ): pop bp                    ; 5d
+000f055e: (                    ): ret                       ; c3
+000f055f: (                    ): push bp                   ; 55
+000f0560: (                    ): mov bp, sp                ; 89e5
+000f0562: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000f0565: (                    ): out 0x70, al              ; e670
+000f0567: (                    ): mov al, byte ptr ss:[bp+6] ; 8a4606
+000f056a: (                    ): out 0x71, al              ; e671
+000f056c: (                    ): pop bp                    ; 5d
+000f056d: (                    ): ret                       ; c3
+000f056e: (                    ): push bp                   ; 55
+000f056f: (                    ): mov bp, sp                ; 89e5
+000f0571: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000f0574: (                    ): out 0x70, al              ; e670
+000f0576: (                    ): in al, 0x71               ; e471
+000f0578: (                    ): pop bp                    ; 5d
+000f0579: (                    ): ret                       ; c3
+000f057a: (                    ): push bp                   ; 55
+000f057b: (                    ): mov bp, sp                ; 89e5
+000f057d: (                    ): mov ax, 0x0026            ; b82600
+000f0580: (                    ): push ax                   ; 50
+000f0581: (                    ): mov ax, 0x000a            ; b80a00
+000f0584: (                    ): push ax                   ; 50
+000f0585: (                    ): call .-41                 ; e8d7ff
+000f0588: (                    ): mov sp, bp                ; 89ec
+000f058a: (                    ): mov ax, 0x0002            ; b80200
+000f058d: (                    ): push ax                   ; 50
+000f058e: (                    ): mov ax, 0x000b            ; b80b00
+000f0591: (                    ): push ax                   ; 50
+000f0592: (                    ): call .-54                 ; e8caff
+000f0595: (                    ): mov sp, bp                ; 89ec
+000f0597: (                    ): mov ax, 0x000c            ; b80c00
+000f059a: (                    ): push ax                   ; 50
+000f059b: (                    ): call .-48                 ; e8d0ff
+000f059e: (                    ): mov sp, bp                ; 89ec
+000f05a0: (                    ): mov ax, 0x000d            ; b80d00
+000f05a3: (                    ): push ax                   ; 50
+000f05a4: (                    ): call .-57                 ; e8c7ff
+000f05a7: (                    ): mov sp, bp                ; 89ec
+000f05a9: (                    ): pop bp                    ; 5d
+000f05aa: (                    ): ret                       ; c3
+000f05ab: (                    ): push bp                   ; 55
+000f05ac: (                    ): mov bp, sp                ; 89e5
+000f05ae: (                    ): dec sp                    ; 4c
+000f05af: (                    ): dec sp                    ; 4c
+000f05b0: (                    ): mov ax, 0x61a8            ; b8a861
+000f05b3: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+000f05b6: (                    ): jmp .+21                  ; eb15
+000f05b8: (                    ): mov ax, 0x000a            ; b80a00
+000f05bb: (                    ): push ax                   ; 50
+000f05bc: (                    ): call .-81                 ; e8afff
+000f05bf: (                    ): inc sp                    ; 44
+000f05c0: (                    ): inc sp                    ; 44
+000f05c1: (                    ): and al, 0x80              ; 2480
+000f05c3: (                    ): test al, al               ; 84c0
+000f05c5: (                    ): jnz .+6                   ; 7506
+000f05c7: (                    ): xor ax, ax                ; 31c0
+000f05c9: (                    ): mov sp, bp                ; 89ec
+000f05cb: (                    ): pop bp                    ; 5d
+000f05cc: (                    ): ret                       ; c3
+000f05cd: (                    ): mov ax, word ptr ss:[bp-2] ; 8b46fe
+000f05d0: (                    ): dec ax                    ; 48
+000f05d1: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+000f05d4: (                    ): test ax, ax               ; 85c0
+000f05d6: (                    ): jnz .-32                  ; 75e0
+000f05d8: (                    ): mov ax, 0x0001            ; b80100
+000f05db: (                    ): mov sp, bp                ; 89ec
+000f05dd: (                    ): pop bp                    ; 5d
+000f05de: (                    ): ret                       ; c3
+
+
+
+<h6 id="000f05df">get_byte_by_lineaddr( arg1, arg2 )</h6>
+<p>
+	arg1 as ds
+	arg2 as offset
+	return arg1:arg2
+</p>
+
+000f05df: (                    ): push bp                   ; 55
+000f05e0: (                    ): mov bp, sp                ; 89e5
+000f05e2: (                    ): push bx                   ; 53
+000f05e3: (                    ): push ds                   ; 1e
+000f05e4: (                    ): lds bx, ss:[bp+4]         ; c55e04
+000f05e7: (                    ): mov al, byte ptr ds:[bx]  ; 8a07
+000f05e9: (                    ): pop ds                    ; 1f
+000f05ea: (                    ): pop bx                    ; 5b
+000f05eb: (                    ): pop bp                    ; 5d
+000f05ec: (                    ): ret                       ; c3
+
+
+
+000f05ed: (                    ): push bp                   ; 55
+000f05ee: (                    ): mov bp, sp                ; 89e5
+000f05f0: (                    ): push bx                   ; 53
+000f05f1: (                    ): push ds                   ; 1e
+000f05f2: (                    ): lds bx, ss:[bp+4]         ; c55e04
+000f05f5: (                    ): mov ax, word ptr ds:[bx]  ; 8b07
+000f05f7: (                    ): pop ds                    ; 1f
+000f05f8: (                    ): pop bx                    ; 5b
+000f05f9: (                    ): pop bp                    ; 5d
+000f05fa: (                    ): ret                       ; c3
+000f05fb: (                    ): push bp                   ; 55
+000f05fc: (                    ): mov bp, sp                ; 89e5
+000f05fe: (                    ): push ax                   ; 50
+000f05ff: (                    ): push bx                   ; 53
+000f0600: (                    ): push ds                   ; 1e
+000f0601: (                    ): lds bx, ss:[bp+6]         ; c55e06
+000f0604: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000f0607: (                    ): mov byte ptr ds:[bx], al  ; 8807
+000f0609: (                    ): pop ds                    ; 1f
+000f060a: (                    ): pop bx                    ; 5b
+000f060b: (                    ): pop ax                    ; 58
+000f060c: (                    ): pop bp                    ; 5d
+000f060d: (                    ): ret                       ; c3
+000f060e: (                    ): push bp                   ; 55
+000f060f: (                    ): mov bp, sp                ; 89e5
+000f0611: (                    ): push ax                   ; 50
+000f0612: (                    ): push bx                   ; 53
+000f0613: (                    ): push ds                   ; 1e
+000f0614: (                    ): lds bx, ss:[bp+6]         ; c55e06
+000f0617: (                    ): mov ax, word ptr ss:[bp+4] ; 8b4604
+000f061a: (                    ): mov word ptr ds:[bx], ax  ; 8907
+000f061c: (                    ): pop ds                    ; 1f
+000f061d: (                    ): pop bx                    ; 5b
+000f061e: (                    ): pop ax                    ; 58
+000f061f: (                    ): pop bp                    ; 5d
+000f0620: (                    ): ret                       ; c3
+000f0621: (                    ): push bp                   ; 55
+000f0622: (                    ): mov bp, sp                ; 89e5
+000f0624: (                    ): mov bp, word ptr ss:[bp+4] ; 8b6e04
+000f0627: (                    ): mov al, byte ptr ss:[bp]  ; 8a4600
+000f062a: (                    ): pop bp                    ; 5d
+000f062b: (                    ): ret                       ; c3
+
+<h6  id="000f062c"></h6>
+<p>
+	ax = stack(arg1) and then return.
+</p>
+000f062c: (                    ): push bp                   ; 55
+000f062d: (                    ): mov bp, sp                ; 89e5
+000f062f: (                    ): mov bp, word ptr ss:[bp+4] ; 8b6e04
+000f0632: (                    ): mov ax, word ptr ss:[bp]  ; 8b4600
+000f0635: (                    ): pop bp                    ; 5d
+000f0636: (                    ): ret                       ; c3
+
+000f0637: (                    ): push bp                   ; 55
+000f0638: (                    ): mov bp, sp                ; 89e5
+000f063a: (                    ): push ax                   ; 50
+000f063b: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000f063e: (                    ): mov bp, word ptr ss:[bp+6] ; 8b6e06
+000f0641: (                    ): mov byte ptr ss:[bp], al  ; 884600
+000f0644: (                    ): pop ax                    ; 58
+000f0645: (                    ): pop bp                    ; 5d
+000f0646: (                    ): ret                       ; c3
+
+000f0647: (                    ): push bp                   ; 55
+000f0648: (                    ): mov bp, sp                ; 89e5
+000f064a: (                    ): push ax                   ; 50
+000f064b: (                    ): mov ax, word ptr ss:[bp+4] ; 8b4604
+000f064e: (                    ): mov bp, word ptr ss:[bp+6] ; 8b6e06
+000f0651: (                    ): mov word ptr ss:[bp], ax  ; 894600
+000f0654: (                    ): pop ax                    ; 58
+000f0655: (                    ): pop bp                    ; 5d
+000f0656: (                    ): ret                       ; c3
+
+
+<h6 id="000f0657"></h6>
+<p>
+	return cs;
+</p>
+000f0657: (                    ): mov ax, cs                ; 8cc8
+000f0659: (                    ): ret                       ; c3
+
+<h6 id="000f065a"></h6>
+000f065a: (                    ): mov ax, ss                ; 8cd0
+000f065c: (                    ): ret                       ; c3
+
+<h6 id="000f065d">set_ds( new_value )</h6>
+<p>
+	ax = ds
+	ds = arg1
+	return ax;
+</p>
+with one argment,cs_addr=0xf000
+000f065d: (                    ): push bp                   ; 55
+000f065e: (                    ): mov bp, sp                ; 89e5
+000f0660: (                    ): push ds                   ; 1e
+000f0661: (                    ): mov ds, word ptr ss:[bp+4] ; 8e5e04
+000f0664: (                    ): pop ax                    ; 58
+000f0665: (                    ): pop bp                    ; 5d
+000f0666: (                    ): ret                       ; c3
+
+<h6 id="000f0667">write_to_tty( char )</h6>
+<p>
+call int 0x10 with 
+		ah = 0x00001110 (teletype output,i.e tty)
+		al = arg1 (character)
+		bx = 0 (bh=page number,bl=color mode)
+see <a href="int10.html">here</a>
+</p>
+000f0667: (                    ): push bp                   ; 55
+000f0668: (                    ): mov bp, sp                ; 89e5
+000f066a: (                    ): push bx                   ; 53
+000f066b: (                    ): mov ah, 0x0e              ; b40e
+000f066d: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000f0670: (                    ): xor bx, bx                ; 31db
+000f0672: (                    ): int 0x10                  ; cd10
+000f0674: (                    ): pop bx                    ; 5b
+000f0675: (                    ): pop bp                    ; 5d
+000f0676: (                    ): ret                       ; c3
+
+
+<h6 id="000f0677">do_series_test( cond, arg )</h6>
+<p>
+	check each bit of arg1,
+	based on that check,each kind of test will be performed.
+	if arg1[3] != 0 then
+		do test 1
+	if arg1[2] != 0 then
+		do test 2
+	if arg1[1] != 0 then
+		do test 3
+	
+
+
+		test2 : out_to_port( 0x0402, arg2 )
+
+</p>
+000f0677: (                    ): push bp                   ; 55
+000f0678: (                    ): mov bp, sp                ; 89e5
+000f067a: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000f067d: (                    ): and al, 0x08              ; 2408
+000f067f: (                    ): test al, al               ; 84c0
+000f0681: (                    ): jz .+15                   ; 740f
+	if arg1[3]==0 then jump to <a href="#000f0692">HERE</a>
+000f0683: (                    ): mov al, byte ptr ss:[bp+6] ; 8a4606
+000f0686: (                    ): xor ah, ah                ; 30e4
+000f0688: (                    ): push ax                   ; 50
+000f0689: (                    ): mov ax, 0x0403            ; b80304
+000f068c: (                    ): push ax                   ; 50
+000f068d: (                    ): call .-337                ; e8affe
+000f0690: (                    ): mov sp, bp                ; 89ec
+
+<h6 id="000f0692"></h6>
+000f0692: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000f0695: (                    ): and al, 0x04              ; 2404
+000f0697: (                    ): test al, al               ; 84c0
+000f0699: (                    ): jz .+15                   ; 740f
+	if arg1[2]==0 then
+		jump to <a href="#000f06aa">HERE</a>
+<h6 id="000f069b">UNHANDLED</h6>
+000f069b: (                    ): mov al, byte ptr ss:[bp+6] ; 8a4606
+000f069e: (                    ): xor ah, ah                ; 30e4
+000f06a0: (                    ): push ax                   ; 50
+000f06a1: (                    ): mov ax, 0x0402            ; b80204
+000f06a4: (                    ): push ax                   ; 50
+000f06a5: (                    ): call .-361                ; e897fe
+000f06a8: (                    ): mov sp, bp                ; 89ec
+	call_<a href="#000f053f">out_to_port</a>( 0x0402, 0x00.arg2 )
+
+<h6 id="000f06aa"></h6>
+000f06aa: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000f06ad: (                    ): and al, 0x02              ; 2402
+000f06af: (                    ): test al, al               ; 84c0
+000f06b1: (                    ): jz .+27                   ; 741b
+	if arg1[1]==0 then
+		jump to <a href="#000f06ce">exit</a>
+
+000f06b3: (                    ): mov al, byte ptr ss:[bp+6] ; 8a4606
+000f06b6: (                    ): cmp al, 0x0a              ; 3c0a
+000f06b8: (                    ): jnz .+9                   ; 7509
+000f06ba: (                    ): mov ax, 0x000d            ; b80d00
+000f06bd: (                    ): push ax                   ; 50
+000f06be: (                    ): call .-90                 ; e8a6ff
+000f06c1: (                    ): mov sp, bp                ; 89ec
+000f06c3: (                    ): mov al, byte ptr ss:[bp+6] ; 8a4606
+000f06c6: (                    ): xor ah, ah                ; 30e4
+000f06c8: (                    ): push ax                   ; 50
+000f06c9: (                    ): call .-101                ; e89bff
+000f06cc: (                    ): mov sp, bp                ; 89ec
+
+<h6 id="000f06ce">exit:</h6>
+000f06ce: (                    ): pop bp                    ; 5d
+000f06cf: (                    ): ret                       ; c3
+
+
+
+000f06d0: (                    ): push bp                   ; 55
+000f06d1: (                    ): mov bp, sp                ; 89e5
+000f06d3: (                    ): dec sp                    ; 4c
+000f06d4: (                    ): dec sp                    ; 4c
+000f06d5: (                    ): mov ax, word ptr ss:[bp+6] ; 8b4606
+000f06d8: (                    ): mov bx, 0x000a            ; bb0a00
+000f06db: (                    ): call .-1444               ; e85cfa
+000f06de: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+000f06e1: (                    ): mov ax, word ptr ss:[bp-2] ; 8b46fe
+000f06e4: (                    ): test ax, ax               ; 85c0
+000f06e6: (                    ): jz .+22                   ; 7416
+000f06e8: (                    ): push word ptr ss:[bp+10]  ; ff760a
+000f06eb: (                    ): mov ax, word ptr ss:[bp+8] ; 8b4608
+000f06ee: (                    ): dec ax                    ; 48
+000f06ef: (                    ): push ax                   ; 50
+000f06f0: (                    ): push word ptr ss:[bp-2]   ; ff76fe
+000f06f3: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f06f6: (                    ): call .-41                 ; e8d7ff
+000f06f9: (                    ): add sp, 0x0008            ; 83c408
+000f06fc: (                    ): jmp .+46                  ; eb2e
+000f06fe: (                    ): jmp .+13                  ; eb0d
+000f0700: (                    ): mov ax, 0x0020            ; b82000
+000f0703: (                    ): push ax                   ; 50
+000f0704: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f0707: (                    ): call .-147                ; e86dff
+000f070a: (                    ): add sp, 0x0004            ; 83c404
+000f070d: (                    ): mov ax, word ptr ss:[bp+8] ; 8b4608
+000f0710: (                    ): dec ax                    ; 48
+000f0711: (                    ): mov word ptr ss:[bp+8], ax ; 894608
+000f0714: (                    ): test ax, ax               ; 85c0
+000f0716: (                    ): jnle .-24                 ; 7fe8
+000f0718: (                    ): mov ax, word ptr ss:[bp+10] ; 8b460a
+000f071b: (                    ): test ax, ax               ; 85c0
+000f071d: (                    ): jz .+13                   ; 740d
+000f071f: (                    ): mov ax, 0x002d            ; b82d00
+000f0722: (                    ): push ax                   ; 50
+000f0723: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f0726: (                    ): call .-178                ; e84eff
+000f0729: (                    ): add sp, 0x0004            ; 83c404
+000f072c: (                    ): mov ax, word ptr ss:[bp-2] ; 8b46fe
+000f072f: (                    ): mov dx, ax                ; 89c2
+000f0731: (                    ): shl ax, 1                 ; d1e0
+000f0733: (                    ): shl ax, 1                 ; d1e0
+000f0735: (                    ): add ax, dx                ; 01d0
+000f0737: (                    ): shl ax, 1                 ; d1e0
+000f0739: (                    ): push ax                   ; 50
+000f073a: (                    ): mov ax, word ptr ss:[bp+6] ; 8b4606
+000f073d: (                    ): sub ax, word ptr ss:[bp-4] ; 2b46fc
+000f0740: (                    ): inc sp                    ; 44
+000f0741: (                    ): inc sp                    ; 44
+000f0742: (                    ): add ax, 0x0030            ; 053000
+000f0745: (                    ): push ax                   ; 50
+000f0746: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f0749: (                    ): call .-213                ; e82bff
+000f074c: (                    ): add sp, 0x0004            ; 83c404
+000f074f: (                    ): mov sp, bp                ; 89ec
+000f0751: (                    ): pop bp                    ; 5d
+000f0752: (                    ): ret                       ; c3
+
+</pre>
+</section>
+
+
+<section id="BIOSCODE_call_1_call">
+
+<h4>Description</h4>
+<a href="#">Process</a> Called by <a href="BIOSCODE_call_1#000f1722">call 1</a>,arguments (0x0004,0xd82a,0x165)
+<pre class="code">
+
+
+<h6 id="000f080a">do_multiple_test_by_mem( cond, offset, segbase )</h6>
+000f080a: (                    ): push bp                   ; 55
+000f080b: (                    ): mov bp, sp                ; 89e5
+000f080d: (                    ): dec sp                    ; 4c
+000f080e: (                    ): dec sp                    ; 4c
+000f080f: (                    ): jmp .+22                  ; eb16
+	jump to <a href="#0x000f0827">LOCAL HERE</a>
+
+
+<p>
+000f0811 - 000f0838 will continues call do_series_test on each memory byte starting from arg3:arg2,util it meets 0.
+</p>
+<h6 id="000f0811"></h6>
+000f0811: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+000f0814: (                    ): xor ah, ah                ; 30e4
+000f0816: (                    ): push ax                   ; 50
+000f0817: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f081a: (                    ): call .-422                ; e85afe
+000f081d: (                    ): add sp, 0x0004            ; 83c404
+	call_<a href="#000f0677">do_series_test</a>( arg1, 00.local_1 )
+000f0820: (                    ): mov ax, word ptr ss:[bp+8] ; 8b4608
+000f0823: (                    ): inc ax                    ; 40
+000f0824: (                    ): mov word ptr ss:[bp+8], ax ; 894608
+	arg3 = arg3 + 1
+
+<h6 id="0x000f0827">Get Byte</h6>
+000f0827: (                    ): push word ptr ss:[bp+6]   ; ff7606
+000f082a: (                    ): push word ptr ss:[bp+8]   ; ff7608
+000f082d: (                    ): call .-593                ; e8affd
+000f0830: (                    ): add sp, 0x0004            ; 83c404
+	call_<a href="#000f05df">get_byte_by_lineaddr</a>( arg3, arg2 )
+	
+
+000f0833: (                    ): mov byte ptr ss:[bp-1], al ; 8846ff
+000f0836: (                    ): test al, al               ; 84c0
+000f0838: (                    ): jnz .-41                  ; 75d7
+set
+	set [bp-1] = arg3:arg2
+	if [bp-1] != 0 then 
+		jump to <a href="#000f0811"></a>
+	else
+		exit
+000f083a: (                    ): mov sp, bp                ; 89ec
+000f083c: (                    ): pop bp                    ; 5d
+000f083d: (                    ): ret                       ; c3
+
+
+
+
+000f083e: (                    ): push bp                   ; 55
+000f083f: (                    ): mov bp, sp                ; 89e5
+000f0841: (                    ): add sp, 0xfff0            ; 83c4f0
+000f0844: (                    ): pushf                     ; 9c
+000f0845: (                    ): push ds                   ; 1e
+000f0846: (                    ): push 0x0000               ; 6a00
+000f0848: (                    ): pop ds                    ; 1f
+000f0849: (                    ): sti                       ; fb
+000f084a: (                    ): mov ax, word ptr ss:[bp+4] ; 8b4604
+000f084d: (                    ): xor bx, bx                ; 31db
+000f084f: (                    ): mov word ptr ss:[bp-4], ax ; 8946fc
+000f0852: (                    ): mov word ptr ss:[bp-2], bx ; 895efe
+000f0855: (                    ): mov ax, word ptr ds:0x046c ; a16c04
+000f0858: (                    ): mov bx, word ptr ds:0x046e ; 8b1e6e04
+000f085c: (                    ): mov word ptr ss:[bp-12], ax ; 8946f4
+000f085f: (                    ): mov word ptr ss:[bp-10], bx ; 895ef6
+000f0862: (                    ): hlt                       ; f4
+000f0863: (                    ): mov ax, word ptr ds:0x046c ; a16c04
+000f0866: (                    ): mov bx, word ptr ds:0x046e ; 8b1e6e04
+000f086a: (                    ): mov word ptr ss:[bp-16], ax ; 8946f0
+000f086d: (                    ): mov word ptr ss:[bp-14], bx ; 895ef2
+000f0870: (                    ): mov ax, word ptr ss:[bp-12] ; 8b46f4
+000f0873: (                    ): mov bx, word ptr ss:[bp-10] ; 8b5ef6
+000f0876: (                    ): lea di, word ptr ss:[bp-16] ; 8d7ef0
+000f0879: (                    ): call .-2016               ; e820f8
+000f087c: (                    ): jnb .+38                  ; 7326
+000f087e: (                    ): mov ax, word ptr ss:[bp-16] ; 8b46f0
+000f0881: (                    ): mov bx, word ptr ss:[bp-14] ; 8b5ef2
+000f0884: (                    ): lea di, word ptr ss:[bp-12] ; 8d7ef4
+000f0887: (                    ): call .-2008               ; e828f8
+000f088a: (                    ): mov word ptr ss:[bp-8], ax ; 8946f8
+000f088d: (                    ): mov word ptr ss:[bp-6], bx ; 895efa
+000f0890: (                    ): mov ax, word ptr ss:[bp-4] ; 8b46fc
+000f0893: (                    ): mov bx, word ptr ss:[bp-2] ; 8b5efe
+000f0896: (                    ): lea di, word ptr ss:[bp-8] ; 8d7ef8
+000f0899: (                    ): call .-2026               ; e816f8
+000f089c: (                    ): mov word ptr ss:[bp-4], ax ; 8946fc
+000f089f: (                    ): mov word ptr ss:[bp-2], bx ; 895efe
+000f08a2: (                    ): jmp .+32                  ; eb20
+000f08a4: (                    ): mov ax, word ptr ss:[bp-12] ; 8b46f4
+000f08a7: (                    ): mov bx, word ptr ss:[bp-10] ; 8b5ef6
+000f08aa: (                    ): lea di, word ptr ss:[bp-16] ; 8d7ef0
+000f08ad: (                    ): call .-2068               ; e8ecf7
+000f08b0: (                    ): jbe .+18                  ; 7612
+000f08b2: (                    ): mov ax, word ptr ss:[bp-4] ; 8b46fc
+000f08b5: (                    ): mov bx, word ptr ss:[bp-2] ; 8b5efe
+000f08b8: (                    ): lea di, word ptr ss:[bp-16] ; 8d7ef0
+000f08bb: (                    ): call .-2060               ; e8f4f7
+000f08be: (                    ): mov word ptr ss:[bp-4], ax ; 8946fc
+000f08c1: (                    ): mov word ptr ss:[bp-2], bx ; 895efe
+000f08c4: (                    ): mov ax, word ptr ss:[bp-16] ; 8b46f0
+000f08c7: (                    ): mov bx, word ptr ss:[bp-14] ; 8b5ef2
+000f08ca: (                    ): mov word ptr ss:[bp-12], ax ; 8946f4
+000f08cd: (                    ): mov word ptr ss:[bp-10], bx ; 895ef6
+000f08d0: (                    ): xor ax, ax                ; 31c0
+000f08d2: (                    ): xor bx, bx                ; 31db
+000f08d4: (                    ): lea di, word ptr ss:[bp-4] ; 8d7efc
+000f08d7: (                    ): call .-2110               ; e8c2f7
+000f08da: (                    ): jl .-122                  ; 7c86
+000f08dc: (                    ): cli                       ; fa
+000f08dd: (                    ): pop ds                    ; 1f
+000f08de: (                    ): popf                      ; 9d
+000f08df: (                    ): mov sp, bp                ; 89ec
+000f08e1: (                    ): pop bp                    ; 5d
+000f08e2: (                    ): ret                       ; c3
+000f08e3: (                    ): mov ax, 0x0100            ; b80001
+000f08e6: (                    ): int 0x16                  ; cd16
+000f08e8: (                    ): jz .+4                    ; 7404
+000f08ea: (                    ): mov al, 0x01              ; b001
+000f08ec: (                    ): jmp .+2                   ; eb02
+000f08ee: (                    ): xor al, al                ; 30c0
+000f08f0: (                    ): ret                       ; c3
+000f08f1: (                    ): mov ax, 0x0000            ; b80000
+000f08f4: (                    ): int 0x16                  ; cd16
+000f08f6: (                    ): xchg ah, al               ; 86c4
+000f08f8: (                    ): ret                       ; c3
+
+
+
+<p id="0x000f092a"></p>
+000f092a: (                    ): push bp                   ; 55
+000f092b: (                    ): mov bp, sp                ; 89e5
+000f092d: (                    ): add sp, 0xffec            ; 83c4ec
+sp - 0x14 --&gt; sp
+in one case,original sp=0xfff0,after this,sp=0xffdc
+
+
+000f0930: (                    ): call .-732                ; e824fd
+set
+	ax = cs (0xf000)
+000f0933: (                    ): push ax                   ; 50
+000f0934: (                    ): call .-730                ; e826fd
+000f0937: (                    ): inc sp                    ; 44
+000f0938: (                    ): inc sp                    ; 44
+set
+	ds = cs
+
+000f0939: (                    ): mov word ptr ss:[bp-20], ax ; 8946ec
+000f093c: (                    ): lea bx, word ptr ss:[bp+6] ; 8d5e06
+000f093f: (                    ): mov word ptr ss:[bp-8], bx ; 895ef8
+000f0942: (                    ): xor ax, ax                ; 31c0
+000f0944: (                    ): mov word ptr ss:[bp-4], ax ; 8946fc
+000f0947: (                    ): xor ax, ax                ; 31c0
+000f0949: (                    ): mov word ptr ss:[bp-18], ax ; 8946ee
+set
+	local_10 = cs
+	local_4 = addr(arg2,0xd82a)
+	local_2 = 0
+	local_9 = 0
+
+000f094c: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000f094f: (                    ): and al, 0x07              ; 2407
+000f0951: (                    ): cmp al, 0x07              ; 3c07
+000f0953: (                    ): jnz .+27                  ; 751b
+set
+	if arg1 (0x0004) [ 2, 1, 0 ] != 111 
+		jump to <a href="#000f0970">LOCAL HERE</a>
+	
+	
+
+000f0955: (                    ): xor ax, ax                ; 31c0
+000f0957: (                    ): push ax                   ; 50
+000f0958: (                    ): mov ax, 0x0401            ; b80104
+000f095b: (                    ): push ax                   ; 50
+000f095c: (                    ): call .-1056               ; e8e0fb
+000f095f: (                    ): add sp, 0x0004            ; 83c404
+000f0962: (                    ): mov bx, 0xda07            ; bb07da
+000f0965: (                    ): push bx                   ; 53
+000f0966: (                    ): mov ax, 0x0002            ; b80200
+000f0969: (                    ): push ax                   ; 50
+000f096a: (                    ): call .-67                 ; e8bdff
+000f096d: (                    ): add sp, 0x0004            ; 83c404
+<h6 id="000f0970"></h6>
+000f0970: (                    ): jmp .+806                 ; e92603
+jump to <a href="#000f0c99">LOCAL HERE</a>
+
+<h6 id="000f0973"></h6>
+<p>
+000f0973 -- 000f0ca3 is a loop.It terminates when local_1 = 0.
+	when the process is called,arg2 := 0xd82a,after one loop,it becomes 0xd82a
+	do
+	{
+		 ...
+		if (local_1 == 0x25 )
+		{
+			local_2 = 1
+			local_9 = 0
+			goto next_local_1; 
+		}
+		if ( local_2 == 0 )
+		{
+			goto do_series_test;
+		}
+		if ( local_1 &lt; 0x30 )
+		{
+			goto GET_VALUE_FROM_STACK;
+		}
+		if ( local_1 &gt; 0x39 )
+		{
+			goto GET_VALUE_FROM_STACK;
+		}
+		
+		...
+		GET_VALUE_FROM_STACK:
+			local_4 += 2;
+			local_5 = get_stack_value( local_4 );
+		do_series_test:
+			do_series_test(	arg1, 0x00.local_1 )
+		next_local_1:
+			arg2++;
+			local_1 = mem(arg2);
+	}while(local_1!=0);
+	check_halt()
+	set_ds( local_10 );
+	return;
+</p>
+000f0973: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+set
+	al = (byte)local_1 (0x25)
+000f0976: (                    ): cmp al, 0x25              ; 3c25
+000f0978: (                    ): jnz .+14                  ; 750e
+	if al!=25; then
+		jump <a href="#000f0988">LOCAL_HERE</a>
+000f097a: (                    ): mov ax, 0x0001            ; b80100
+000f097d: (                    ): mov word ptr ss:[bp-4], ax ; 8946fc
+000f0980: (                    ): xor ax, ax                ; 31c0
+000f0982: (                    ): mov word ptr ss:[bp-18], ax ; 8946ee
+000f0985: (                    ): jmp .+778                 ; e90a03
+set
+	local_2 = 0x1
+	local_9 = 0
+	jump <a href="#000f0c92">Local Here</a>
+
+<h6 id="000f0988"></h6>
+000f0988: (                    ): mov ax, word ptr ss:[bp-4] ; 8b46fc
+000f098b: (                    ): test ax, ax               ; 85c0
+000f098d: (                    ): jz .+754                  ; 0f84f202
+	if local_2 == 0 then jump to <a href="#000f0c83">Do Series Test</a>
+000f0991: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+000f0994: (                    ): cmp al, 0x30              ; 3c30
+000f0996: (                    ): jb .+40                   ; 7228
+	if local_1 &lt; 0x30 then jump to <a href="#000f09c0">Get Value From Stack</a>
+000f0998: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+000f099b: (                    ): cmp al, 0x39              ; 
+000f099d: (                    ): jnbe .+33                 ; 7721
+	else if local_1 &gt; 0x39 then jump to <a href="#000f09c0">Get Value from Stack</a>
+000f099f: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+000f09a2: (                    ): xor ah, ah                ; 30e4
+000f09a4: (                    ): add ax, 0xffd0            ; 05d0ff
+000f09a7: (                    ): push ax                   ; 50
+000f09a8: (                    ): mov ax, word ptr ss:[bp-18] ; 8b46ee
+000f09ab: (                    ): mov dx, ax                ; 89c2
+000f09ad: (                    ): shl ax, 1                 ; d1e0
+000f09af: (                    ): shl ax, 1                 ; d1e0
+000f09b1: (                    ): add ax, dx                ; 01d0
+000f09b3: (                    ): shl ax, 1                 ; d1e0
+000f09b5: (                    ): add ax, word ptr ss:[bp-22] ; 0346ea
+000f09b8: (                    ): inc sp                    ; 44
+000f09b9: (                    ): inc sp                    ; 44
+000f09ba: (                    ): mov word ptr ss:[bp-18], ax ; 8946ee
+000f09bd: (                    ): jmp .+705                 ; e9c102
+
+<h6 id="000f09c0">Get Value from Stack</h6>
+000f09c0: (                    ): mov bx, word ptr ss:[bp-8] ; 8b5ef8
+000f09c3: (                    ): inc bx                    ; 43
+000f09c4: (                    ): inc bx                    ; 43
+000f09c5: (                    ): mov word ptr ss:[bp-8], bx ; 895ef8
+000f09c8: (                    ): push word ptr ss:[bp-8]   ; ff76f8
+000f09cb: (                    ): call .-930                ; e85efc
+000f09ce: (                    ): inc sp                    ; 44
+000f09cf: (                    ): inc sp                    ; 44
+set
+	local_4 = local_4 + 2
+	call_<a href="#000f062c">get_stack_value</a>(local_4), assign to ax
+000f09d0: (                    ): mov word ptr ss:[bp-10], ax ; 8946f6
+set
+	local_5 = ax (the returned value)
+
+
+
+000f09d3: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+000f09d6: (                    ): and al, 0xdf              ; 24df
+000f09d8: (                    ): cmp al, 0x58              ; 3c58
+000f09da: (                    ): jnz .+100                 ; 7564
+set	temp =local_1 ,with temp[5]=0
+	if temp != 0x58 then jump to <a href="#000f0a40"></a>
+
+
+000f09dc: (                    ): mov ax, word ptr ss:[bp-18] ; 8b46ee
+000f09df: (                    ): test ax, ax               ; 85c0
+000f09e1: (                    ): jnz .+6                   ; 7506
+000f09e3: (                    ): mov ax, 0x0004            ; b80400
+000f09e6: (                    ): mov word ptr ss:[bp-18], ax ; 8946ee
+000f09e9: (                    ): mov ax, word ptr ss:[bp-18] ; 8b46ee
+000f09ec: (                    ): dec ax                    ; 48
+000f09ed: (                    ): mov word ptr ss:[bp-6], ax ; 8946fa
+000f09f0: (                    ): jmp .+68                  ; eb44
+000f09f2: (                    ): mov ax, word ptr ss:[bp-6] ; 8b46fa
+000f09f5: (                    ): shl ax, 1                 ; d1e0
+000f09f7: (                    ): shl ax, 1                 ; d1e0
+000f09f9: (                    ): mov bx, ax                ; 89c3
+000f09fb: (                    ): mov ax, word ptr ss:[bp-10] ; 8b46f6
+000f09fe: (                    ): mov cx, bx                ; 89d9
+000f0a00: (                    ): shr ax, cl                ; d3e8
+000f0a02: (                    ): and al, 0x0f              ; 240f
+000f0a04: (                    ): xor ah, ah                ; 30e4
+000f0a06: (                    ): mov word ptr ss:[bp-12], ax ; 8946f4
+000f0a09: (                    ): mov ax, word ptr ss:[bp-12] ; 8b46f4
+000f0a0c: (                    ): cmp ax, 0x0009            ; 3d0900
+000f0a0f: (                    ): jnbe .+8                  ; 7708
+000f0a11: (                    ): mov ax, word ptr ss:[bp-12] ; 8b46f4
+000f0a14: (                    ): add ax, 0x0030            ; 053000
+000f0a17: (                    ): jmp .+12                  ; eb0c
+000f0a19: (                    ): mov ax, word ptr ss:[bp-12] ; 8b46f4
+000f0a1c: (                    ): add al, byte ptr ss:[bp-1] ; 0246ff
+000f0a1f: (                    ): adc ah, 0x00              ; 80d400
+000f0a22: (                    ): add ax, 0xffdf            ; 05dfff
+000f0a25: (                    ): push ax                   ; 50
+000f0a26: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f0a29: (                    ): call .-949                ; e84bfc
+000f0a2c: (                    ): add sp, 0x0004            ; 83c404
+000f0a2f: (                    ): mov ax, word ptr ss:[bp-6] ; 8b46fa
+000f0a32: (                    ): dec ax                    ; 48
+000f0a33: (                    ): mov word ptr ss:[bp-6], ax ; 8946fa
+000f0a36: (                    ): mov ax, word ptr ss:[bp-6] ; 8b46fa
+000f0a39: (                    ): test ax, ax               ; 85c0
+000f0a3b: (                    ): jnl .-75                  ; 7db5
+000f0a3d: (                    ): jmp .+572                 ; e93c02
+<h6 id="000f0a40"></h6>
+000f0a40: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+000f0a43: (                    ): cmp al, 0x75              ; 3c75
+000f0a45: (                    ): jnz .+21                  ; 7515
+	if local_1 != 0x75 then jump to <a href="#000f0a5c"></a>
+000f0a47: (                    ): xor ax, ax                ; 31c0
+000f0a49: (                    ): push ax                   ; 50
+000f0a4a: (                    ): push word ptr ss:[bp-18]  ; ff76ee
+000f0a4d: (                    ): push word ptr ss:[bp-10]  ; ff76f6
+000f0a50: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f0a53: (                    ): call .-902                ; e87afc
+000f0a56: (                    ): add sp, 0x0008            ; 83c408
+000f0a59: (                    ): jmp .+544                 ; e92002
+<h6 id="000f0a5c"></h6>
+000f0a5c: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+000f0a5f: (                    ): cmp al, 0x6c              ; 3c6c
+000f0a61: (                    ): jnz .+362                 ; 0f856a01
+	if local_1 != 0x6c then jump to <a href="#000f0bcf"></a>
+000f0a65: (                    ): mov bx, word ptr ss:[bp+6] ; 8b5e06
+000f0a68: (                    ): inc bx                    ; 43
+000f0a69: (                    ): mov word ptr ss:[bp+6], bx ; 895e06
+000f0a6c: (                    ): mov bx, word ptr ss:[bp+6] ; 8b5e06
+000f0a6f: (                    ): mov al, byte ptr ds:[bx]  ; 8a07
+000f0a71: (                    ): mov byte ptr ss:[bp-1], al ; 8846ff
+000f0a74: (                    ): mov bx, word ptr ss:[bp-8] ; 8b5ef8
+000f0a77: (                    ): inc bx                    ; 43
+000f0a78: (                    ): inc bx                    ; 43
+000f0a79: (                    ): mov word ptr ss:[bp-8], bx ; 895ef8
+000f0a7c: (                    ): push word ptr ss:[bp-8]   ; ff76f8
+000f0a7f: (                    ): call .-1110               ; e8aafb
+000f0a82: (                    ): inc sp                    ; 44
+000f0a83: (                    ): inc sp                    ; 44
+000f0a84: (                    ): mov word ptr ss:[bp-14], ax ; 8946f2
+000f0a87: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+000f0a8a: (                    ): cmp al, 0x64              ; 3c64
+000f0a8c: (                    ): jnz .+115                 ; 7573
+000f0a8e: (                    ): mov ax, word ptr ss:[bp-14] ; 8b46f2
+000f0a91: (                    ): and ax, 0x8000            ; 250080
+000f0a94: (                    ): test ax, ax               ; 85c0
+000f0a96: (                    ): jz .+61                   ; 743d
+000f0a98: (                    ): mov ax, 0x0001            ; b80100
+000f0a9b: (                    ): push ax                   ; 50
+000f0a9c: (                    ): mov ax, word ptr ss:[bp-18] ; 8b46ee
+000f0a9f: (                    ): dec ax                    ; 48
+000f0aa0: (                    ): push ax                   ; 50
+000f0aa1: (                    ): mov ax, word ptr ss:[bp-10] ; 8b46f6
+000f0aa4: (                    ): xor bx, bx                ; 31db
+000f0aa6: (                    ): push bx                   ; 53
+000f0aa7: (                    ): push ax                   ; 50
+000f0aa8: (                    ): mov ax, word ptr ss:[bp-14] ; 8b46f2
+000f0aab: (                    ): xor bx, bx                ; 31db
+000f0aad: (                    ): xchg bx, ax               ; 93
+000f0aae: (                    ): xor ax, ax                ; 31c0
+000f0ab0: (                    ): lea di, word ptr ss:[bp-28] ; 8d7ee4
+000f0ab3: (                    ): call .-2526               ; e822f6
+000f0ab6: (                    ): add sp, 0x0004            ; 83c404
+000f0ab9: (                    ): push bx                   ; 53
+000f0aba: (                    ): push ax                   ; 50
+000f0abb: (                    ): xor ax, ax                ; 31c0
+000f0abd: (                    ): xor bx, bx                ; 31db
+000f0abf: (                    ): lea di, word ptr ss:[bp-28] ; 8d7ee4
+000f0ac2: (                    ): call .-2579               ; e8edf5
+000f0ac5: (                    ): add sp, 0x0004            ; 83c404
+000f0ac8: (                    ): push bx                   ; 53
+000f0ac9: (                    ): push ax                   ; 50
+000f0aca: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f0acd: (                    ): call .-893                ; e883fc
+000f0ad0: (                    ): add sp, 0x000a            ; 83c40a
+000f0ad3: (                    ): jmp .+41                  ; eb29
+000f0ad5: (                    ): xor ax, ax                ; 31c0
+000f0ad7: (                    ): push ax                   ; 50
+000f0ad8: (                    ): push word ptr ss:[bp-18]  ; ff76ee
+000f0adb: (                    ): mov ax, word ptr ss:[bp-10] ; 8b46f6
+000f0ade: (                    ): xor bx, bx                ; 31db
+000f0ae0: (                    ): push bx                   ; 53
+000f0ae1: (                    ): push ax                   ; 50
+000f0ae2: (                    ): mov ax, word ptr ss:[bp-14] ; 8b46f2
+000f0ae5: (                    ): xor bx, bx                ; 31db
+000f0ae7: (                    ): xchg bx, ax               ; 93
+000f0ae8: (                    ): xor ax, ax                ; 31c0
+000f0aea: (                    ): lea di, word ptr ss:[bp-28] ; 8d7ee4
+000f0aed: (                    ): call .-2584               ; e8e8f5
+000f0af0: (                    ): add sp, 0x0004            ; 83c404
+000f0af3: (                    ): push bx                   ; 53
+000f0af4: (                    ): push ax                   ; 50
+000f0af5: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f0af8: (                    ): call .-936                ; e858fc
+000f0afb: (                    ): add sp, 0x000a            ; 83c40a
+000f0afe: (                    ): jmp .+203                 ; e9cb00
+000f0b01: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+000f0b04: (                    ): cmp al, 0x75              ; 3c75
+000f0b06: (                    ): jnz .+44                  ; 752c
+000f0b08: (                    ): xor ax, ax                ; 31c0
+000f0b0a: (                    ): push ax                   ; 50
+000f0b0b: (                    ): push word ptr ss:[bp-18]  ; ff76ee
+000f0b0e: (                    ): mov ax, word ptr ss:[bp-10] ; 8b46f6
+000f0b11: (                    ): xor bx, bx                ; 31db
+000f0b13: (                    ): push bx                   ; 53
+000f0b14: (                    ): push ax                   ; 50
+000f0b15: (                    ): mov ax, word ptr ss:[bp-14] ; 8b46f2
+000f0b18: (                    ): xor bx, bx                ; 31db
+000f0b1a: (                    ): xchg bx, ax               ; 93
+000f0b1b: (                    ): xor ax, ax                ; 31c0
+000f0b1d: (                    ): lea di, word ptr ss:[bp-28] ; 8d7ee4
+000f0b20: (                    ): call .-2635               ; e8b5f5
+000f0b23: (                    ): add sp, 0x0004            ; 83c404
+000f0b26: (                    ): push bx                   ; 53
+000f0b27: (                    ): push ax                   ; 50
+000f0b28: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f0b2b: (                    ): call .-987                ; e825fc
+000f0b2e: (                    ): add sp, 0x000a            ; 83c40a
+000f0b31: (                    ): jmp .+152                 ; e99800
+000f0b34: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+000f0b37: (                    ): and al, 0xdf              ; 24df
+000f0b39: (                    ): cmp al, 0x58              ; 3c58
+000f0b3b: (                    ): jnz .+141                 ; 0f858d00
+000f0b3f: (                    ): mov ax, word ptr ss:[bp-18] ; 8b46ee
+000f0b42: (                    ): test ax, ax               ; 85c0
+000f0b44: (                    ): jnz .+6                   ; 7506
+000f0b46: (                    ): mov ax, 0x0008            ; b80800
+000f0b49: (                    ): mov word ptr ss:[bp-18], ax ; 8946ee
+000f0b4c: (                    ): mov ax, word ptr ss:[bp-18] ; 8b46ee
+000f0b4f: (                    ): dec ax                    ; 48
+000f0b50: (                    ): mov word ptr ss:[bp-6], ax ; 8946fa
+000f0b53: (                    ): jmp .+112                 ; eb70
+000f0b55: (                    ): mov ax, word ptr ss:[bp-6] ; 8b46fa
+000f0b58: (                    ): shl ax, 1                 ; d1e0
+000f0b5a: (                    ): shl ax, 1                 ; d1e0
+000f0b5c: (                    ): push ax                   ; 50
+000f0b5d: (                    ): mov ax, word ptr ss:[bp-10] ; 8b46f6
+000f0b60: (                    ): xor bx, bx                ; 31db
+000f0b62: (                    ): push bx                   ; 53
+000f0b63: (                    ): push ax                   ; 50
+000f0b64: (                    ): mov ax, word ptr ss:[bp-14] ; 8b46f2
+000f0b67: (                    ): xor bx, bx                ; 31db
+000f0b69: (                    ): xchg bx, ax               ; 93
+000f0b6a: (                    ): xor ax, ax                ; 31c0
+000f0b6c: (                    ): lea di, word ptr ss:[bp-26] ; 8d7ee6
+000f0b6f: (                    ): call .-2714               ; e866f5
+000f0b72: (                    ): add sp, 0x0004            ; 83c404
+000f0b75: (                    ): mov di, word ptr ss:[bp-22] ; 8b7eea
+000f0b78: (                    ): call .-2689               ; e87ff5
+000f0b7b: (                    ): inc sp                    ; 44
+000f0b7c: (                    ): inc sp                    ; 44
+000f0b7d: (                    ): push bx                   ; 53
+000f0b7e: (                    ): push ax                   ; 50
+000f0b7f: (                    ): mov ax, 0x000f            ; b80f00
+000f0b82: (                    ): xor bx, bx                ; 31db
+000f0b84: (                    ): push bx                   ; 53
+000f0b85: (                    ): push ax                   ; 50
+000f0b86: (                    ): mov ax, word ptr ss:[bp-24] ; 8b46e8
+000f0b89: (                    ): mov bx, word ptr ss:[bp-22] ; 8b5eea
+000f0b8c: (                    ): lea di, word ptr ss:[bp-28] ; 8d7ee4
+000f0b8f: (                    ): call .-2822               ; e8faf4
+000f0b92: (                    ): add sp, 0x0008            ; 83c408
+000f0b95: (                    ): mov word ptr ss:[bp-12], ax ; 8946f4
+000f0b98: (                    ): mov ax, word ptr ss:[bp-12] ; 8b46f4
+000f0b9b: (                    ): cmp ax, 0x0009            ; 3d0900
+000f0b9e: (                    ): jnbe .+8                  ; 7708
+000f0ba0: (                    ): mov ax, word ptr ss:[bp-12] ; 8b46f4
+000f0ba3: (                    ): add ax, 0x0030            ; 053000
+000f0ba6: (                    ): jmp .+12                  ; eb0c
+000f0ba8: (                    ): mov ax, word ptr ss:[bp-12] ; 8b46f4
+000f0bab: (                    ): add al, byte ptr ss:[bp-1] ; 0246ff
+000f0bae: (                    ): adc ah, 0x00              ; 80d400
+000f0bb1: (                    ): add ax, 0xffdf            ; 05dfff
+000f0bb4: (                    ): push ax                   ; 50
+000f0bb5: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f0bb8: (                    ): call .-1348               ; e8bcfa
+000f0bbb: (                    ): add sp, 0x0004            ; 83c404
+000f0bbe: (                    ): mov ax, word ptr ss:[bp-6] ; 8b46fa
+000f0bc1: (                    ): dec ax                    ; 48
+000f0bc2: (                    ): mov word ptr ss:[bp-6], ax ; 8946fa
+000f0bc5: (                    ): mov ax, word ptr ss:[bp-6] ; 8b46fa
+000f0bc8: (                    ): test ax, ax               ; 85c0
+000f0bca: (                    ): jnl .-119                 ; 7d89
+000f0bcc: (                    ): jmp .+173                 ; e9ad00
+<h6 id="000f0bcf"></h6>
+000f0bcf: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+000f0bd2: (                    ): cmp al, 0x64              ; 3c64
+000f0bd4: (                    ): jnz .+57                  ; 7539
+	if local_1 != 0x64 then jump to <a href="#000f0c0f"></a>
+000f0bd6: (                    ): mov ax, word ptr ss:[bp-10] ; 8b46f6
+000f0bd9: (                    ): and ax, 0x8000            ; 250080
+000f0bdc: (                    ): test ax, ax               ; 85c0
+000f0bde: (                    ): jz .+26                   ; 741a
+000f0be0: (                    ): mov ax, 0x0001            ; b80100
+00f0be3: (                    ): push ax                   ; 50
+000f0be4: (                    ): mov ax, word ptr ss:[bp-18] ; 8b46ee
+000f0be7: (                    ): dec ax                    ; 48
+000f0be8: (                    ): push ax                   ; 50
+000f0be9: (                    ): xor ax, ax                ; 31c0
+000f0beb: (                    ): sub ax, word ptr ss:[bp-10] ; 2b46f6
+000f0bee: (                    ): push ax                   ; 50
+000f0bef: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f0bf2: (                    ): call .-1317               ; e8dbfa
+000f0bf5: (                    ): add sp, 0x0008            ; 83c408
+000f0bf8: (                    ): jmp .+18                  ; eb12
+000f0bfa: (                    ): xor ax, ax                ; 31c0
+000f0bfc: (                    ): push ax                   ; 50
+000f0bfd: (                    ): push word ptr ss:[bp-18]  ; ff76ee
+000f0c00: (                    ): push word ptr ss:[bp-10]  ; ff76f6
+000f0c03: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f0c06: (                    ): call .-1337               ; e8c7fa
+000f0c09: (                    ): add sp, 0x0008            ; 83c408
+000f0c0c: (                    ): jmp .+109                 ; e96d00
+<h6 id="000f0c0f"></h6>
+000f0c0f: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+000f0c12: (                    ): cmp al, 0x73              ; 3c73
+000f0c14: (                    ): jnz .+18                  ; 7512
+	if local_1 != 0x73 then jump to <a href="#000f0c28"></a>
+	Here is my case,so it didn't jump,it continued.
+
+000f0c16: (                    ): push word ptr ss:[bp-10]  ; ff76f6
+000f0c19: (                    ): call .-1477               ; e83bfa
+000f0c1c: (                    ): push ax                   ; 50
+000f0c1d: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f0c20: (                    ): call .-1049               ; e8e7fb
+000f0c23: (                    ): add sp, 0x0006            ; 83c406
+	call_<a href="#000f080a">do_multiple_test_by_mem</a>( arg1, cs, local_5 )
+000f0c26: (                    ): jmp .+84                  ; eb54
+	jump to <a href="#000f0c7c">HERE</a>
+000f0c28: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+000f0c2b: (                    ): cmp al, 0x53              ; 3c53
+000f0c2d: (                    ): jnz .+42                  ; 752a
+000f0c2f: (                    ): mov ax, word ptr ss:[bp-10] ; 8b46f6
+000f0c32: (                    ): mov word ptr ss:[bp-14], ax ; 8946f2
+000f0c35: (                    ): mov bx, word ptr ss:[bp-8] ; 8b5ef8
+000f0c38: (                    ): inc bx                    ; 43
+000f0c39: (                    ): inc bx                    ; 43
+000f0c3a: (                    ): mov word ptr ss:[bp-8], bx ; 895ef8
+000f0c3d: (                    ): push word ptr ss:[bp-8]   ; ff76f8
+000f0c40: (                    ): call .-1559               ; e8e9f9
+000f0c43: (                    ): inc sp                    ; 44
+000f0c44: (                    ): inc sp                    ; 44
+000f0c45: (                    ): mov word ptr ss:[bp-10], ax ; 8946f6
+000f0c48: (                    ): push word ptr ss:[bp-10]  ; ff76f6
+000f0c4b: (                    ): push word ptr ss:[bp-14]  ; ff76f2
+000f0c4e: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f0c51: (                    ): call .-1098               ; e8b6fb
+000f0c54: (                    ): add sp, 0x0006            ; 83c406
+000f0c57: (                    ): jmp .+35                  ; eb23
+000f0c59: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+000f0c5c: (                    ): cmp al, 0x63              ; 3c63
+000f0c5e: (                    ): jnz .+14                  ; 750e
+000f0c60: (                    ): push word ptr ss:[bp-10]  ; ff76f6
+000f0c63: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f0c66: (                    ): call .-1522               ; e80efa
+000f0c69: (                    ): add sp, 0x0004            ; 83c404
+000f0c6c: (                    ): jmp .+14                  ; eb0e
+000f0c6e: (                    ): mov bx, 0xd9ea            ; bbead9
+000f0c71: (                    ): push bx                   ; 53
+000f0c72: (                    ): mov ax, 0x0007            ; b80700
+000f0c75: (                    ): push ax                   ; 50
+000f0c76: (                    ): call .-847                ; e8b1fc
+000f0c79: (                    ): add sp, 0x0004            ; 83c404
+
+<h6 id="000f0c7c"></h6>
+000f0c7c: (                    ): xor ax, ax                ; 31c0
+000f0c7e: (                    ): mov word ptr ss:[bp-4], ax ; 8946fc
+000f0c81: (                    ): jmp .+15                  ; eb0f
+	local_2 = 0
+	jump to <a href="#000f0c92">HERE</a>
+
+<h6 id="000f0c83"></h6>
+000f0c83: (                    ): mov al, byte ptr ss:[bp-1] ; 8a46ff
+000f0c86: (                    ): xor ah, ah                ; 30e4
+000f0c88: (                    ): push ax                   ; 50
+000f0c89: (                    ): push word ptr ss:[bp+4]   ; ff7604
+000f0c8c: (                    ): call .-1560               ; e8e8f9
+000f0c8f: (                    ): add sp, 0x0004            ; 83c404
+	call_<a href="#000f0677">do_series_test</a>( arg1, 0x00.local_1 )
+
+<h6 id="000f0c92">Get Next Byte for Local_1</h6>
+000f0c92: (                    ): mov bx, word ptr ss:[bp+6] ; 8b5e06
+000f0c95: (                    ): inc bx                    ; 43
+000f0c96: (                    ): mov word ptr ss:[bp+6], bx ; 895e06
+000f0c99: (                    ): mov bx, word ptr ss:[bp+6] ; 8b5e06
+	arg2++
+000f0c9c: (                    ): mov al, byte ptr ds:[bx]  ; 8a07
+000f0c9e: (                    ): mov byte ptr ss:[bp-1], al ; 8846ff
+	local_1 = mem(arg2)
+000f0ca1: (                    ): test al, al               ; 84c0
+000f0ca3: (                    ): jnz .-820                 ; 0f85ccfc
+	if local_1 != 0 then
+		jump to <a href="#000f0973">Loop</a>
+		else <a href="#000f0ca7">Check Halt</a>
+
+
+<h6 id="000f0ca7">Check Halt</h6>
+000f0ca7: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000f0caa: (                    ): and al, 0x01              ; 2401
+000f0cac: (                    ): test al, al               ; 84c0
+000f0cae: (                    ): jz .+4                    ; 7404
+000f0cb0: (                    ): cli                       ; fa
+000f0cb1: (                    ): hlt                       ; f4
+000f0cb2: (                    ): jmp .-3                   ; ebfd
+	if arg1[0] != 0 then
+		halt
+
+<h6 id="000f0cb4">Change ds to local_10</h6>
+000f0cb4: (                    ): push word ptr ss:[bp-20]  ; ff76ec
+000f0cb7: (                    ): call .-1629               ; e8a3f9
+000f0cba: (                    ): inc sp                    ; 44
+000f0cbb: (                    ): inc sp                    ; 44
+		call_<a href="#000f065d">set_ds</a>( local_10 ), the original ds is in ax.
+000f0cbc: (                    ): mov sp, bp                ; 89ec
+000f0cbe: (                    ): pop bp                    ; 5d
+000f0cbf: (                    ): ret                       ; c3
+</pre>
+
+</section>
+<!--************************* -->
+<section>
+<pre>
+<h6 id="000f0c92"></h6>
+000f0c92: (                    ): mov bx, word ptr ss:[bp+6] ; 8b5e06
+000f0c95: (                    ): inc bx                    ; 43
+000f0c96: (                    ): mov word ptr ss:[bp+6], bx ; 895e06
+set
+	local_3 = local_3+1 (0xd82a+1 ==&gt; 0xd82b)
+<h6 id="000f0c99"></h6>
+<p>
+treate arg2 as address,get the value it points to  local_1,
+and if it points to 0,then continue to next,
+else return back to <a href="#000f0973">LOCAL_HERE</a>
+</p>
+000f0c99: (                    ): mov bx, word ptr ss:[bp+6] ; 8b5e06
+000f0c9c: (                    ): mov al, byte ptr ds:[bx]  ; 8a07
+000f0c9e: (                    ): mov byte ptr ss:[bp-1], al ; 8846ff
+000f0ca1: (                    ): test al, al               ; 84c0
+000f0ca3: (                    ): jnz .-820                 ; 0f85ccfc
+set
+	bx = arg3(d82a)
+	al = data(bx) -- in my case,it is 0x25
+	(byte)local_1=al (0x25)
+
+000f0ca7: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
+000f0caa: (                    ): and al, 0x01              ; 2401
+000f0cac: (                    ): test al, al               ; 84c0
+000f0cae: (                    ): jz .+4                    ; 7404
+000f0cb0: (                    ): cli                       ; fa
+000f0cb1: (                    ): hlt                       ; f4
+000f0cb2: (                    ): jmp .-3                   ; ebfd
+000f0cb4: (                    ): push word ptr ss:[bp-20]  ; ff76ec
+000f0cb7: (                    ): call .-1629               ; e8a3f9
+000f0cba: (                    ): inc sp                    ; 44
+000f0cbb: (                    ): inc sp                    ; 44
+000f0cbc: (                    ): mov sp, bp                ; 89ec
+000f0cbe: (                    ): pop bp                    ; 5d
+000f0cbf: (                    ): ret                       ; c3
+000f0cc0: (                    ): push bp                   ; 55
+000f0cc1: (                    ): mov bp, sp                ; 89e5
+000f0cc3: (                    ): dec sp                    ; 4c
+000f0cc4: (                    ): dec sp                    ; 4c
+000f0cc5: (                    ): mov ax, 0xffff            ; b8ffff
+000f0cc8: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+000f0ccb: (                    ): jmp .+13                  ; eb0d
+000f0ccd: (                    ): xor ax, ax                ; 31c0
+000f0ccf: (                    ): push ax                   ; 50
+000f0cd0: (                    ): mov ax, 0x0080            ; b88000
+000f0cd3: (                    ): push ax                   ; 50
+000f0cd4: (                    ): call .-1944               ; e868f8
+000f0cd7: (                    ): add sp, 0x0004            ; 83c404
+000f0cda: (                    ): mov ax, 0x0064            ; b86400
+000f0cdd: (                    ): push ax                   ; 50
+000f0cde: (                    ): call .-1976               ; e848f8
+000f0ce1: (                    ): inc sp                    ; 44
+000f0ce2: (                    ): inc sp                    ; 44
+000f0ce3: (                    ): and al, 0x02              ; 2402
+000f0ce5: (                    ): test al, al               ; 84c0
+000f0ce7: (                    ): jz .+11                   ; 740b
+000f0ce9: (                    ): mov ax, word ptr ss:[bp-2] ; 8b46fe
+000f0cec: (                    ): dec ax                    ; 48
+000f0ced: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+000f0cf0: (                    ): test ax, ax               ; 85c0
+000f0cf2: (                    ): jnz .-39                  ; 75d9
+000f0cf4: (                    ): mov ax, 0x2000            ; b80020
+000f0cf7: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+000f0cfa: (                    ): jmp .+43                  ; eb2b
+000f0cfc: (                    ): xor ax, ax                ; 31c0
+000f0cfe: (                    ): push ax                   ; 50
+000f0cff: (                    ): mov ax, 0x0080            ; b88000
+000f0d02: (                    ): push ax                   ; 50
+000f0d03: (                    ): call .-1991               ; e839f8
+000f0d06: (                    ): add sp, 0x0004            ; 83c404
+000f0d09: (                    ): mov ax, 0x0064            ; b86400
+000f0d0c: (                    ): push ax                   ; 50
+000f0d0d: (                    ): call .-2023               ; e819f8
+000f0d10: (                    ): inc sp                    ; 44
+000f0d11: (                    ): inc sp                    ; 44
+000f0d12: (                    ): and al, 0x01              ; 2401
+000f0d14: (                    ): test al, al               ; 84c0
+000f0d16: (                    ): jz .+15                   ; 740f
+000f0d18: (                    ): mov ax, 0x0060            ; b86000
+000f0d1b: (                    ): push ax                   ; 50
+000f0d1c: (                    ): call .-2038               ; e80af8
+000f0d1f: (                    ): inc sp                    ; 44
+000f0d20: (                    ): inc sp                    ; 44
+000f0d21: (                    ): mov ax, 0x2000            ; b80020
+000f0d24: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+000f0d27: (                    ): mov ax, word ptr ss:[bp-2] ; 8b46fe
+000f0d2a: (                    ): dec ax                    ; 48
+000f0d2b: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+000f0d2e: (                    ): test ax, ax               ; 85c0
+000f0d30: (                    ): jnz .-54                  ; 75ca
+000f0d32: (                    ): mov ax, 0x00aa            ; b8aa00
+000f0d35: (                    ): push ax                   ; 50
+000f0d36: (                    ): mov ax, 0x0064            ; b86400
+000f0d39: (                    ): push ax                   ; 50
+000f0d3a: (                    ): call .-2046               ; e802f8
+000f0d3d: (                    ): add sp, 0x0004            ; 83c404
+000f0d40: (                    ): mov ax, 0xffff            ; b8ffff
+000f0d43: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+000f0d46: (                    ): jmp .+13                  ; eb0d
+000f0d48: (                    ): xor ax, ax                ; 31c0
+000f0d4a: (                    ): push ax                   ; 50
+000f0d4b: (                    ): mov ax, 0x0080            ; b88000
+000f0d4e: (                    ): push ax                   ; 50
+000f0d4f: (                    ): call .-2067               ; e8edf7
+000f0d52: (                    ): add sp, 0x0004            ; 83c404
+000f0d55: (                    ): mov ax, 0x0064            ; b86400
+000f0d58: (                    ): push ax                   ; 50
+000f0d59: (                    ): call .-2099               ; e8cdf7
+000f0d5c: (                    ): inc sp                    ; 44
+000f0d5d: (                    ): inc sp                    ; 44
+000f0d5e: (                    ): and al, 0x02              ; 2402
+000f0d60: (                    ): test al, al               ; 84c0
+000f0d62: (                    ): jz .+11                   ; 740b
+000f0d64: (                    ): mov ax, word ptr ss:[bp-2] ; 8b46fe
+000f0d67: (                    ): dec ax                    ; 48
+000f0d68: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+</pre>
+</section>
+</body>
+</html>

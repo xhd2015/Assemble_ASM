@@ -1,0 +1,191 @@
+
+To use gcc/c language to write the asm code,under both 32 & 16 bit enviornment,in or not in protected mode.
+
+Time:As the title indicates
+Fri Nov 18 20:10:31 PHT 2016
+
+First,use __asm__ in or outside a c function is different.The former case is called static inline asm,the latter one is dynamical and can make gcc involved to make utilization.So when you get none syntax error from gcc while converting a .c source file to .s file,you are suggested to add that announcement.
+
+Second,when linking,the ld always need a predefined name _start,whether it is useless or not,defining it will conform the poor linker.The entry information is useful in complex executeable file like coeff,a.out or elf,but not in our practice to make pure binary file.But as the old experience shows,to get to the higher mountain,we have to get to the lower ones.So we define a _start symbol for linker,and to confine with the rules,in the symbol _start we call the main function wrote in c,and on its returning we just simple 'go die'--let the program goes in infinite loop,like it had died.
+
+Now,it's time to convert the .c file to .s file,and .s to .o,then .o to .elf,and finally .elf to .img.
+I'd clarify something to preceed.When gcc coverts .c file to .s,it can not do anything to the static __asm__(or asm) statement.It just copies what it has,changing nothing.So it doesn't recognize the .code16 ,.code32 or other directives.Then,it will follow one thing to make the c statement to asm instructions that it simply convert the code into the format which the current system can execute.That is,in my case,converting all statements with using 64-bit registers,instructions.So rax,rbx,etc. are used.
+But depend on our requirement,we may want a 8086 or 80386 executable.Well,lucky or not,it supports 386 covertion,but does not support 8086.This is reasonable,8086 is too old and less functionable,and what's matters is that the 80386 has all 8086 has.This specified convertion is selected by option -m32,mx32 and -m64.(Note,maybe gcc supports 8086,by option -m16.Then ignore what I have said.)
+
+HERE is the reference:
+     Generate code for a 16-bit, 32-bit or 64-bit environment.  The
+     '-m32' option sets 'int', 'long', and pointer types to 32 bits, and
+     generates code that runs on any i386 system.
+
+     The '-m64' option sets 'int' to 32 bits and 'long' and pointer
+     types to 64 bits, and generates code for the x86-64 architecture.
+     For Darwin only the '-m64' option also turns off the '-fno-pic' and
+     '-mdynamic-no-pic' options.
+
+     The '-mx32' option sets 'int', 'long', and pointer types to 32
+     bits, and generates code for the x86-64 architecture.
+
+     The '-m16' option is the same as '-m32', except for that it outputs
+     the '.code16gcc' assembly directive at the beginning of the
+     assembly output so that the binary can run in 16-bit mode.
+
+So these things clarified,I use command 'gcc -S -m32 just.c -o just.s' to generate assemble file.Note that -m16 is not really support for 8086,it just simplely insert the .code16gcc into the generated file.I don't want this,even I may place the directive into it,I'd like to write it myself.So -m16 option is always useless for me.
+
+The next thing is to convert the assemble file into machine code.It is at this duration that the directive .code16 , .code16gcc and .code32 works.
+This time as is on its duty.Well,if simplely use 'as just.s -o just.o',it will throw this error message:
+	just.s: Assembler messages:
+	just.s:66: Error: register save offset not a multiple of 8
+I tried to look back at the line it denotes,finding that the code is somehow different.It has the never-seen directive like
+	.cfi_startproc
+	.cfi_escape 0xf,0x3,0x75,0x7c,0x6
+	.cfi_def_cfa 1, 0
+Those directives is for c language debug.You may look at the concept of CFA by a simple example,which I referenced <a href="http://stackoverflow.com/questions/7534420/gas-explanation-of-cfi-def-cfa-offset">HERE</a>.
+Anyway,I got few information,and judging based on error message,I think this is because the as wants the stack align at multiple of 8,which is an apparent feature of 64-bit program.So the simple command used to do the convertion is not enough.We do not need the given align.So this time the option --32 works.I guess the --32 does not require any alignment.
+
+HERE is the reference from `info as':
+`--32 | --x32 | --64'
+     Select the word size, either 32 bits or 64 bits.  `--32' implies
+     Intel i386 architecture, while `--x32' and `--64' imply AMD x86-64
+     architecture with 32-bit or 64-bit word-size respectively.
+
+     These options are only available with the ELF object file format,
+     and require that the necessary BFD support has been included (on a
+     32-bit platform you have to add -enable-64-bit-bfd to configure
+     enable 64-bit usage and use x86-64 as target platform).
+
+So the successful convertion command is 'as --32 just.s -o just.o'.
+
+Next stuff is to link it.The linkation is necessary,even for single file.Comparing the two files,one is linked and the other is separted from an raw object file:
+
+==========
+just.img:     file format binary
+
+
+Disassembly of section .data:
+
+00000000 <.data>:
+   0:	ea 05 00 c0 07       	ljmp   $0x7c0,$0x5
+   5:	8c c8                	mov    %cs,%ax
+   7:	8e d8                	mov    %ax,%ds
+   9:	8e c0                	mov    %ax,%es
+   b:	66 b8 f9 01 00 00    	mov    $0x1f9,%eax
+  11:	66 89 c4             	mov    %eax,%esp
+  14:	66 6a 00             	pushl  $0x0
+  17:	66 6a 00             	pushl  $0x0
+  1a:	66 e8 06 00 00 00    	calll  0x26
+  20:	66 83 c4 08          	add    $0x8,%esp
+  24:	eb fe                	jmp    0x24
+  26:	67 66 8d 4c 24 04    	lea    0x4(%esp),%ecx
+  2c:	66 83 e4 f0          	and    $0xfffffff0,%esp
+  30:	67 66 ff 71 fc       	pushl  -0x4(%ecx)
+  35:	66 55                	push   %ebp
+  37:	66 89 e5             	mov    %esp,%ebp
+  3a:	66 51                	push   %ecx
+  3c:	66 83 ec 04          	sub    $0x4,%esp
+  40:	66 83 ec 0c          	sub    $0xc,%esp
+  44:	66 6a 58             	pushl  $0x58
+  47:	66 e8 18 00 00 00    	calll  0x65
+  4d:	66 83 c4 10          	add    $0x10,%esp
+  51:	66 b8 00 00 00 00    	mov    $0x0,%eax
+  57:	67 66 8b 4d fc       	mov    -0x4(%ebp),%ecx
+  5c:	66 c9                	leavel 
+  5e:	67 66 8d 61 fc       	lea    -0x4(%ecx),%esp
+  63:	66 c3                	retl   
+  65:	66 55                	push   %ebp
+  67:	66 89 e5             	mov    %esp,%ebp
+  6a:	66 53                	push   %ebx
+  6c:	66 83 ec 04          	sub    $0x4,%esp
+  70:	67 66 8b 45 08       	mov    0x8(%ebp),%eax
+  75:	67 88 45 f8          	mov    %al,-0x8(%ebp)
+  79:	66 b8 00 b8 00 00    	mov    $0xb800,%eax
+  7f:	67 66 0f b6 55 f8    	movzbl -0x8(%ebp),%edx
+  85:	66 89 d1             	mov    %edx,%ecx
+  88:	06                   	push   %es
+  89:	8e c0                	mov    %ax,%es
+  8b:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+  91:	26 67 88 0b          	mov    %cl,%es:(%ebx)
+  95:	07                   	pop    %es
+  96:	90                   	nop
+  97:	66 83 c4 04          	add    $0x4,%esp
+  9b:	66 5b                	pop    %ebx
+  9d:	66 5d                	pop    %ebp
+  9f:	66 c3                	retl   
+	...
+ 1fd:	00 55 aa             	add    %dl,-0x56(%di)
+
+==========
+just2.img:     file format binary
+
+
+Disassembly of section .data:
+
+00000000 <.data>:
+   0:	ea 05 00 c0 07       	ljmp   $0x7c0,$0x5
+   5:	8c c8                	mov    %cs,%ax
+   7:	8e d8                	mov    %ax,%ds
+   9:	8e c0                	mov    %ax,%es
+   b:	66 b8 f9 01 00 00    	mov    $0x1f9,%eax
+  11:	66 89 c4             	mov    %eax,%esp
+  14:	66 6a 00             	pushl  $0x0
+  17:	66 6a 00             	pushl  $0x0
+  1a:	66 e8 fc ff ff ff    	calll  0x1c
+  20:	66 83 c4 08          	add    $0x8,%esp
+  24:	eb fe                	jmp    0x24
+  26:	67 66 8d 4c 24 04    	lea    0x4(%esp),%ecx
+  2c:	66 83 e4 f0          	and    $0xfffffff0,%esp
+  30:	67 66 ff 71 fc       	pushl  -0x4(%ecx)
+  35:	66 55                	push   %ebp
+  37:	66 89 e5             	mov    %esp,%ebp
+  3a:	66 51                	push   %ecx
+  3c:	66 83 ec 04          	sub    $0x4,%esp
+  40:	66 83 ec 0c          	sub    $0xc,%esp
+  44:	66 6a 58             	pushl  $0x58
+  47:	66 e8 fc ff ff ff    	calll  0x49
+  4d:	66 83 c4 10          	add    $0x10,%esp
+  51:	66 b8 00 00 00 00    	mov    $0x0,%eax
+  57:	67 66 8b 4d fc       	mov    -0x4(%ebp),%ecx
+  5c:	66 c9                	leavel 
+  5e:	67 66 8d 61 fc       	lea    -0x4(%ecx),%esp
+  63:	66 c3                	retl   
+  65:	66 55                	push   %ebp
+  67:	66 89 e5             	mov    %esp,%ebp
+  6a:	66 53                	push   %ebx
+  6c:	66 83 ec 04          	sub    $0x4,%esp
+  70:	67 66 8b 45 08       	mov    0x8(%ebp),%eax
+  75:	67 88 45 f8          	mov    %al,-0x8(%ebp)
+  79:	66 b8 00 b8 00 00    	mov    $0xb800,%eax
+  7f:	67 66 0f b6 55 f8    	movzbl -0x8(%ebp),%edx
+  85:	66 89 d1             	mov    %edx,%ecx
+  88:	06                   	push   %es
+  89:	8e c0                	mov    %ax,%es
+  8b:	66 bb 00 00 00 00    	mov    $0x0,%ebx
+  91:	26 67 88 0b          	mov    %cl,%es:(%ebx)
+  95:	07                   	pop    %es
+  96:	90                   	nop
+  97:	66 83 c4 04          	add    $0x4,%esp
+  9b:	66 5b                	pop    %ebx
+  9d:	66 5d                	pop    %ebp
+  9f:	66 c3                	retl   
+	...
+ 1fd:	00 55 aa             	add    %dl,-0x56(%di)
+
+
+========
+========
+Comparing the two place corresponding to the source file:calll main
+the linked one is:calll  0x26
+the raw one is   :calll  0x1c
+As the linked one is correctly referenced to the address of main,and the raw just referenced wrongly,for some reason.So the link is needed to make to reference correctly.And even more,when writing the dos pogram,we need to assign a new base address(0x100) to the .text.In that case,link is absolutely needed.But as the above example shows,if there is no call,the raw one can work well.
+So we run command 'ld just.o -o just',getting the error message:
+	ld: i386 architecture of input file `just.o' is incompatible with i386:x86-64 output
+	just.o: In function `_start':
+	just.c:(.text+0x1): relocation truncated to fit: R_386_16 against `.text'
+That says we need to define the base address for .text.So run again with 'ld -Ttext 0 -o just just.o',and again,get the error message:
+	ld: i386 architecture of input file `just.o' is incompatible with i386:x86-64 output
+But this is caused by the .cfi directives,which is designed to generate unwind tables.But what confilcts is that the current version of GNU binutils only support IA64 unwind table(use readelf -a XXX.elf,you'll get a line of message saying 
+	'The decoding of unwind sections for machine type Intel 80386 is not currently supported.').So actually the directive .cfi is mutual exclusive with .code16,.code16gcc and .code32.When no command line option --32 transfered to as,the .cfi directives will take precedence,which causes the as check the .cfi diretives as 64-bit style(such as align with 8 bytes).We can either pass --32 to as or -fno-asynchronous-unwind-tables to gcc to solve this problem.
+
+This shows the target the ld wants to do:it want to generate a program that can run under my 64-bit machine.However,I don't need that,I need it run on 386 machine.So I choose the target file by myself using '-m' option,'ld -Ttext 0 -m elf_i386 -o just just.o'.
+
+Then just run 'objcopy -j .text -O binary just just.img',after this,we get a 512-byte image file that can be ran by BIOS. 
+
