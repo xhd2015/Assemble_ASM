@@ -1,4 +1,7 @@
 	.file	"test.c"
+	.section	.rodata
+.LC0:
+	.string	"12"
 	.text
 	.globl	main
 	.type	main, @function
@@ -10,14 +13,8 @@ main:
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
-	movl	$1, %eax
-#APP
-# 13 "test.c" 1
-	lmsw   %ax 
-	ljmp   $0x100, $0x234 
-	
-# 0 "" 2
-#NO_APP
+	movl	$.LC0, %edi
+	call	puts
 	movl	$0, %eax
 	popq	%rbp
 	.cfi_def_cfa 7, 8
@@ -25,5 +22,18 @@ main:
 	.cfi_endproc
 .LFE0:
 	.size	main, .-main
+#APP
+	.org 505
+	_stack:
+	 
+	
+	.org 510
+	
+	.word 0x55AA
+	
+	 
+	asc:
+	 
+	
 	.ident	"GCC: (GNU) 6.2.1 20160916 (Red Hat 6.2.1-2)"
 	.section	.note.GNU-stack,"",@progbits

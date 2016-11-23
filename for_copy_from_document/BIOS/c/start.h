@@ -1,4 +1,9 @@
+//=========FILE: start.h======
+#ifndef __START_H__ /*START this file,define once*/
+#define __START_H__
 
+#include "asmstring.h"
+#include "asmdef.h"
 /**
  *Include this file to a c source file
  *
@@ -17,35 +22,6 @@
  * BOOT
  */
 
-#define _STRING(x) #x
-#define STRING(x) _STRING(x)
-
-
-#define OUT_PORT(port,data) \
-__asm__ __volatile__(\
-	"out %%al, %%dx \n\t"\
-	:\
-	:"d"((port)),"a"((data)) \
-	:)
-#define READ_PORT(port) \
-__asm__ __volatile__(\
-	"in %%dx, %%al \n\t"\
-	:\
-	:"d"((port)) \
-	:)
-#define READ_PORTW(port) \
-__asm__ __volatile__(\
-	"in %%dx, %%ax \n\t"\
-	:\
-	:"d"((port))\
-	:)
-
-#define ASSIGN_VALUE(var) \
-__asm__ __volatile__(\
-	""\
-	:"=a"(var)\
-	:\
-	:)
 
 #define START_PROTECTED_MODE(idt,gdt,new_seg,new_off) \
 __asm__ __volatile__(\
@@ -56,11 +32,10 @@ __asm__ __volatile__(\
         :\
         :"a"(0x0001)\
         :)
-
 /**
  *define gdt
  */
-#define SET_GDT \
+#define SET_GDT() \
 __asm__("_gdt:\n\t"\
 	".word 0,0,0,0 \n\t" \
 	".word 0x07FF \n\t" \
@@ -72,33 +47,20 @@ __asm__("_gdt:\n\t"\
 	".word 0x0000 \n\t" \
 	".word 0x9200 \n\t" \
 	".word 0x00C0 \n\t" )
+
 /**
  *set gdt descriptor,which will be later loaded to GDTR
  *GDTM , corresponding to GDTR,M denotes the memory
  */
-#define SET_GDTM \
-__asm__("_gdtm: .word 0x07FF \n\t" \
-	"	.word 0x7C00+_gdt , 0 \n\t" )
+#define SET_GDTM(len,addr) DEFW(,,len,_gdtm:); DEFL(,,addr)
+#define SET_IDTM(len,addr) DEFW(,,len,_idtm:); DEFL(,,addr)
+#define SET_STACK(offset) DEFLABLE(.org,offset,_stack:)
+#define SET_BOOT(offset) DEFW(.org,offset,0xAA55)
 
-/**
- *Simply set it unused
- */
-#define SET_IDTM \
-__asm__("_idtm: .word 0 \n\t" \
-	"	.word 0, 0 \n\t" )
-#define SET_STACK \
-__asm__(".org 505\n\t"\
-	"_stack:\n\t")
-
-
-#define SET_BOOT \
-__asm__(".org 510\n\t"\
-	".word 0xAA55\n\t")
 
 //=========Macro GENASM========
 
 #if defined GENASM
-
 
 #if defined CODE16
 __asm__(
@@ -110,12 +72,14 @@ __asm__(
 __asm__(
 ".code64\n\t");
 #else
+#define CODE16GCC
 __asm__(
 ".code16gcc\n\t");
 #endif /*.codeXX ended */
 
-
-
+/*This area of code is mode irrelative*/
+/*But apparently,it is used to start the BIOS subroutine*/
+/*Hence, it is always used to generate a BOOTLOADER.*/
 __asm__ (
 ".global _start\n\t"
 ".text\n\t"
@@ -127,13 +91,23 @@ __asm__ (
 "mov %ax,%es\n\t"
 "mov $_stack,%eax\n\t"
 "mov %eax,%esp\n\t"
+#if defined CODE16GCC
 "pushl $0\n\t"
 "pushl $0\n\t"
+#else 
+"push $0\n\t"
+"push $0\n\t"
+#endif
 "call main\n\t"
+#if defined CODE16GCC
 "addl $8,%esp\n\t"
+#else
+"addl $4,%esp\n\t"
+#endif
 "_die:\n\t"
 "jmp _die\n\t"
 );
 
 #endif /* GENASM ended */
 
+#endif /*END this file*/
