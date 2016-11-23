@@ -1,23 +1,23 @@
 	.file	"bootsect_head.c"
 #APP
-	.code16gcc
-	
 	.global _start
 	.text
 	_start:
-	ljmp $0x7c0,$_here
+	ljmp $0x7c0, $_here
 	_here:
 	mov %cs,%ax
 	mov %ax,%ds
 	mov %ax,%es
-	mov $_stack,%eax
+	mov $_stack, %eax
 	mov %eax,%esp
 	pushl $0
 	pushl $0
-	call main
+	call main 
 	addl $8,%esp
-	_die:
-	jmp _die
+	
+	_die: 
+	
+	jmp _die 
 	
 #NO_APP
 	.text
@@ -47,7 +47,7 @@ main:
 	addl	$32, %esp
 	movl	$1, %eax
 #APP
-# 31 "bootsect_head.c" 1
+# 41 "bootsect_head.c" 1
 	lidt	_idtm 
 	lgdt	_gdtm 
 	lmsw   %ax 

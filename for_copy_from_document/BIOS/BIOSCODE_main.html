@@ -371,7 +371,8 @@ set
 	ax = 0x0:0x410,ax[11,10,9]=0
 000fe196: (                    ): or ax, bx                 ; 09d8
 000fe198: (                    ): mov word ptr ds:0x0410, ax ; a31004
-	as 0x3f8,0x2f8,0x3e8,0x2e8 are all available COM ports,then it is sure to say that the process above just detects each IO ports(address),then save the number of effective COM ports to EQUPF[11~9]( serial ports numbers ).
+	as 0x3f8,0x2f8,0x3e8,0x2e8 are all available COM ports,then it is sure to say that
+ the process above just detects each IO ports(address),then save the number of effective COM ports to EQUPF[11~9]( serial ports numbers ).
 
 000fe19b: (                    ): mov ax, 0xfe6e            ; b86efe
 000fe19e: (                    ): mov word ptr ds:0x0068, ax ; a36800
@@ -385,19 +386,11 @@ set
 000fe1b6: (                    ): mov word ptr ds:0x01c0, ax ; a3c001
 000fe1b9: (                    ): mov ax, 0xf000            ; b800f0
 000fe1bc: (                    ): mov word ptr ds:0x01c2, ax ; a3c201
-	interrupt 0x1a points to <a href="BIOSCODE_int1a.html#000ffe6e">0xf000:0xfe6e</a>, System and Real Time Clock BIOS Services.
-	0x0:
-		0x128 = 53
-		0x129 = ff
-		0x12a = 00
-		0x12b = f0
-		
-	0x0:
-		0x1c0 = 93
-		0x1c1 = fe
-		0x1c2 = 00
-		0x1c3 = f0
+	interrupt 0x1a points to <a href="BIOSCODE_int1a.html#000ffe6e">0xf000:0xfe6e</a>, System and Real Time Clock BIOS Services,PCI services.
+	int 0x4a --&gt; <a href="">0xf000:0xff53(default handler,with just iret)</a>
+	int 0x70 --&gt; <a href="BIOSCODE_int70.html#000ffe93">0xf000:0xfe93</a>
 000fe1bf: (                    ): call .-18305              ; e87fb8
+	<a href="BIOSCODE_call_7.html#000f9a41">Set Current Time Counter(ms)</a>
 
 
 000fe1c2: (                    ): mov ax, 0xe9dd            ; b8dde9
@@ -416,35 +409,32 @@ set
 000fe1e9: (                    ): mov word ptr ds:0x0040, ax ; a34000
 000fe1ec: (                    ): mov ax, 0xf000            ; b800f0
 000fe1ef: (                    ): mov word ptr ds:0x0042, ax ; a34200
-	int 0x10 points to 0xf000:0xf065
-	0x0:	0x1c4 = dd
-		0x1c5 = e9
-		0x1c6 = 00
-		0x1c7 = f0
-	0x0:
-		0x1d0 = 00
-		0x1d1 = 96
-		0x1d2 = 00
-		0x1d3 = f0
-		0x1d4 = c7
-		0x1d5 = e2
-		0x1d6 = 00
-		0x1d7 = f0
+	int 0x71 --&gt; 0xf000:0xe9dd
+	int 0x74 --&gt; 0xf000:0x9600
+	int 0x75 --&gt; 0xf000:0xe2c7
+	int 0x10 --&gt; 0xf000:0xf065
 000fe1f2: (                    ): call .-15928              ; e8c8c1
+	<a href="BIOSCODE_call_8.html#000fa3bd">Setup PIC 1/2 ICW/OCW</a>
 000fe1f5: (                    ): call .-16552              ; e858bf
+	<a href="BIOSCODE_call_9.html">Into Protected Mode and Return Back</a>
 000fe1f8: (                    ): mov cx, 0xc000            ; b900c0
 000fe1fb: (                    ): mov ax, 0xc780            ; b880c7
 000fe1fe: (                    ): call .-16133              ; e8fbc0
 	a little longer and more complicated subprocess
 	In this process,the header information of BIOS was output.
+	This process continues check every 2KB in memory,check the first two bytes,if it is 0xaa55,then do summation check and if checked,execute its programs.
+	Speaking directly,it detects the extended BIOS ROM.(reference to a book).
 000fe201: (                    ): call .+12223              ; e8bf2f
 	Not very long,even one call inside it has ever appeared.
 	Inside this procedure printed out the first 3 gray lines on the screen.
+	It produces some message like 'Bochs BIOS...'
 000fe204: (                    ): call .-19197              ; e803b5
 	Not very long, several IO operations,no sub calling.
 	Nothing output.
 000fe207: (                    ): call .-19065              ; e887b5
 	Much longer,but all of the instructions are IO related,not sub callings.
+	Set the BIOS Area Data Specified field to their own value or clear them(set to 0).
+	Setup int 0x1e 0x40 0xe
 000fe20a: (                    ): call .+13875              ; e83336
 	Much much longer,both IO operations and sub callings are there.
 000fe20d: (                    ): call .+14741              ; e89539

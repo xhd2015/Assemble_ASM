@@ -52,7 +52,7 @@ $(generated16_s):$$(patsubst %16.s,%.c,$$@)
 $(generated16_o):$$(patsubst %16.o,%16.s,$$@)
 	as --32 -o $@ $<
 
-$(name).elf:$(name).o $(generated16_o)
+$(name).elf:$(generated16_o)
 	ld -Ttext 0 -m elf_i386 $(generated16_o) -o $(name).elf
 $(name).img:$(name).elf
 	objcopy -j .text -O binary $(name).elf $(name).img

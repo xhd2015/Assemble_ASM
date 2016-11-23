@@ -4,17 +4,27 @@
 /*But it is possible to import the LBA28.h and memcopy.h,because they have been as smaller as they can be.*/
 
 
-#define GENASM
 #define CODE16GCC
+/*This area of code is mode irrelative*/
+/*But apparently,it is used to start the BIOS subroutine*/
+/*Hence, it is always used to generate a BOOTLOADER.*/
+
+
+
 #include "start.h" /*some useful c implementations to asm*/
 			/*include START_PROTECTED_MODE*/
 #include "LBA28.h"
 			/*include LBA_read*/
 #include "memcopy.h"
 			/*include memcopy*/
+
+
 #define SYSSEG 0x1000
 #define SYSLEN 17
 #define SECSIZE 512
+#define BOOTSEG	0x7c0
+
+GENLOADER(BOOTSEG,_stack,main);
 
 int main(int argc,char* argv[])
 {
@@ -34,21 +44,6 @@ int main(int argc,char* argv[])
 	/*But actually,I think no such kernel will return back here*/
 	return 0;
 }
-
-//================Set the Image Content=========
-//====They are now moved to the tail.Now we must link each file in exactly the order we want them to be concatenated===
-//===This conclusion is made based on a overview to the IMG file generated===
-//===And one more thing,the relocation makes this original way not working.now we must define something to let other know how to calculate the right offset===
-//These SET_XXX are macros counld be found in "start.h"
-
-
-//SET_GDT() ;/*_gdt used*/
-//SET_GDTM(0x07FF,_gdt+0x7c00) ;
-//SET_IDTM(0,0) ;
-
-/*stack from 505*/
-//SET_STACK(505) ;
-//SET_BOOT() ;
 
 
 

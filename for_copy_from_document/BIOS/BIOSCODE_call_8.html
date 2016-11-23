@@ -1,0 +1,46 @@
+<html>
+<head>
+        <title>PIC 1/2 ICW/OCW control</title>
+</head>
+<body>
+        <header>
+                <h2>PIC initialization command word</h2>
+        </header>
+<section id="">
+<pre class="code code_s">
+<h6 id="000fa3bd"></h6>
+000fa3bd: (                    ): mov al, 0x11              ; b011
+000fa3bf: (                    ): out 0x20, al              ; e620
+	PIC init command word
+	ICW1 = 0x11
+000fa3c1: (                    ): out 0xa0, al              ; e6a0
+	PIC 2 OCW1 = 0x11
+000fa3c3: (                    ): mov al, 0x08              ; b008
+000fa3c5: (                    ): out 0x21, al              ; e621
+	ICW2 = 0x08
+000fa3c7: (                    ): mov al, 0x70              ; b070
+000fa3c9: (                    ): out 0xa1, al              ; e6a1
+	OCW2 = 0x70
+000fa3cb: (                    ): mov al, 0x04              ; b004
+000fa3cd: (                    ): out 0x21, al              ; e621
+	ICW2 = 0x04
+000fa3cf: (                    ): mov al, 0x02              ; b002
+000fa3d1: (                    ): out 0xa1, al              ; e6a1
+	OCW2 = 0x02
+000fa3d3: (                    ): mov al, 0x01              ; b001
+000fa3d5: (                    ): out 0x21, al              ; e621
+000fa3d7: (                    ): out 0xa1, al              ; e6a1
+	ICW2 = 0x01
+	OCW2 = 0x01
+000fa3d9: (                    ): mov al, 0xb8              ; b0b8
+000fa3db: (                    ): out 0x21, al              ; e621
+	ICW2 = 0xb8
+000fa3dd: (                    ): mov al, 0x8f              ; b08f
+000fa3df: (                    ): out 0xa1, al              ; e6a1
+	OCW2 =0x8f
+000fa3e1: (                    ): ret                       ; c3
+</pre>
+</section>
+</body>
+</html>
+

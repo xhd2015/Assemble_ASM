@@ -43,7 +43,7 @@
 	
 	.long _logical_zero_pos
 	
-	last_len = 378 
+	last_len = 350 
 	
 	.org 505-last_len
 	_stack:

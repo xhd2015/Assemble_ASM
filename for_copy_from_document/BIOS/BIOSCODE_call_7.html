@@ -1,0 +1,74 @@
+<html>
+<head>
+        <title>Set Daily Time Counter(ms)</title>
+</head>
+<body>
+        <header>
+                <h2></h2>
+<pre>
+This routine mainly evaluted current time counter(in ms) and save it to memory.
+</pre>
+        </header>
+<section id="">
+<pre class="code code_s">
+<h6 id="000f9a32"></h6>
+000f9a32: (                    ): mov bl, al                ; 88c3
+000f9a34: (                    ): and bl, 0x0f              ; 80e30f
+000f9a37: (                    ): shr al, 0x04              ; c0e804
+000f9a3a: (                    ): mov bh, 0x0a              ; b70a
+000f9a3c: (                    ): mul al, bh                ; f6e7
+000f9a3e: (                    ): add al, bl                ; 00d8
+	H,L are respectively the high and low 4-bits of al.
+	al = 10*H+L
+000f9a40: (                    ): ret                       ; c3
+
+<h6 id="000f9a41"></h6>
+000f9a41: (                    ): xor eax, eax              ; 6631c0
+000f9a44: (                    ): mov al, 0x04              ; b004
+000f9a46: (                    ): out 0x70, al              ; e670
+000f9a48: (                    ): in al, 0x71               ; e471
+	read hours from CMOS(0x4).Its format is in BCD,so to get the real time,it must be calculated as al=10*H4+L4
+000f9a4a: (                    ): call .-27                 ; e8e5ff
+	<a href="#000f9a32">get real hours</a>
+000f9a4d: (                    ): imul eax, eax, 0x0000003c ; 666bc03c
+000f9a51: (                    ): mov edx, eax              ; 6689c2
+000f9a54: (                    ): xor eax, eax              ; 6631c0
+000f9a57: (                    ): mov al, 0x02              ; b002
+000f9a59: (                    ): out 0x70, al              ; e670
+000f9a5b: (                    ): in al, 0x71               ; e471
+	read minutes from CMOS(0x2)
+000f9a5d: (                    ): call .-46                 ; e8d2ff
+000f9a60: (                    ): add eax, edx              ; 6601d0
+000f9a63: (                    ): imul eax, eax, 0x0000003c ; 666bc03c
+000f9a67: (                    ): mov edx, eax              ; 6689c2
+000f9a6a: (                    ): xor eax, eax              ; 6631c0
+000f9a6d: (                    ): mov al, 0x00              ; b000
+000f9a6f: (                    ): out 0x70, al              ; e670
+000f9a71: (                    ): in al, 0x71               ; e471
+	read seconds from CMOS(0x0)
+000f9a73: (                    ): call .-68                 ; e8bcff
+000f9a76: (                    ): add eax, edx              ; 6601d0
+000f9a79: (                    ): mov ecx, eax              ; 6689c1
+000f9a7c: (                    ): imul ecx, ecx, 0x00000012 ; 666bc912
+	get the current time=((H*60+M)*60+S)*18 ms.
+	eax = S (amount of seconds)
+000f9a80: (                    ): mov edx, 0x34ddaaab       ; 66baabaadd34
+	diff = curS * 0x34ddaaab &gt;&gt;32
+	if in every Y seconds there is D milliseconds difference(less).
+	Then Y = 5 , D = 1.
+	That means every 5 seconds, there is 1m difference.
+000f9a86: (                    ): mul eax, edx              ; 66f7e2
+000f9a89: (                    ): add ecx, edx              ; 6601d1
+000f9a8c: (                    ): mov dword ptr ds:0x046c, ecx ; 66890e6c04
+	save time to time counter.A daily time counter is the milliseconds of a day,with midnight the value 0.
+000f9a91: (                    ): xor al, al                ; 30c0
+000f9a93: (                    ): mov byte ptr ds:0x0470, al ; a27004
+	set clock rollover flag,when 0x46c(time counter) exceeds 24hrs
+000f9a96: (                    ): ret                       ; c3
+
+
+</pre>
+</section>
+</body>
+</html>
+

@@ -15,7 +15,7 @@ SET_GDT() ;/*_gdt used*/
 SET_GDTM(0x07FF,_gdt+0x7c00) ;
 SET_IDTM(0,0) ;
 DEFL(,,_logical_zero_pos);
-DEFSYM(last_len,378);
+DEFSYM(last_len,350);
 /*The effective address rely on the last segment ending address*/
 
 /*stack from 505*/

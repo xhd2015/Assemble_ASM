@@ -7,19 +7,7 @@
 /**
  *Include this file to a c source file
  *
- * define GENASM to enable the _start inserted.
- * define CODE16 for .code16
- * define CODE16GCC for .code16gcc
- * define CODE32 for .code32
- * define CODE64 for .code64 
- * 
- * if none of them is defined,then choose .code16gcc as default.
- * 
- * Currently, the combination of GENASM with CODE16GCC(default one) works fine.
- *
- * The defined MACROs are
- * STACK
- * BOOT
+ *See the macros defined below.
  */
 
 
@@ -32,9 +20,7 @@ __asm__ __volatile__(\
         :\
         :"a"(0x0001)\
         :)
-/**
- *define gdt
- */
+//======Macro SET_GDT=====
 #define SET_GDT() \
 __asm__("_gdt:\n\t"\
 	".word 0,0,0,0 \n\t" \
@@ -58,56 +44,30 @@ __asm__("_gdt:\n\t"\
 #define SET_BOOT(offset) DEFW(.org,offset,0xAA55)
 
 
-//=========Macro GENASM========
+//=========Macro GODIE========
+#define GODIE()	\
+	DEFOP0(_die:);\
+	DEFOP1(jmp,_die)
 
-#if defined GENASM
+//=========Macro GENLOADER========
+#define GENLOADER(seg,stackoff,entry) \
+__asm__ ( \
+".global _start\n\t" \
+".text\n\t" \
+"_start:\n\t" \
+"ljmp $" STRING(seg)", $_here\n\t" \
+"_here:\n\t" \
+"mov %cs,%ax\n\t" \
+"mov %ax,%ds\n\t" \
+"mov %ax,%es\n\t" \
+"mov $" STRING(stackoff) ", %eax\n\t" \
+"mov %eax,%esp\n\t" \
+"pushl $0\n\t" \
+"pushl $0\n\t" \
+"call " STRING(entry) " \n\t" \
+"addl $8,%esp\n\t" );\
+GODIE()
 
-#if defined CODE16
-__asm__(
-".code16\n\t");
-#elif defined CODE32
-__asm__(
-".code32\n\t");
-#elif defined CODE64
-__asm__(
-".code64\n\t");
-#else
-#define CODE16GCC
-__asm__(
-".code16gcc\n\t");
-#endif /*.codeXX ended */
 
-/*This area of code is mode irrelative*/
-/*But apparently,it is used to start the BIOS subroutine*/
-/*Hence, it is always used to generate a BOOTLOADER.*/
-__asm__ (
-".global _start\n\t"
-".text\n\t"
-"_start:\n\t"
-"ljmp $0x7c0,$_here\n\t"
-"_here:\n\t"
-"mov %cs,%ax\n\t"
-"mov %ax,%ds\n\t"
-"mov %ax,%es\n\t"
-"mov $_stack,%eax\n\t"
-"mov %eax,%esp\n\t"
-#if defined CODE16GCC
-"pushl $0\n\t"
-"pushl $0\n\t"
-#else 
-"push $0\n\t"
-"push $0\n\t"
-#endif
-"call main\n\t"
-#if defined CODE16GCC
-"addl $8,%esp\n\t"
-#else
-"addl $4,%esp\n\t"
-#endif
-"_die:\n\t"
-"jmp _die\n\t"
-);
-
-#endif /* GENASM ended */
 
 #endif /*END this file*/

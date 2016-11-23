@@ -1,0 +1,86 @@
+<html>
+<head>
+        <title>Temporary Protected Mode</title>
+</head>
+<body>
+        <header>
+                <h2></h2> 
+<pre>
+this routine firstly enable A20(by setting IO port 0x92)
+it saves ss to 0x0:0x469,sp to 0x0:0x467
+then load IDTR &amp; GDTR from 0xf000:a1f1 and 0xf000:0xf88c respectively.
+After these things done,it turns on CR0,enter portected mode and jmp to selector 2 : 0xfa17f
+</pre>
+        </header>
+<section id="">
+<pre class="code code_s">
+<h6 id="000fa150"></h6>
+000fa150: (                    ): in al, 0x92               ; e492
+	PS/2 system control port A
+000fa152: (                    ): push ax                   ; 50
+000fa153: (                    ): or al, 0x02               ; 0c02
+000fa155: (                    ): out 0x92, al              ; e692
+000fa157: (                    ): xor ax, ax                ; 31c0
+000fa159: (                    ): mov ds, ax                ; 8ed8
+000fa15b: (                    ): mov word ptr ds:0x0469, ss ; 8c166904
+000fa15f: (                    ): mov word ptr ds:0x0467, sp ; 89266704
+	0x469 saved ss
+	0x467 saved sp
+000fa163: (                    ): lidt cs:0xf88c            ; 2e0f011e8cf8
+000fa169: (                    ): lgdt cs:0xa1f1            ; 2e0f0116f1a1
+	gdtr = 0xfa1f7(limit 0x30)
+	idtr = 0 (the old one)
+	gdt[2] = FF FF 00 00 00 9B CF 00 
+000fa16f: (                    ): mov eax, cr0              ; 0f20c0
+000fa172: (                    ): or al, 0x01               ; 0c01
+000fa174: (                    ): mov cr0, eax              ; 0f22c0
+<h6>Into Protected Mode</h6>
+000fa177: (                    ): jmpf 0x0010:000fa17f      ; 66ea7fa10f001000
+000fa17f: (                    ): mov eax, 0x00000018       ; b818000000
+	ds,es,ss = selector 3
+	fs,gs = null
+000fa184: (                    ): mov ds, ax                ; 8ed8
+000fa186: (                    ): mov es, ax                ; 8ec0
+000fa188: (                    ): mov ss, ax                ; 8ed0
+000fa18a: (                    ): xor eax, eax              ; 31c0
+000fa18c: (                    ): mov fs, ax                ; 8ee0
+000fa18e: (                    ): mov gs, ax                ; 8ee8
+000fa190: (                    ): cld                       ; fc
+000fa191: (                    ): mov ax, word ptr ds:0x040e ; 6766a10e04
+000fa196: (                    ): shl eax, 0x04             ; c1e004
+000fa199: (                    ): mov esp, 0xfffffff0       ; bcf0ffffff
+000fa19e: (                    ): add esp, eax              ; 01c4
+000fa1a0: (                    ): push 0x000004b0           ; 68b0040000
+000fa1a5: (                    ): push 0x000004b2           ; 68b2040000
+000fa1aa: (                    ): mov eax, 0x000e0000       ; b800000e00
+000fa1af: (                    ): call eax                  ; ffd0
+000fa1b1: (                    ): jmpf 0x0020:0000a1b8      ; eab8a100002000
+000fa1b8: (                    ): mov eax, 0xd88e0028       ; b828008ed8
+	es,ss,fs,gs = selector 5
+000fa1bd: (                    ): mov es, ax                ; 8ec0
+000fa1bf: (                    ): mov ss, ax                ; 8ed0
+000fa1c1: (                    ): mov fs, ax                ; 8ee0
+000fa1c3: (                    ): mov gs, ax                ; 8ee8
+000fa1c5: (                    ): mov eax, cr0              ; 0f20c0
+000fa1c8: (                    ): and al, 0xfe              ; 24fe
+000fa1ca: (                    ): mov cr0, eax              ; 0f22c0
+<h6>Into Real Mode</h6>
+000fa1cd: (                    ): jmpf 0xf000:a1d2          ; ead2a100f0
+000fa1d2: (                    ): lidt cs:0xf892            ; 2e0f011e92f8
+000fa1d8: (                    ): xor ax, ax                ; 31c0
+000fa1da: (                    ): mov ds, ax                ; 8ed8
+000fa1dc: (                    ): mov es, ax                ; 8ec0
+000fa1de: (                    ): mov fs, ax                ; 8ee0
+000fa1e0: (                    ): mov gs, ax                ; 8ee8
+000fa1e2: (                    ): mov ss, word ptr ds:0x0469 ; 8e166904
+000fa1e6: (                    ): xor esp, esp              ; 6631e4
+000fa1e9: (                    ): mov sp, word ptr ds:0x0467 ; 8b266704
+000fa1ed: (                    ): pop ax                    ; 58
+000fa1ee: (                    ): out 0x92, al              ; e692
+000fa1f0: (                    ): ret                       ; c3
+
+</pre>
+</section>
+</body>
+</html>
+
