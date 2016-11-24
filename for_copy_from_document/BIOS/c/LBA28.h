@@ -47,7 +47,7 @@
 	OUT_PORT(LBAPORT_SECSTART+1,(char)start);\
 	start=start>>8;\
 	OUT_PORT(LBAPORT_SECSTART+2,(char)start);\
-	start=(start>>8) & 0xef;\
+	start=((start>>8) & 0x0f ) | 0xe0;\
 	OUT_PORT(LBAPORT_SECSTART+3,(char)start);})
 
 
@@ -70,7 +70,7 @@
 	__asm__ __volatile__(\
 		"1: \n\t" \
 		"in %%dx, %%ax \n\t" \
-		"movw (%%bx), %%ax \n\t" \
+		"movw %%ax, (%%bx) \n\t" \
 		"inc %%bx \n\t" \
 		"inc %%bx \n\t" \
 		"loop 1b \n\t" \

@@ -18,7 +18,8 @@ __asm__(STRING(loc) " " STRING(off) "\n\t" \
 #define DEFL(loc,off,data,lable...) _DEF(loc,off,.long,data,lable)
 #define DEFLABLE(loc,off,lable)         _DEF(loc,off,,,lable)
 #define DEFGLOBAL(lable)	__asm__(".global " STRING(lable) " \n\t")
-#define DEFSYM(sym,value)	__asm__(STRING(sym) " = " STRING(value) " \n\t")
+#define DEFSYM(sym,value)	__asm__(".set " STRING(sym) ", " STRING(value) " \n\t")
+#define DEFCSYM(sym,value)	__asm__(STRING(sym) " = " STRING(value) " \n\t")
 #define DEFOP(op,v1,v2)		__asm__(STRING(op) " " STRING(v1) ", "  STRING(v2) " \n\t")
 #define DEFOP1(op,v1)		__asm__(STRING(op) " " STRING(v1) " \n\t")
 #define DEFOP0(op)		__asm__(STRING(op) " \n\t")
@@ -31,5 +32,9 @@ __asm__(STRING(loc) " " STRING(off) "\n\t" \
  *  * DEF
  *  *
  *  */
+
+//===========Macro Set _lastend========
+#define DEFEND() \
+      DEFSYM(_lastend,.)
 
 #endif /*END this file*/

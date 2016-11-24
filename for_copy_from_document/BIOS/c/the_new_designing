@@ -1,0 +1,7 @@
+
+# Don't use main as entry
+	gcc has special policy processing function main.It will cause unnecessary stack pointer alignment and destroy the original return address and so on.
+	I now use a name only if it is not main,such as enter_main.
+
+# To make things unified, obey the rules below
+	When you write a source file, you'd better think you're writing in a part of a large file.So don't define any global definitive or meta information.They should have been defined in the _head_ file.

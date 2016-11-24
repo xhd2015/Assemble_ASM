@@ -1,4 +1,4 @@
-	.file	"bootsect_head.c"
+	.file	"boot_head.c"
 #APP
 	.global _start
 	.text
@@ -47,7 +47,7 @@ main:
 	addl	$32, %esp
 	movl	$1, %eax
 #APP
-# 41 "bootsect_head.c" 1
+# 41 "boot_head.c" 1
 	lidt	_idtm 
 	lgdt	_gdtm 
 	lmsw   %ax 

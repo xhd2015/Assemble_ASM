@@ -1,4 +1,4 @@
-	.file	"bootsect_tail.c"
+	.file	"boot_tail.c"
 #APP
 	.global _stack 
 	

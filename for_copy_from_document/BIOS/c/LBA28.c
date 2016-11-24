@@ -9,8 +9,8 @@
  */
 void LBA_read(int dst_offset,int sec_start,int num)
 {
-	LBA_SET_START(sec_start);
 	LBA_SET_COUNT(num);
+	LBA_SET_START(sec_start);
 	OUT_PORT(LBAPORT_READY,0x20);
 	LBA_WAITFOR() ;
 	LBA_RETRIVEDATA(dst_offset,num*512); /*read a word each time*/

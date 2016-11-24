@@ -52,6 +52,7 @@ __asm__("_gdt:\n\t"\
 //=========Macro GENLOADER========
 #define GENLOADER(seg,stackoff,entry) \
 __asm__ ( \
+".code16gcc \n\t"\
 ".global _start\n\t" \
 ".text\n\t" \
 "_start:\n\t" \
@@ -60,6 +61,7 @@ __asm__ ( \
 "mov %cs,%ax\n\t" \
 "mov %ax,%ds\n\t" \
 "mov %ax,%es\n\t" \
+"mov %ax,%ss \n\t" \
 "mov $" STRING(stackoff) ", %eax\n\t" \
 "mov %eax,%esp\n\t" \
 "pushl $0\n\t" \
@@ -67,7 +69,5 @@ __asm__ ( \
 "call " STRING(entry) " \n\t" \
 "addl $8,%esp\n\t" );\
 GODIE()
-
-
 
 #endif /*END this file*/

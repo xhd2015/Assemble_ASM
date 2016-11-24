@@ -30,5 +30,9 @@ windows下可以安装cygwin来使用这些工具，其他平台接近于Linux�
 # Why
 可以查看a_summary_if**machenism 文件查看使用gcc生成汇编代码的详细信息。
 
+# And
+the_new_designing
+
+
 
 

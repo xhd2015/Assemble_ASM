@@ -1,0 +1,13 @@
+#APP
+	.set logical_zero, 0x2d8+0x48 
+	
+	.global _idtm 
+	
+	.global _gdtm 
+	
+	.global _gdt 
+	
+	.org 512*2 - logical_zero-2
+	
+	.word 0xAA55
+	

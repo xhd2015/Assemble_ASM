@@ -1,3 +1,4 @@
+	.code16gcc
 	.file	"LBA28.c"
 	.text
 	.globl	LBA_read
@@ -7,10 +8,18 @@ LBA_read:
 	movl	%esp, %ebp
 	pushl	%ebx
 	subl	$16, %esp
+	movl	$498, %edx
+	movl	16(%ebp), %eax
+#APP
+# 12 "LBA28.c" 1
+	out %al, %dx 
+	
+# 0 "" 2
+#NO_APP
 	movl	12(%ebp), %eax
 	movl	$499, %edx
 #APP
-# 12 "LBA28.c" 1
+# 13 "LBA28.c" 1
 	out %al, %dx 
 	
 # 0 "" 2
@@ -19,7 +28,7 @@ LBA_read:
 	movl	12(%ebp), %eax
 	movl	$500, %edx
 #APP
-# 12 "LBA28.c" 1
+# 13 "LBA28.c" 1
 	out %al, %dx 
 	
 # 0 "" 2
@@ -28,25 +37,18 @@ LBA_read:
 	movl	12(%ebp), %eax
 	movl	$501, %edx
 #APP
-# 12 "LBA28.c" 1
+# 13 "LBA28.c" 1
 	out %al, %dx 
 	
 # 0 "" 2
 #NO_APP
 	movl	12(%ebp), %eax
 	sarl	$8, %eax
-	andl	$239, %eax
+	andl	$15, %eax
+	orb	$-32, %al
 	movl	%eax, 12(%ebp)
 	movl	12(%ebp), %eax
 	movl	$502, %edx
-#APP
-# 12 "LBA28.c" 1
-	out %al, %dx 
-	
-# 0 "" 2
-#NO_APP
-	movl	$498, %edx
-	movl	16(%ebp), %eax
 #APP
 # 13 "LBA28.c" 1
 	out %al, %dx 
@@ -90,7 +92,7 @@ LBA_read:
 # 16 "LBA28.c" 1
 	1: 
 	in %dx, %ax 
-	movw (%bx), %ax 
+	movw %ax, (%bx) 
 	inc %bx 
 	inc %bx 
 	loop 1b 
