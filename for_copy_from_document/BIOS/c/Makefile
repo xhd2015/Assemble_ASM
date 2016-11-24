@@ -1,7 +1,7 @@
 
 name := bootdoug
 #the support file is in a specific order
-support := $(name)_head int13 memcopy $(name)_mid putchar $(name)_tail
+support := $(name)_head int13 $(name)_mid int16 memcopy putchar bda $(name)_tail
 suffix := c o elf img
 ccflag-pure-asm := -fno-asynchronous-unwind-tables
 ccflag-asm-default := -m32 -S
@@ -35,14 +35,18 @@ include_once:
 	@	
 	orifile=$(file)
 	file=$${orifile:?missing option file=?}	
+	if [ -f $$orifile ];then
+		echo "file already exist,no overriding it"
+		exit
+	fi
 	file=$${file%.*}
 	file=$$(python3 -c "x='$${file}';x=x.upper().replace('.','_');print(x)")
 	file=__$${file}_H__
-	echo "//=========FILE: $${orifile}======"
-	echo "#ifndef $${file} /*START this file,define once*/"
-	echo "#define $${file}"
-	echo
-	echo "#endif /*END this file*/"
+	echo "//=========FILE: $${orifile}======" > $$orifile
+	echo "#ifndef $${file} /*START this file,define once*/" >>$$orifile
+	echo "#define $${file}" >>$$orifile
+	echo	>> $$orifile
+	echo "#endif /*END this file*/" >>$$orifile
 
 
 .ONESHELL:

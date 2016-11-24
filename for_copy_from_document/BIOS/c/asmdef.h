@@ -33,8 +33,25 @@ __asm__(STRING(loc) " " STRING(off) "\n\t" \
  *  *
  *  */
 
-//===========Macro Set _lastend========
-#define DEFEND() \
-      DEFSYM(_lastend,.)
+//===========Macro MGETL memory get long========
+#define MGETL(var,seg,offset) ({\
+__asm__ __volatile__(\
+	"push %%es \n\t"\
+	"mov %%ax,%%es \n\t" \
+	"movl %%es:(%%ebx),%%eax \n\t" \
+	"pop %%es \n\t" \
+	:"=a"(var) \
+	:"a"(seg),"b"(offset) \
+	:);\
+var;})
+
+
+//=====ebx is affected====
+#define MGETLU(var,offset) \
+__asm__ __volatile__(\
+	"movl %%es:(%%ebx) %%eax \n\t" \
+	:"=a"(var) \
+	:"b"(offset) \
+	:)
 
 #endif /*END this file*/

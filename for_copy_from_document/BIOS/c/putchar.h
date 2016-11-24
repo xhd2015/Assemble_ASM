@@ -7,6 +7,6 @@
 
 int putchar(char ch,char bg,int pos);
 int putstr(char *str,char bg,int pos);
-
+void clear_screen(int count);
 
 #endif /*END this file*/

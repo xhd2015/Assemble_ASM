@@ -3,8 +3,6 @@
 #define CODE16GCC
 #include "start.h"
 #include "int13.h"
-#include "memcopy.h"
-#include "putchar.h"
 
 #define SYSSEG 0x1000
 #define SYSLEN 1
@@ -13,20 +11,17 @@
 
 GENLOADER(BOOTSEG,_stack,enter_main);
 
+void enter_mid();
+
 int enter_main(int argc,char* argv[]) /*don't use main, gcc will change something*/
 {
-	int pos;
-	read_sector(BOOTSEG,SECSIZE,0,0,0,2,1); /* read logical the 1 sector */
-	pos=putstr("Loader by Douglas Fulton Shaw",MODE_WB,0);
-	pos++;pos++;
-	pos=putstr("Loading System Image.Verifying, Hold on.",MODE_WB,pos);
-	memcopy(BOOTSEG,SECSIZE,0,0,SYSLEN*SECSIZE);
-
+	read_sector(BOOTSEG,SECSIZE*2,0,0,0,3,3); /* read logical the 1 sector */
+	enter_mid();
 	return 0;
 }
 
 #include "int13.h"
-
+/*If hard drive wanted,the drive(7)=1*/
 int read_sector(int seg,int off,char driver,char head,short cylinder,char sector,char count)
 {
 	int errn;
@@ -75,6 +70,80 @@ int read_sector(int seg,int off,char driver,char head,short cylinder,char sector
  */
 
 
+
+#include "start.h"
+#include "asmdef.h"
+#include "bda.h"
+#include "putchar.h"
+#include "memcopy.h"
+#include "int13.h"
+#include "int16.h"
+
+#define NEWLINE(line,pos) \
+	(line)++;\
+	(pos)=0
+
+DEFW(.org,510,0xAA55);			/* set boot flag */
+DEFLABLE(.org,512*2,);			/*leave the second sector for stack*/
+
+__asm__ (".string \"now can you see me, Douglas Fulton Shaw?\" \n\t"); /*a trailing 0 may cause unnecessary decoding issue,so add one*/
+DEFLABLE(.org,.+1,);
+
+void enter_mid()
+{
+
+        int pos;
+        int col;
+        int curline=0;
+	pos = 0;
+        col=get_screen_column()*2;
+	clear_screen(col*25); /*  80*25  text mode */
+        pos=putstr("Loader by Douglas Fulton Shaw",MODE_WB,curline*col+pos);
+        pos = (pos + 2) % col;
+        curline++;
+        pos=putstr("Loading System Image.Verifying, Hold on.",MODE_WB,curline*col+pos); 
+	
+	
+	NEWLINE(curline,pos);
+	putstr("Now please hit a key...",MODE_WB,curline*col+pos);
+        char ch=getchar();
+
+	NEWLINE(curline,pos);
+        pos=putstr("Input char is:",MODE_WB,curline*col+pos)%col;
+        putchar(ch,MODE_WB,curline*col+pos)%col;
+
+	NEWLINE(curline,pos);
+	putstr("Welcome to X2 -- an OS designed by Douglas Fulton Shaw,2016",MODE_WB,curline*col+pos);
+	
+	NEWLINE(curline,pos);
+	putstr(">>",MODE_WB,curline*col+pos);
+	
+        memcopy(BOOTSEG,SECSIZE,0,0,SYSLEN*SECSIZE);
+}
+#include "int16.h"
+
+short peekchar() /*L:ascii H:scan code. if 0, there is not key*/
+{
+	__asm__ __volatile__(
+		"mov $0x11, %%ah \n\t"
+		"int $0x16	\n\t"
+		"jz 1f		\n\t"
+		"1: \n\t"
+		"xor %%ax,%%ax\n\t"
+		:
+		:
+		:"cc");
+}
+
+short getchar()
+{
+	__asm__ __volatile__(
+		"mov $0x10, %%ah \n\t"
+		"int $0x16	\n\t"
+		:
+		:
+		:);
+}
 #include "memcopy.h"
 
 /**
@@ -102,19 +171,6 @@ int memcopy(int segfrom,int offsetfrom,int segto,int offsetto,int len)
 	return moved;
 
 }
-
-
-#include "start.h"
-#include "asmdef.h"
-
-
-//DEFSYM(logical_zero,0x1d5);	/*set offset of this file*/
-DEFSYM(logical_zero,0);	/*set offset of this file*/
-
-DEFW(.org,510 - logical_zero,0xAA55);	/* set boot flag */
-
-__asm__ (".string \"now can you see me, Douglas Fulton Shaw?\" \n\t"); /*a trailing 0 may call unnecessary decoding issue,so add one*/
-DEFLABLE(.org,.+1,);
 
 
 #include "putchar.h"
@@ -151,15 +207,28 @@ int putstr(char *str,char bg,int pos)
 }
 
 
+void clear_screen(int count)
+{
+	for(int i=0;i<count;i++)
+		putchar(0,0,i);
+}
+
+#include "bda.h"
+#include "asmdef.h"
+
+int get_screen_column()
+{
+	int col;
+	MGETL(col,BDASEG,BDACOL);
+	return col & 0x0000ffff;
+}
+
 #include "start.h"
 #include "asmdef.h"
 
-//DEFSYM(logical_zero,0x2d8+0x48);
-DEFSYM(logical_zero,0);
 DEFGLOBAL(_idtm);
 DEFGLOBAL(_gdtm);
 DEFGLOBAL(_gdt);
 DEFGLOBAL(_stack);
 
-DEFW(.org,512*2-100-logical_zero,0xAA55);	/*2 sectors */
-DEFSYM(_stack,512*3);      /* set _stack to the third sector*/
+DEFSYM(_stack,512*2);      /* set _stack to the third sector*/

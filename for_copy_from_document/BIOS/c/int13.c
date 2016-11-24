@@ -1,5 +1,5 @@
 #include "int13.h"
-
+/*If hard drive wanted,the drive(7)=1*/
 int read_sector(int seg,int off,char driver,char head,short cylinder,char sector,char count)
 {
 	int errn;
