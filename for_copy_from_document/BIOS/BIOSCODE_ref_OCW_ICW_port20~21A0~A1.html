@@ -1,0 +1,59 @@
+<html>
+<head>
+        <title>Port 0x20 & ICW</title>
+</head>
+<body>
+        <header>
+                <h2></h2>
+        </header>
+<section id="">
+<pre class="code code_s">
+
+<h6 id="000f9a2d">Send EOI</h6>
+000f9a2d: (                    ): mov al, 0x20              ; b020
+000f9a2f: (                    ): out 0x20, al              ; e620
+000f9a31: (                    ): ret                       ; c3
+</pre>
+</section>
+
+
+<section id="">
+
+<pre class="code code_s">
+<h4>Masking</h4>
+Normally, reading from the data port returns the IMR register (see above), and writing to it sets the register. We can use this to set which IRQs should be ignored. For example, to disable IRQ 6 (floppy controller) from firing:
+in ax, 0x21
+or ax, (1 &lt;&lt; 6)
+out 0x21, ax
+
+<h4>In the same way, to disable IRQ 12 (mouse controller):</h4>
+in ax, 0xA1
+or ax, (1 &lt;&lt; 4)   ;IRQ 12 is actually IRQ 4 of PIC2
+out 0xA1, ax
+
+<h4>Remapping</h4>
+
+Another common task, often performed during the initialization of an operating system, is remapping the PICs. That is, changing their internal vector offsets, thereby altering the interrupt numbers they send. The initial vector offset of PIC1 is 8, so it raises interrupt numbers 8 to 15. Unfortunately, some of the low 32 interrupts are used by the CPU for exceptions (divide-by-zero, page fault, etc.), causing a conflict between hardware and software interrupts. The usual solution to this is remapping the PIC1 to start at 32, and often the PIC2 right after it at 40. This requires a complete restart of the PICs, but is not actually too difficult, requiring just eight outs.
+
+mov al, 0x11
+out 0x20, al     ;restart PIC1
+out 0xA0, al     ;restart PIC2
+
+mov al, 0x20
+out 0x21, al     ;PIC1 now starts at 32
+mov al, 0x28
+out 0xA1, al     ;PIC2 now starts at 40
+
+mov al, 0x04
+out 0x21, al     ;setup cascading
+mov al, 0x02
+out 0xA1, al
+
+mov al, 0x01
+out 0x21, al
+out 0xA1, al     ;done!
+</pre>
+</section>
+</body>
+</html>
+

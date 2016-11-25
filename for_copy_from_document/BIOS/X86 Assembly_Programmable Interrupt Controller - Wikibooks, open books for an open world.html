@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html class="client-js ve-not-available" dir="ltr" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>X86 Assembly/Programmable Interrupt Controller - Wikibooks, open books for an open world</title>
+<script>document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"X86_Assembly/Programmable_Interrupt_Controller","wgTitle":"X86 Assembly/Programmable Interrupt Controller","wgCurRevisionId":3007803,"wgRevisionId":3007803,"wgArticleId":57944,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["X86 Assembly"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"X86_Assembly/Programmable_Interrupt_Controller","wgRelevantArticleId":57944,"wgRequestId":"WC@3UgpAAEQAAjRYtsoAAABB","wgIsProbablyEditable":true,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgFlaggedRevsParams":{"tags":{"value":{"levels":3,"quality":2,"pristine":3}}},"wgStableRevisionId":3007803,"wgWikiEditorEnabledModules":{"toolbar":true,"dialogs":true,"preview":false,"publish":false},"wgBetaFeaturesFeatures":[],"wgMediaViewerOnClick":true,"wgMediaViewerEnabledByDefault":true,"wgVisualEditor":{"pageLanguageCode":"en","pageLanguageDir":"ltr","usePageImages":false,"usePageDescriptions":true},"wgPreferredVariant":"en","wgMFDisplayWikibaseDescriptions":{"search":true,"nearby":true,"watchlist":true,"tagline":false},"wgULSCurrentAutonym":"English","wgNoticeProject":"wikibooks","wgCentralNoticeCookiesToDelete":[],"wgCentralNoticeCategoriesUsingLegacy":["Fundraising","fundraising"],"wgCategoryTreePageCategoryOptions":"{\"mode\":0,\"hideprefix\":20,\"showcount\":true,\"namespaces\":false}","wgCentralAuthMobileDomain":false,"wgVisualEditorToolbarScrollOffset":0,"wgEditSubmitButtonLabelPublish":false});mw.loader.state({"ext.globalCssJs.user.styles":"ready","ext.globalCssJs.site.styles":"ready","site.styles":"ready","noscript":"ready","user.styles":"ready","user.cssprefs":"ready","user":"ready","user.options":"loading","user.tokens":"loading","ext.pygments":"ready","wikibase.client.init":"ready","ext.visualEditor.desktopArticleTarget.noscript":"ready","ext.uls.interlanguage":"ready","ext.flaggedRevs.basic":"ready","ext.wikimediaBadges":"ready","mediawiki.legacy.shared":"ready","mediawiki.legacy.commonPrint":"ready","mediawiki.sectionAnchor":"ready","mediawiki.skinning.interface":"ready","skins.vector.styles":"ready","ext.globalCssJs.user":"ready","ext.globalCssJs.site":"ready"});mw.loader.implement("user.options@0j3lz3q",function($,jQuery,require,module){mw.user.options.set({"variant":"en"});});mw.loader.implement("user.tokens@1dqfd7l",function ( $, jQuery, require, module ) {
+mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});/*@nomin*/;
+
+});mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","ext.centralauth.centralautologin","mmv.head","ext.visualEditor.desktopArticleTarget.init","ext.uls.interface","skins.vector.js"]);});</script>
+<link rel="stylesheet" href="X86%20Assembly_Programmable%20Interrupt%20Controller%20-%20Wikibooks,%20open%20books%20for%20an%20open%20world_files/load.css">
+<script async="" src="X86%20Assembly_Programmable%20Interrupt%20Controller%20-%20Wikibooks,%20open%20books%20for%20an%20open%20world_files/load_002.php"></script>
+<style>
+.uls-menu{border-radius:4px; font-size:medium}.uls-search,.uls-language-settings-close-block{border-top-right-radius:4px;border-top-left-radius:4px}.uls-language-list{border-bottom-right-radius:4px;border-bottom-left-radius:4px}.uls-menu.callout .caret-before,.uls-menu.callout .caret-after{border-top:10px solid transparent;border-right:10px solid #c9c9c9;border-bottom:10px solid transparent;display:inline-block;left:-11px; top:17px;position:absolute}.uls-menu.callout .caret-after{border-right:10px solid #fcfcfc;display:inline-block;left:-10px}.uls-menu.callout--languageselection .caret-after{border-right:10px solid #fff}.uls-ui-languages button{margin:5px 15px 5px 0;white-space:nowrap;overflow:hidden}.uls-search-wrapper-wrapper{position:relative;padding-left:40px;margin-top:5px;margin-bottom:5px}.uls-icon-back{background:transparent url(/w/extensions/UniversalLanguageSelector/resources/images/back-grey-ltr.png?90e9b) no-repeat scroll center center;background-image:-webkit-linear-gradient( transparent,transparent ),url(/w/extensions/UniversalLanguageSelector/resources/images/back-grey-ltr.svg?ae714);background-image:linear-gradient( transparent,transparent ),url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20id%3D%22Layer_1%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M7%2013.1l8.9%208.9c.8-.8.8-2%200-2.8l-6.1-6.1%206-6.1c.8-.8.8-2%200-2.8L7%2013.1z%22%20id%3D%22path3%22%20fill%3D%22%23555%22%2F%3E%0A%3C%2Fsvg%3E%0A);background-size:28px;background-position:center center;height:32px;width:40px;display:block;position:absolute;left:0;border-right:1px solid #c9c9c9;opacity:0.8}.uls-icon-back:hover{opacity:1;cursor:pointer}
+.postedit-container{margin:0 auto;position:fixed;top:0;height:0;left:50%;z-index:1000;font-size:13px}.postedit-container:hover{cursor:pointer}.postedit{position:relative;top:0.6em;left:-50%;padding:.6em 3.6em .6em 1.1em;line-height:1.5625em;color:#626465;background-color:#f4f4f4;border:1px solid #dcd9d9;text-shadow:0 0.0625em 0 rgba( 255,255,255,0.5 );border-radius:5px;box-shadow:0 2px 5px 0 #ccc;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-ms-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out}.skin-monobook .postedit{top:6em !important}.postedit-faded{opacity:0}.postedit-icon{padding-left:41px;  line-height:25px;background-repeat:no-repeat;background-position:8px 50%}.postedit-icon-checkmark{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB9ElEQVR4AZWRA3AYURQArxrVHtW2bdu2bdu2zdi2bdu2bWxs7zeehZaw4f70kbs+zI3e/nWK+RWx3aOFlrL56Sy5SxrruG69hlv6OyK+mz+8KDSXdXembj0ispT7tjs4ZTIbpYBvxGSGKzZTeFrb7W/meN002swFs0U8ttpHTkF2BvCqWQrW35929bTsKm5Zb+SEwWwcY8wAngB9m7Z+d+rIPZ/npdy12M5p47n8dXsCYAf0qPy06eGMdktuDu9Qf+JmKl3SWM91qzVcN9tAbEYkwMaq0tyb1m/To5kP170el/BK8/qa6sJr70ydf+T/Uu5ab+Oo/lS0AkUBpIFWlZ9WPhxpse/PHO7YbOOczjL0vZV2lNxPPtG73dYXM+xvm2znrOl83tidoqCwMBgYXsPFB0on5S6pr+eK5TKuW67lgvaKvF8mL1dtfTL32FHxRdyx3cQpg7m4x9sCXKkTIzA4LDH44zWdzaUf71hv5rTG4uyzcusybxSX7aThbMQ8XgCYAp3rzTTQOiIh9PNlzY3FSuZxrzjme1Y7uGS6kjsWO4jPjM4FVjRZsvD4kO9XtTZzQn82NyzWc0B7AmZh6gA/hOYSGhfw9YbOVnarj+S7800AL2BIsxUAbWNToj7bhBuQmZcOsFdoKUC74rGheCwXmqAIQTc9jQcrADIAAAAASUVORK5CYII=);background-image:url(/w/resources/src/mediawiki.action/images/green-checkmark.png?d94f1)!ie;background-position:left}.postedit-close{position:absolute;padding:0 .8em;right:0;top:0;font-size:1.25em;font-weight:bold;line-height:2.3em;color:#000;text-shadow:0 0.0625em 0 #fff;text-decoration:none;opacity:0.2;filter:alpha( opacity=20 )}.postedit-close:hover{color:#000;text-decoration:none;opacity:0.4;filter:alpha( opacity=40 )}
+@-webkit-keyframes centralAuthPPersonalAnimation{0%{opacity:0;-webkit-transform:translateY(-20px)}100%{opacity:1;-webkit-transform:translateY(0)}}@-moz-keyframes centralAuthPPersonalAnimation{0%{opacity:0;-moz-transform:translateY(-20px)}100%{opacity:1;-moz-transform:translateY(0)}}@-o-keyframes centralAuthPPersonalAnimation{0%{opacity:0;-o-transform:translateY(-20px)}100%{opacity:1;-o-transform:translateY(0)}}@keyframes centralAuthPPersonalAnimation{0%{opacity:0;transform:translateY(-20px)}100%{opacity:1;transform:translateY(0)}}.centralAuthPPersonalAnimation{-webkit-animation-duration:1s;-moz-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-animation-name:centralAuthPPersonalAnimation;-moz-animation-name:centralAuthPPersonalAnimation;-o-animation-name:centralAuthPPersonalAnimation;animation-name:centralAuthPPersonalAnimation}</style><style>
+#uls-settings-block{border-top:1px solid #c9c9c9;background:#f8f8f8;background:-webkit-gradient( linear,left top,left bottom,from( #fbfbfb ),to( #f0f0f0 ) );background:-webkit-linear-gradient( top,#fbfbfb,#f0f0f0 );background:-moz-linear-gradient( top,#fbfbfb,#f0f0f0 );background:-o-linear-gradient( top,#fbfbfb,#f0f0f0 );background:linear-gradient( #fbfbfb,#f0f0f0 );padding-left:10px;line-height:1.2em;border-radius:0 0 5px 5px}#uls-settings-block div.display-settings-block,#uls-settings-block div.input-settings-block{display:inline-block;margin:8px 15px;color:#565656}#uls-settings-block div.display-settings-block:hover,#uls-settings-block div.input-settings-block:hover{color:#252525}
+.ve-activated #toc,.ve-activated #siteNotice,.ve-activated .mw-indicators,.ve-activated #t-print,.ve-activated #t-permalink,.ve-activated #p-coll-print_export,.ve-activated #t-cite,.ve-deactivating .ve-ui-surface,.ve-active .ve-init-mw-desktopArticleTarget-editableContent{display:none} .ve-activating .ve-ui-surface{height:0;padding:0 !important; overflow:hidden} .ve-loading #content > :not( .ve-init-mw-desktopArticleTarget-loading-overlay ), .ve-activated .ve-init-mw-desktopArticleTarget-uneditableContent{  pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none; opacity:0.5}.ve-activated .catlinks{cursor:pointer}.ve-activated .catlinks a{opacity:1} .ve-activated #content{position:relative} .ve-init-mw-desktopArticleTarget-loading-overlay{position:absolute;left:0;right:0;z-index:1;margin-top:-0.5em}.ve-init-mw-desktopArticleTarget-progress{height:1em;overflow:hidden;margin:0 25%}.ve-init-mw-desktopArticleTarget-progress-bar{height:1em;width:0} .mw-editsection{white-space:nowrap; unicode-bidi:-moz-isolate;unicode-bidi:-webkit-isolate;unicode-bidi:isolate}.mw-editsection-divider{color:#555} .ve-init-mw-desktopArticleTarget-progress{height:0.75em;border:1px solid #36c;background:#fff;border-radius:2px;box-shadow:0 0.1em 0 0 rgba( 0,0,0,0.15 )}.ve-init-mw-desktopArticleTarget-progress-bar{height:0.75em;background:#36c}
+@media print{#centralNotice{display:none}}.cn-closeButton{display:inline-block;zoom:1;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAACeklEQVR4Aa1UM3jkcRBN6qS//tTFttPHqmI359VZ5dm2L1zFtr02YlRx5sX2ft/7ed7O/w1M5ufnt8NZQjCBQXhG+IYZe5zjfju7xcHc3NzEzMwM6xOEqNnZ2ZeVlZW827dv1ycmJnbGx8d3Yr5582Z9eXk5D/d4h/empqYm+K0nw3yKcF4sFmdzOJzGgIAAhb29vc7Ozk6/Atrr/fz8lCwWq6m3tzcb72G3nmzFo/NNTU354eHhIltbW72Tk5M2IyND9P79+8ZPnz7VvXnzpoHBYPS4uLhobGxsDMHBwaLa2tp82MF+PVmUUqnMioiI6LOysjLQLCcPS2ZmZn7Ozc39oPtFYG80GgWpqakSS0tLY1hYmEgikWTBfoXsLD16BT3gUWhoqEKtVheREZ+Qu0IEjI+PZ2k0GqFer+cnJSWJra2tDWw2u2FqauoVeEAW3NzcnBcYGCh3dHTUtba2ltNjLvRJSEiQEQEPRENDQzkMBqPXwsKiXyqVFsFDNzc3LWmoqKmp4YIHZIyHDx9WOzg46GJiYmTk5e/h4eHstLQ0CX2ykXST4JPJ8y7sSVM5/QGMf9y4caMHf3r//v1a8IDsGRm04/D58+dtpNFPPNRqtflXrlzpI8G15IEGc2xsrFSlUglwD+Tk5NRBmuTk5A7wgOxbXFxcF8iysrIa1mskEolKvL29Ne7u7mpXV1dNaWlp9fr7X79+VYMMeQieY/dsv5p1r2g2Nja2vWZ7RXNiYuIA0dwlzwYGBjbkGXmURXeLeUa1ul2ebV8BEH+7CiAiASTYvgJ2qc3MzMzF2vz8+XPd27dvG5hMZg+CsV1tHmfXOP5+dqyddgHOI7v1srTdcwAAAABJRU5ErkJggg==);background:url(/w/extensions/CentralNotice/resources/subscribing/CloseWindow19x19.png?7596b)!ie;width:19px;height:19px;text-indent:19px;white-space:nowrap;overflow:hidden}
+.mw-collapsible-toggle{float:right;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}  .mw-content-ltr .mw-collapsible-toggle,.mw-content-rtl .mw-content-ltr .mw-collapsible-toggle{float:right} .mw-content-rtl .mw-collapsible-toggle,.mw-content-ltr .mw-content-rtl .mw-collapsible-toggle{float:left}.mw-customtoggle,.mw-collapsible-toggle{cursor:pointer} caption .mw-collapsible-toggle,.mw-content-ltr caption .mw-collapsible-toggle,.mw-content-rtl caption .mw-collapsible-toggle,.mw-content-rtl .mw-content-ltr caption .mw-collapsible-toggle,.mw-content-ltr .mw-content-rtl caption .mw-collapsible-toggle{float:none} li .mw-collapsible-toggle,.mw-content-ltr li .mw-collapsible-toggle,.mw-content-rtl li .mw-collapsible-toggle,.mw-content-rtl .mw-content-ltr li .mw-collapsible-toggle,.mw-content-ltr .mw-content-rtl li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+.suggestions{overflow:hidden;position:absolute;top:0;left:0;width:0;border:none;z-index:1099;padding:0;margin:-1px 0 0 0}.suggestions-special{position:relative;background-color:#fff;cursor:pointer;border:solid 1px #aaa;padding:0;margin:0;margin-top:-2px;display:none;padding:0.25em 0.25em;line-height:1.25em}.suggestions-results{background-color:#fff;cursor:pointer;border:solid 1px #aaa;padding:0;margin:0}.suggestions-result{color:#000;margin:0;line-height:1.5em;padding:0.01em 0.25em;text-align:left; overflow:hidden;-o-text-overflow:ellipsis; text-overflow:ellipsis;white-space:nowrap}.suggestions-result-current{background-color:#4c59a6;color:#fff}.suggestions-special .special-label{color:#808080;text-align:left}.suggestions-special .special-query{color:#000;font-style:italic;text-align:left}.suggestions-special .special-hover{background-color:#c0c0c0}.suggestions-result-current .special-label,.suggestions-result-current .special-query{color:#fff}.highlight{font-weight:bold}
+@media screen {
+	.tochidden,.toctoggle{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}.toctoggle{font-size:94%}}
+@media print {
+	#toc.tochidden,.toctoggle{display:none}}
+.mw-ui-button{font-family:inherit;font-size:1em;display:inline-block;min-width:4em;max-width:28.75em;padding:.5em 1em;margin:0;border-radius:2px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-appearance:none;*display:inline;zoom:1;vertical-align:middle;background-color:#f8f9fa;color:#222222;border:1px solid #a2a9b1;text-align:center;font-weight:bold;cursor:pointer}.mw-ui-button:visited{color:#222222}.mw-ui-button:hover{background-color:#ffffff;color:#444444;border-color:#a2a9b1}.mw-ui-button:focus{background-color:#ffffff;color:#222222;border-color:#3366cc;box-shadow:inset 0 0 0 1px #3366cc,inset 0 0 0 2px #ffffff}.mw-ui-button:active,.mw-ui-button.is-on,.mw-ui-button.mw-ui-checked{background-color:#d9d9d9;color:#000000;border-color:#72777d;box-shadow:none}.mw-ui-button:disabled{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1}.mw-ui-button:disabled:hover,.mw-ui-button:disabled:active{background-color:#c8ccd1;color:#fff;box-shadow:none;border-color:#c8ccd1}.mw-ui-button:focus{outline-width:0}.mw-ui-button:focus::-moz-focus-inner{border-color:transparent;padding:0}.mw-ui-button:not( :disabled ){-webkit-transition:background-color 100ms,color 100ms,border-color 100ms,box-shadow 100ms;-moz-transition:background-color 100ms,color 100ms,border-color 100ms,box-shadow 100ms;transition:background-color 100ms,color 100ms,border-color 100ms,box-shadow 100ms}.mw-ui-button:disabled{text-shadow:none;cursor:default}.mw-ui-button.mw-ui-big{font-size:1.3em}.mw-ui-button.mw-ui-block{display:block;width:100%;margin-left:auto;margin-right:auto}.mw-ui-button.mw-ui-progressive,.mw-ui-button.mw-ui-constructive{background-color:#3366cc;color:#fff;border:1px solid #3366cc;text-shadow:0 1px rgba(0,0,0,0.1)}.mw-ui-button.mw-ui-progressive:hover,.mw-ui-button.mw-ui-constructive:hover{background-color:#447ff5;border-color:#447ff5}.mw-ui-button.mw-ui-progressive:focus,.mw-ui-button.mw-ui-constructive:focus{box-shadow:inset 0 0 0 1px #3366cc,inset 0 0 0 2px #ffffff}.mw-ui-button.mw-ui-progressive:active,.mw-ui-button.mw-ui-constructive:active,.mw-ui-button.mw-ui-progressive.is-on,.mw-ui-button.mw-ui-constructive.is-on,.mw-ui-button.mw-ui-progressive.mw-ui-checked,.mw-ui-button.mw-ui-constructive.mw-ui-checked{background-color:#2a4b8d;border-color:#2a4b8d;box-shadow:none}.mw-ui-button.mw-ui-progressive:disabled,.mw-ui-button.mw-ui-constructive:disabled{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1}.mw-ui-button.mw-ui-progressive:disabled:hover,.mw-ui-button.mw-ui-constructive:disabled:hover,.mw-ui-button.mw-ui-progressive:disabled:active,.mw-ui-button.mw-ui-constructive:disabled:active,.mw-ui-button.mw-ui-progressive:disabled.mw-ui-checked,.mw-ui-button.mw-ui-constructive:disabled.mw-ui-checked{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1;box-shadow:none}.mw-ui-button.mw-ui-progressive.mw-ui-quiet,.mw-ui-button.mw-ui-constructive.mw-ui-quiet{color:#222222}.mw-ui-button.mw-ui-progressive.mw-ui-quiet:hover,.mw-ui-button.mw-ui-constructive.mw-ui-quiet:hover{background-color:transparent;color:#447ff5}.mw-ui-button.mw-ui-progressive.mw-ui-quiet:active,.mw-ui-button.mw-ui-constructive.mw-ui-quiet:active,.mw-ui-button.mw-ui-progressive.mw-ui-quiet.mw-ui-checked,.mw-ui-button.mw-ui-constructive.mw-ui-quiet.mw-ui-checked{color:#2a4b8d}.mw-ui-button.mw-ui-progressive.mw-ui-quiet:focus,.mw-ui-button.mw-ui-constructive.mw-ui-quiet:focus{background-color:transparent;color:#3366cc}.mw-ui-button.mw-ui-progressive.mw-ui-quiet:disabled,.mw-ui-button.mw-ui-constructive.mw-ui-quiet:disabled{color:#c8ccd1}.mw-ui-button.mw-ui-destructive{background-color:#cc3333;color:#fff;border:1px solid #cc3333;text-shadow:0 1px rgba(0,0,0,0.1)}.mw-ui-button.mw-ui-destructive:hover{background-color:#e53939;border-color:#e53939}.mw-ui-button.mw-ui-destructive:focus{box-shadow:inset 0 0 0 1px #cc3333,inset 0 0 0 2px #ffffff}.mw-ui-button.mw-ui-destructive:active,.mw-ui-button.mw-ui-destructive.is-on,.mw-ui-button.mw-ui-destructive.mw-ui-checked{background-color:#873636;border-color:#873636;box-shadow:none}.mw-ui-button.mw-ui-destructive:disabled{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1}.mw-ui-button.mw-ui-destructive:disabled:hover,.mw-ui-button.mw-ui-destructive:disabled:active,.mw-ui-button.mw-ui-destructive:disabled.mw-ui-checked{background-color:#c8ccd1;color:#fff;border-color:#c8ccd1;box-shadow:none}.mw-ui-button.mw-ui-destructive.mw-ui-quiet{color:#222222}.mw-ui-button.mw-ui-destructive.mw-ui-quiet:hover{background-color:transparent;color:#e53939}.mw-ui-button.mw-ui-destructive.mw-ui-quiet:active,.mw-ui-button.mw-ui-destructive.mw-ui-quiet.mw-ui-checked{color:#873636}.mw-ui-button.mw-ui-destructive.mw-ui-quiet:focus{background-color:transparent;color:#cc3333}.mw-ui-button.mw-ui-destructive.mw-ui-quiet:disabled{color:#c8ccd1}.mw-ui-button.mw-ui-quiet{background:transparent;border:0;text-shadow:none;color:#222222}.mw-ui-button.mw-ui-quiet:hover{background-color:transparent;color:#444444}.mw-ui-button.mw-ui-quiet:active,.mw-ui-button.mw-ui-quiet.mw-ui-checked{color:#000000}.mw-ui-button.mw-ui-quiet:focus{background-color:transparent;color:#222222}.mw-ui-button.mw-ui-quiet:disabled{color:#c8ccd1}.mw-ui-button.mw-ui-quiet:hover,.mw-ui-button.mw-ui-quiet:focus{box-shadow:none}.mw-ui-button.mw-ui-quiet:active,.mw-ui-button.mw-ui-quiet:disabled{background:transparent}a.mw-ui-button{text-decoration:none;line-height:normal}a.mw-ui-button:hover,a.mw-ui-button:focus{text-decoration:none}.mw-ui-button-group > *{min-width:48px;border-radius:0;float:left}.mw-ui-button-group > *:first-child{border-top-left-radius:2px;border-bottom-left-radius:2px}.mw-ui-button-group > *:not( :first-child ){border-left:0}.mw-ui-button-group > *:last-child{border-top-right-radius:2px;border-bottom-right-radius:2px}.mw-ui-button-group .is-on .button{cursor:default}
+.mw-ui-icon{position:relative;line-height:1.5em;min-height:1.5em;min-width:1.5em}.mw-ui-icon.mw-ui-icon-element{text-indent:-999px;overflow:hidden;width:3.5em;min-width:3.5em;max-width:3.5em}.mw-ui-icon.mw-ui-icon-element:before{left:0;right:0;position:absolute;margin:0 1em}.mw-ui-icon.mw-ui-icon-before:before,.mw-ui-icon.mw-ui-icon-element:before{background-position:50% 50%;background-repeat:no-repeat;background-size:100% auto;float:left;display:block;min-height:1.5em;content:''}.mw-ui-icon.mw-ui-icon-before:before{position:relative;width:1.5em;margin-right:1em}.mw-ui-icon.mw-ui-icon-small:before{background-size:66.67% auto}</style><style>
+.suggestions a.mw-searchSuggest-link,.suggestions a.mw-searchSuggest-link:hover,.suggestions a.mw-searchSuggest-link:active,.suggestions a.mw-searchSuggest-link:focus{color:#000;text-decoration:none}.suggestions-result-current a.mw-searchSuggest-link,.suggestions-result-current a.mw-searchSuggest-link:hover,.suggestions-result-current a.mw-searchSuggest-link:active,.suggestions-result-current a.mw-searchSuggest-link:focus{color:#fff}.suggestions a.mw-searchSuggest-link .special-query{ overflow:hidden;-o-text-overflow:ellipsis; text-overflow:ellipsis;white-space:nowrap}
+#p-lang .body ul .uls-trigger,#p-lang .pBody ul .uls-trigger{background-image:none;padding:0} .mw-interlanguage-selector,.mw-interlanguage-selector:active{cursor:pointer;padding:4px 6px 4px 25px;font-size:13px;font-weight:normal;background-image:url(/w/extensions/UniversalLanguageSelector/resources/images/compact-links-trigger.png?b0c8e);background-image:linear-gradient(transparent,transparent),url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2218%22%20height%3D%2218%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M13%2019l.8-3h5.3l.9%203h2.2l-4.2-13h-3l-4.2%2013h2.2zm3.5-11l2%206h-4l2-6z%22%20fill%3D%22%23707070%22%2F%3E%3Cpath%20d%3D%22M5%204l.938%201.906h-4.938v2.094h1.594c.6%201.8%201.406%203.206%202.406%204.406-1.1.7-4.313%201.781-4.313%201.781l1.313%201.813s3.487-1.387%204.688-2.188c1%20.7%202.319%201.188%203.719%201.688l.594-2c-1-.3-1.988-.688-2.688-1.188%201.1-1.1%201.9-2.506%202.5-4.406h2.188l.5-2h-5.563l-.938-1.906h-2zm-.188%204h3.781c-.4%201.3-.906%202-1.906%203-1.1-1-1.475-1.7-1.875-3z%22%20fill%3D%22%23707070%22%2F%3E%3C%2Fsvg%3E%0A);background-image:-o-linear-gradient(transparent,transparent),url(/w/extensions/UniversalLanguageSelector/resources/images/compact-links-trigger.png?b0c8e);background-size:18px;background-repeat:no-repeat;background-position:left 4px center;margin:4px 0;text-align:left}.mw-interlanguage-selector:active,.mw-interlanguage-selector.selector-open{color:#555;background-color:#ccc}.interlanguage-uls-menu:before{background:none repeat scroll 0 0 #fcfcfc;border-left:1px solid rgba(0,0,0,0.2);border-top:1px solid rgba(0,0,0,0.2);box-shadow:-2px -2px 2px rgba(0,0,0,0.1);content:'';height:16px;width:16px;left:-9px;position:absolute; top:240px;transform:rotate(-45deg);-webkit-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-o-transform:rotate(-45deg);-ms-transform:rotate(-45deg);background-clip:padding-box}body.rtl .interlanguage-uls-menu:before{transform:rotate(45deg);-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-o-transform:rotate(45deg);-ms-transform:rotate(45deg)}
+.mw-mmv-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;background-color:#000000}body.mw-mmv-lightbox-open{overflow-y:auto;  }body.mw-mmv-lightbox-open #mw-page-base,body.mw-mmv-lightbox-open #mw-head-base,body.mw-mmv-lightbox-open #mw-navigation,body.mw-mmv-lightbox-open #content,body.mw-mmv-lightbox-open #footer,body.mw-mmv-lightbox-open #globalWrapper{ display:none}body.mw-mmv-lightbox-open > *{ display:none}body.mw-mmv-lightbox-open > .mw-mmv-overlay,body.mw-mmv-lightbox-open > .mw-mmv-wrapper{display:block}.mw-mmv-filepage-buttons{margin-top:5px}.mw-mmv-filepage-buttons .mw-mmv-view-expanded,.mw-mmv-filepage-buttons .mw-mmv-view-config{display:block;line-height:inherit}.mw-mmv-filepage-buttons .mw-mmv-view-expanded.mw-ui-icon:before{background-image:url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%20768%22%3E%0A%20%20%20%20%3Cg%20fill%3D%22%23777%22%3E%0A%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M851.2%2071.6L690.7%20232.1l-40.1-40.3-9.6%20164.8%20164.8-9.3-40.3-40.4L926%20146.4l58.5%2058.5L997.6%200%20792.7%2013.1%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M769.6%2089.3H611.9l70.9%2070.8%207.9%207.5m-47.1%20234.6l-51.2%203%203-51.2%209.4-164.4%205.8-100.3H26.4V768h883.1V387l-100.9%205.8-165%209.4zM813.9%20678H113.6l207.2-270.2%2031.5-12.9L548%20599.8l105.9-63.2%20159.8%20140.8.2.6zm95.6-291.9V228l-79.1%2078.9%207.8%207.9%22%2F%3E%0A%20%20%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A)}.mw-mmv-filepage-buttons .mw-mmv-view-config.mw-ui-icon:before{background-image:url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201024%20768%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M897%20454.6V313.4L810.4%20299c-6.4-23.3-16-45.7-27.3-65.8l50.5-71.4-99.4-100.2-71.4%2050.5c-20.9-11.2-42.5-20.9-65.8-27.3L582.6-1H441.4L427%2085.6c-23.3%206.4-45.7%2016-65.8%2027.3l-71.4-50.5-100.3%2099.5%2050.5%2071.4c-11.2%2020.9-20.9%2042.5-27.3%2066.6L127%20313.4v141.2l85.8%2014.4c6.4%2023.3%2016%2045.7%2027.3%2066.6L189.6%20607l99.5%2099.5%2071.4-50.5c20.9%2011.2%2042.5%2020.9%2066.6%2027.3l14.4%2085.8h141.2l14.4-86.6c23.3-6.4%2045.7-16%2065.8-27.3l71.4%2050.5%2099.5-99.5-50.5-71.4c11.2-20.9%2020.9-42.5%2027.3-66.6l86.4-13.6zm-385%2077c-81.8%200-147.6-66.6-147.6-147.6%200-81.8%2066.6-147.6%20147.6-147.6S659.6%20302.2%20659.6%20384%20593.8%20531.6%20512%20531.6z%22%20fill%3D%22%23777%22%2F%3E%0A%3C%2Fsvg%3E%0A);opacity:0.75}.mw-mmv-filepage-buttons .mw-mmv-view-config.mw-ui-icon:before:hover{opacity:1}</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="X86%20Assembly_Programmable%20Interrupt%20Controller%20-%20Wikibooks,%20open%20books%20for%20an%20open%20world_files/load_002.css">
+<meta name="generator" content="MediaWiki 1.29.0-wmf.3">
+<meta name="referrer" content="origin-when-cross-origin">
+<link rel="alternate" type="application/x-wiki" title="Edit" href="https://en.wikibooks.org/w/index.php?title=X86_Assembly/Programmable_Interrupt_Controller&amp;action=edit">
+<link rel="edit" title="Edit" href="https://en.wikibooks.org/w/index.php?title=X86_Assembly/Programmable_Interrupt_Controller&amp;action=edit">
+<link rel="shortcut icon" href="https://en.wikibooks.org/static/favicon/wikibooks.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="https://en.wikibooks.org/w/opensearch_desc.php" title="Wikibooks (en)">
+<link rel="EditURI" type="application/rsd+xml" href="https://en.wikibooks.org/w/api.php?action=rsd">
+<link rel="copyright" href="https://creativecommons.org/licenses/by-sa/3.0/">
+<link rel="alternate" type="application/atom+xml" title="Wikibooks Atom feed" href="https://en.wikibooks.org/w/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="canonical" href="https://en.wikibooks.org/wiki/X86_Assembly/Programmable_Interrupt_Controller">
+<link rel="dns-prefetch" href="https://login.wikimedia.org/">
+<link rel="dns-prefetch" href="https://meta.wikimedia.org/">
+<script src="X86%20Assembly_Programmable%20Interrupt%20Controller%20-%20Wikibooks,%20open%20books%20for%20an%20open%20world_files/load.php"></script><link rel="stylesheet" href="X86%20Assembly_Programmable%20Interrupt%20Controller%20-%20Wikibooks,%20open%20books%20for%20an%20open%20world_files/index_002.css"><link rel="stylesheet" href="X86%20Assembly_Programmable%20Interrupt%20Controller%20-%20Wikibooks,%20open%20books%20for%20an%20open%20world_files/index.css"></head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-X86_Assembly_Programmable_Interrupt_Controller rootpage-X86_Assembly skin-vector action-view">		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+
+							<div id="siteNotice"><div id="centralNotice"></div><!-- CentralNotice --></div>
+						<div class="mw-indicators">
+</div>
+			<h1 id="firstHeading" class="firstHeading" lang="en">X86 Assembly/Programmable Interrupt Controller</h1>
+									<div id="bodyContent" class="mw-body-content">
+									<div id="siteSub">From Wikibooks, open books for an open world</div>
+								<div id="contentSub"><span class="subpages">&lt; <a href="https://en.wikibooks.org/wiki/X86_Assembly" title="X86 Assembly">X86 Assembly</a></span></div>
+												<div id="jump-to-nav" class="mw-jump">
+					Jump to:					<a href="#mw-head">navigation</a>, 					<a href="#p-search">search</a>
+				</div>
+				<div id="mw-content-text" dir="ltr" class="mw-content-ltr" lang="en"><script>function mfTempOpenSection(id){var block=document.getElementById("mf-section-"+id);block.className+=" open-block";block.previousSibling.className+=" open-block";}</script><center>
+<div class="PrettyTextBox noprint" style="width: 90%; float: center; clear: all; padding: 5px; margin: 5px;"><big><b><a href="https://en.wikibooks.org/wiki/X86_Assembly" title="X86 Assembly">x86 Assembly</a></b></big></div>
+</center>
+<table class="plainlinks noprint messagebox notice" style="width:250px; float:right; clear:right; margin:0px; margin-left:10px;">
+<tbody><tr style="vertical-align:middle;">
+<td style="padding:0.1em; text-align:center; vertical-align:middle; width:45px; border:none;"><img alt="Wikipedia-logo.png" src="X86%20Assembly_Programmable%20Interrupt%20Controller%20-%20Wikibooks,%20open%20books%20for%20an%20open%20world_files/40px-Wikipedia-logo.png" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/6/63/Wikipedia-logo.png/60px-Wikipedia-logo.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/6/63/Wikipedia-logo.png/80px-Wikipedia-logo.png 2x" data-file-width="200" data-file-height="200" width="40" height="40"></td>
+<td style="color:black; text-align:left; vertical-align:middle; padding:0.5em; padding-left:0em; border:none;">
+<p><a href="https://en.wikipedia.org/wiki/" class="extiw" title="w:" target="_blank">Wikipedia</a> has related information at <a class="external text" href="https://en.wikipedia.org/wiki/Programmable_Interrupt_Controller" target="_blank"><i><b>Programmable Interrupt Controller</b></i></a></p>
+</td>
+</tr>
+</tbody></table>
+<div style="width:250px; float:right; clear:right; margin:0px; margin-top:10px !important;"></div>
+<p>The original IBM PC contained a chip known as the <b>Programmable Interrupt Controller</b>
+ to handle the incoming interrupt requests from the system, and to send 
+them in an orderly fashion to the MPU for processing. The original 
+interrupt controller was the 8259A chip, although modern computers will 
+have a more recent variant. The most common replacement is the <a href="https://en.wikipedia.org/wiki/Advanced_Programmable_Interrupt_Controller" class="extiw" title="w:Advanced Programmable Interrupt Controller" target="_blank">APIC</a>
+ (Advanced Programmable Interrupt Controller) which is essentially an 
+extended version of the old PIC chip to maintain backwards 
+compatibility. This page will cover the 8259A.</p>
+<p></p>
+<div id="toc" class="toc">
+<div id="toctitle">
+<h2>Contents</h2>
+<span class="toctoggle">&nbsp;[<a role="button" tabindex="0" id="togglelink">hide</a>]&nbsp;</span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Function"><span class="tocnumber">1</span> <span class="toctext">Function</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#IRQs"><span class="tocnumber">2</span> <span class="toctext">IRQs</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#Programming"><span class="tocnumber">3</span> <span class="toctext">Programming</span></a>
+<ul>
+<li class="toclevel-2 tocsection-4"><a href="#Masking"><span class="tocnumber">3.1</span> <span class="toctext">Masking</span></a></li>
+<li class="toclevel-2 tocsection-5"><a href="#Remapping"><span class="tocnumber">3.2</span> <span class="toctext">Remapping</span></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p></p>
+<h2><span class="mw-headline" id="Function">Function</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikibooks.org/w/index.php?title=X86_Assembly/Programmable_Interrupt_Controller&amp;action=edit&amp;section=1" title="Edit section: Function">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<div class="thumb tright">
+<div class="thumbinner" style="width:302px;"><a href="https://commons.wikimedia.org/wiki/File:PIC_Hardware_interrupt_path.svg" class="image"><img alt="" src="X86%20Assembly_Programmable%20Interrupt%20Controller%20-%20Wikibooks,%20open%20books%20for%20an%20open%20world_files/300px-PIC_Hardware_interrupt_path.png" class="thumbimage" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/1/15/PIC_Hardware_interrupt_path.svg/450px-PIC_Hardware_interrupt_path.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/1/15/PIC_Hardware_interrupt_path.svg/600px-PIC_Hardware_interrupt_path.svg.png 2x" data-file-width="500" data-file-height="250" width="300" height="150"></a>
+<div class="thumbcaption">
+<div class="magnify"><a href="https://en.wikibooks.org/wiki/File:PIC_Hardware_interrupt_path.svg" class="internal" title="Enlarge"></a></div>
+Path of an interrupt, from hardware to CPU</div>
+</div>
+</div>
+<p>The function of the 8259A is actually relatively simple. Each PIC has
+ 8 input lines, called Interrupt Requests (IRQ), numbered from 0 to 7. 
+When one of these lines goes high, the PIC alerts the CPU and sends the 
+appropriate interrupt number. This number is calculated by adding the 
+IRQ number (0 to 7) to an internal "vector offset" value. The CPU uses 
+this value to execute an appropriate Interrupt Service Routine. (For 
+further information, see <a href="https://en.wikibooks.org/wiki/X86_Assembly/Advanced_Interrupts" title="X86 Assembly/Advanced Interrupts">Advanced Interrupts</a>).</p>
+<p>Of course, it's not quite as simple as that, because each system has 
+two PICS, a "master" and a "slave". So when the slave raises an 
+interrupt, it's actually sent to the master, which sends that to the 
+CPU. In this way, interrupts cascade and a processor can have 16 IRQ 
+lines. Of these 16, one is needed for the two PIC chips to interface 
+with each other, so the number of available IRQs is decreased to 15.</p>
+<p>While <a href="https://en.wikibooks.org/wiki/X86_Assembly/Advanced_Interrupts#Disabling_Interrupts" title="X86 Assembly/Advanced Interrupts">cli and sti</a> can be used to disable and enable <i>all</i>
+ hardware interrupts, it's sometimes desirable to selectively disable 
+interrupts from certain devices. For this purpose, PICs have an internal
+ 8-bit register called the Interrupt Mask Register (IMR). The bits in 
+this register determine which IRQs are passed on to the CPU. If an IRQ 
+is raised but the corresponding bit in the IMR is set, it is ignored and
+ nothing is sent to the CPU.</p>
+<h2><span class="mw-headline" id="IRQs">IRQs</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikibooks.org/w/index.php?title=X86_Assembly/Programmable_Interrupt_Controller&amp;action=edit&amp;section=2" title="Edit section: IRQs">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>Of the 15 usable IRQs, some are universally associated with one type of device:</p>
+<ul>
+<li>IRQ 0 ‒ system timer</li>
+<li>IRQ 1 — keyboard controller</li>
+<li>IRQ 3 — serial port COM2</li>
+<li>IRQ 4 — serial port COM1</li>
+<li>IRQ 5 — line print terminal 2</li>
+<li>IRQ 6 — floppy controller</li>
+<li>IRQ 7 — line print terminal 1</li>
+<li>IRQ 8 — RTC timer</li>
+<li>IRQ 12 — mouse controller</li>
+<li>IRQ 13 — math co-processor</li>
+<li>IRQ 14 — ATA channel 1</li>
+<li>IRQ 15 — ATA channel 2</li>
+</ul>
+<h2><span class="mw-headline" id="Programming">Programming</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikibooks.org/w/index.php?title=X86_Assembly/Programmable_Interrupt_Controller&amp;action=edit&amp;section=3" title="Edit section: Programming">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>Each of the system's two PICs are assigned a command port and a data port:</p>
+<table class="wikitable">
+<tbody><tr>
+<th></th>
+<th>PIC1</th>
+<th>PIC2</th>
+</tr>
+<tr>
+<td>Command</td>
+<td>0x20</td>
+<td>0xA0</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>0x21</td>
+<td>0xA1</td>
+</tr>
+</tbody></table>
+<h3><span class="mw-headline" id="Masking">Masking</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikibooks.org/w/index.php?title=X86_Assembly/Programmable_Interrupt_Controller&amp;action=edit&amp;section=4" title="Edit section: Masking">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>Normally, reading from the data port returns the IMR register (see 
+above), and writing to it sets the register. We can use this to set 
+which IRQs should be ignored. For example, to disable IRQ 6 (floppy 
+controller) from firing:</p>
+<div class="mw-highlight mw-content-ltr" dir="ltr">
+<pre><span class="nf">in</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">0x21</span>
+<span class="nf">or</span> <span class="no">ax</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="err">&lt;&lt;</span> <span class="mi">6</span><span class="p">)</span>
+<span class="nf">out</span> <span class="mi">0x21</span><span class="p">,</span> <span class="no">ax</span>
+</pre></div>
+<p>In the same way, to disable IRQ 12 (mouse controller):</p>
+<div class="mw-highlight mw-content-ltr" dir="ltr">
+<pre><span class="nf">in</span> <span class="no">ax</span><span class="p">,</span> <span class="mi">0xA1</span>
+<span class="nf">or</span> <span class="no">ax</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="err">&lt;&lt;</span> <span class="mi">4</span><span class="p">)</span>   <span class="err">;</span><span class="no">IRQ</span> <span class="mi">12</span> <span class="no">is</span> <span class="no">actually</span> <span class="no">IRQ</span> <span class="mi">4</span> <span class="no">of</span> <span class="no">PIC2</span>
+<span class="nf">out</span> <span class="mi">0xA1</span><span class="p">,</span> <span class="no">ax</span>
+</pre></div>
+<h3><span class="mw-headline" id="Remapping">Remapping</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="https://en.wikibooks.org/w/index.php?title=X86_Assembly/Programmable_Interrupt_Controller&amp;action=edit&amp;section=5" title="Edit section: Remapping">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>Another common task, often performed during the initialization of an 
+operating system, is remapping the PICs. That is, changing their 
+internal vector offsets, thereby altering the interrupt numbers they 
+send. The initial vector offset of PIC1 is 8, so it raises interrupt 
+numbers 8 to 15. Unfortunately, some of the low 32 interrupts are used 
+by the CPU for exceptions (divide-by-zero, page fault, etc.), causing a 
+conflict between hardware and software interrupts. The usual solution to
+ this is remapping the PIC1 to start at 32, and often the PIC2 right 
+after it at 40. This requires a complete restart of the PICs, but is not
+ actually too difficult, requiring just eight <code>out</code>s.</p>
+<div class="mw-highlight mw-content-ltr" dir="ltr">
+<pre><span class="nf">mov</span> <span class="no">al</span><span class="p">,</span> <span class="mi">0x11</span>
+<span class="nf">out</span> <span class="mi">0x20</span><span class="p">,</span> <span class="no">al</span>     <span class="err">;</span><span class="no">restart</span> <span class="no">PIC1</span>
+<span class="nf">out</span> <span class="mi">0xA0</span><span class="p">,</span> <span class="no">al</span>     <span class="err">;</span><span class="no">restart</span> <span class="no">PIC2</span>
+
+<span class="nf">mov</span> <span class="no">al</span><span class="p">,</span> <span class="mi">0x20</span>
+<span class="nf">out</span> <span class="mi">0x21</span><span class="p">,</span> <span class="no">al</span>     <span class="err">;</span><span class="no">PIC1</span> <span class="no">now</span> <span class="no">starts</span> <span class="no">at</span> <span class="mi">32</span>
+<span class="nf">mov</span> <span class="no">al</span><span class="p">,</span> <span class="mi">0x28</span>
+<span class="nf">out</span> <span class="mi">0xA1</span><span class="p">,</span> <span class="no">al</span>     <span class="err">;</span><span class="no">PIC2</span> <span class="no">now</span> <span class="no">starts</span> <span class="no">at</span> <span class="mi">40</span>
+
+<span class="nf">mov</span> <span class="no">al</span><span class="p">,</span> <span class="mi">0x04</span>
+<span class="nf">out</span> <span class="mi">0x21</span><span class="p">,</span> <span class="no">al</span>     <span class="err">;</span><span class="no">setup</span> <span class="no">cascading</span>
+<span class="nf">mov</span> <span class="no">al</span><span class="p">,</span> <span class="mi">0x02</span>
+<span class="nf">out</span> <span class="mi">0xA1</span><span class="p">,</span> <span class="no">al</span>
+
+<span class="nf">mov</span> <span class="no">al</span><span class="p">,</span> <span class="mi">0x01</span>
+<span class="nf">out</span> <span class="mi">0x21</span><span class="p">,</span> <span class="no">al</span>
+<span class="nf">out</span> <span class="mi">0xA1</span><span class="p">,</span> <span class="no">al</span>     <span class="err">;</span><span class="no">done</span><span class="p">!</span>
+</pre></div>
+
+
+<!-- Saved in parser cache with key enwikibooks:pcache:idhash:57944-0!*!0!!en!4!* and timestamp 20161108034640 and revision id 3007803
+ -->
+<noscript><img src="//en.wikibooks.org/wiki/Special:CentralAutoLogin/start?type=1x1" alt="" title="" width="1" height="1" style="border: none; position: absolute;" /></noscript></div>					<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="https://en.wikibooks.org/w/index.php?title=X86_Assembly/Programmable_Interrupt_Controller&amp;oldid=3007803">https://en.wikibooks.org/w/index.php?title=X86_Assembly/Programmable_Interrupt_Controller&amp;oldid=3007803</a>"					</div>
+				<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="https://en.wikibooks.org/wiki/Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="https://en.wikibooks.org/wiki/Category:X86_Assembly" title="Category:X86 Assembly">X86 Assembly</a></li></ul></div></div>				<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-anonuserpage">Not logged in</li><li id="pt-anontalk"><a href="https://en.wikibooks.org/wiki/Special:MyTalk" title="Discussion about edits from this IP address [Alt+Shift+n]" accesskey="n">Discussion for this IP address</a></li><li id="pt-anoncontribs"><a href="https://en.wikibooks.org/wiki/Special:MyContributions" title="A list of edits made from this IP address [Alt+Shift+y]" accesskey="y">Contributions</a></li><li id="pt-createaccount"><a href="https://en.wikibooks.org/w/index.php?title=Special:CreateAccount&amp;returnto=X86+Assembly%2FProgrammable+Interrupt+Controller" title="You are encouraged to create an account and log in; however, it is not mandatory">Create account</a></li><li id="pt-login"><a href="https://en.wikibooks.org/w/index.php?title=Special:UserLogin&amp;returnto=X86+Assembly%2FProgrammable+Interrupt+Controller" title="You are encouraged to log in; however, it is not mandatory [Alt+Shift+o]" accesskey="o">Log in</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+															<li id="ca-nstab-main" class="selected"><span><a href="https://en.wikibooks.org/wiki/X86_Assembly/Programmable_Interrupt_Controller" title="View the content page [Alt+Shift+c]" accesskey="c">Book</a></span></li>
+															<li id="ca-talk" class="new"><span><a href="https://en.wikibooks.org/w/index.php?title=Talk:X86_Assembly/Programmable_Interrupt_Controller&amp;action=edit&amp;redlink=1" title="Discussion about the content page [Alt+Shift+t]" accesskey="t" rel="discussion">Discussion</a></span></li>
+													</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<h3 id="p-variants-label" tabindex="0">
+							<span>Variants</span><a href="#" tabindex="-1"></a>
+						</h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+															<li id="ca-view" class="selected"><span><a href="https://en.wikibooks.org/wiki/X86_Assembly/Programmable_Interrupt_Controller">Read</a></span></li>
+															<li id="ca-edit"><span><a href="https://en.wikibooks.org/w/index.php?title=X86_Assembly/Programmable_Interrupt_Controller&amp;action=edit" title="Edit this page [Alt+Shift+e]" accesskey="e">Edit</a></span></li>
+															<li id="ca-history" class="collapsible"><span><a href="https://en.wikibooks.org/w/index.php?title=X86_Assembly/Programmable_Interrupt_Controller&amp;action=history" title="Past revisions of this page [Alt+Shift+h]" accesskey="h">View history</a></span></li>
+													</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label" style="">
+						<h3 id="p-cactions-label" tabindex="0"><span>More</span><a href="#" tabindex="-1"></a></h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+
+						<form action="/w/index.php" id="searchform">
+							<div id="simpleSearch">
+							<input name="search" placeholder="Search Wikibooks" title="Search Wikibooks [Alt+Shift+f]" accesskey="f" id="searchInput" tabindex="1" autocomplete="off" type="search"><input value="Special:Search" name="title" type="hidden"><input name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton" type="submit">							</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="https://en.wikibooks.org/wiki/Main_Page" title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id="p-Navigation" aria-labelledby="p-Navigation-label">
+			<h3 id="p-Navigation-label">Navigation</h3>
+
+			<div class="body">
+									<ul>
+						<li id="n-mainpage"><a href="https://en.wikibooks.org/wiki/Main_Page" title="Visit the main page [Alt+Shift+z]" accesskey="z">Main Page</a></li><li id="n-help"><a href="https://en.wikibooks.org/wiki/Help:Contents" title="Find help on how to use and edit Wikibooks">Help</a></li><li id="n-Browse"><a href="https://en.wikibooks.org/wiki/Wikibooks:Card_Catalog_Office" title="Check out what Wikibooks has to offer">Browse wiki</a></li><li id="n-Cookbook"><a href="https://en.wikibooks.org/wiki/Cookbook:Table_of_Contents" title="Learn recipes from around the world">Cookbook</a></li><li id="n-Wikijunior"><a href="https://en.wikibooks.org/wiki/Wikijunior" title="Books for children">Wikijunior</a></li><li id="n-Featured-books"><a href="https://en.wikibooks.org/wiki/Wikibooks:Featured_books" title="The best of Wikibooks">Featured books</a></li><li id="n-recentchanges"><a href="https://en.wikibooks.org/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [Alt+Shift+r]" accesskey="r">Recent changes</a></li><li id="n-sitesupport"><a href="https://donate.wikimedia.org/wiki/Special:FundraiserRedirector?utm_source=donate&amp;utm_medium=sidebar&amp;utm_campaign=C13_en.wikibooks.org&amp;uselang=en" title="Support Wikibooks">Donations</a></li><li id="n-randomrootpage"><a href="https://en.wikibooks.org/wiki/Special:RandomRootpage">Random book</a></li><li id="n-Using-Wikibooks"><a href="https://en.wikibooks.org/wiki/Using_Wikibooks">Using Wikibooks</a></li>					</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-Community" aria-labelledby="p-Community-label">
+			<h3 id="p-Community-label">Community</h3>
+
+			<div class="body">
+									<ul>
+						<li id="n-Reading-room"><a href="https://en.wikibooks.org/wiki/Wikibooks:Reading_room" title="Discuss Wikibooks-related questions and concerns with others">Reading room</a></li><li id="n-portal"><a href="https://en.wikibooks.org/wiki/Wikibooks:Community_Portal" title="Find your way around the Wikibooks community">Community portal</a></li><li id="n-currentevents"><a href="https://en.wikibooks.org/wiki/Wikibooks:Reading_room/Bulletin_Board" title="Important community news">Bulletin Board</a></li><li id="n-maintenance"><a href="https://en.wikibooks.org/wiki/Wikibooks:Maintenance" title="Frequent tasks that you can help with">Help out!</a></li><li id="n-Policies-and-guidelines"><a href="https://en.wikibooks.org/wiki/Wikibooks:Policies_and_guidelines" title="Pages detailing important rules and procedures">Policies and guidelines</a></li><li id="n-contact"><a href="https://en.wikibooks.org/wiki/Wikibooks:Contact_us" title="Alternative methods of communication">Contact us</a></li>					</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-tb" aria-labelledby="p-tb-label">
+			<h3 id="p-tb-label">Tools</h3>
+
+			<div class="body">
+									<ul>
+						<li id="t-whatlinkshere"><a href="https://en.wikibooks.org/wiki/Special:WhatLinksHere/X86_Assembly/Programmable_Interrupt_Controller" title="A list of all wiki pages that link here [Alt+Shift+j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="https://en.wikibooks.org/wiki/Special:RecentChangesLinked/X86_Assembly/Programmable_Interrupt_Controller" rel="nofollow" title="Recent changes in pages linked from this page [Alt+Shift+k]" accesskey="k">Related changes</a></li><li id="t-upload"><a href="https://commons.wikimedia.org/wiki/Special:UploadWizard?uselang=en" title="Upload files [Alt+Shift+u]" accesskey="u">Upload file</a></li><li id="t-specialpages"><a href="https://en.wikibooks.org/wiki/Special:SpecialPages" title="A list of all special pages [Alt+Shift+q]" accesskey="q">Special pages</a></li><li id="t-permalink"><a href="https://en.wikibooks.org/w/index.php?title=X86_Assembly/Programmable_Interrupt_Controller&amp;oldid=3007803" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="https://en.wikibooks.org/w/index.php?title=X86_Assembly/Programmable_Interrupt_Controller&amp;action=info" title="More information about this page">Page information</a></li><li id="t-cite"><a href="https://en.wikibooks.org/w/index.php?title=Special:CiteThisPage&amp;page=X86_Assembly%2FProgrammable_Interrupt_Controller&amp;id=3007803" title="Information on how to cite this page">Cite this page</a></li>					</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-lang" aria-labelledby="p-lang-label"><span class="uls-settings-trigger" title="Language settings" tabindex="0" role="button" aria-haspopup="true"></span>
+			<h3 id="p-lang-label">Languages</h3>
+
+			<div class="body">
+									<ul>
+											</ul>
+				<div class="after-portlet after-portlet-lang"><span class="wb-langlinks-add wb-langlinks-link"><a href="https://www.wikidata.org/wiki/Special:NewItem?site=enwikibooks&amp;page=X86+Assembly%2FProgrammable+Interrupt+Controller" title="Add interlanguage links" class="wbc-editpage">Add links</a></span></div>			</div>
+		</div>
+			<div class="portal" role="navigation" id="p-Sister_projects" aria-labelledby="p-Sister_projects-label">
+			<h3 id="p-Sister_projects-label">Sister projects</h3>
+
+			<div class="body">
+									<ul>
+						<li id="n-Wikipedia"><a href="https://en.wikipedia.org/wiki/Main_Page">Wikipedia</a></li><li id="n-Wikiversity"><a href="https://en.wikiversity.org/wiki/Wikiversity:Main_Page">Wikiversity</a></li><li id="n-Wiktionary"><a href="https://en.wiktionary.org/wiki/Wiktionary:Main_Page">Wiktionary</a></li><li id="n-Wikiquote"><a href="https://en.wikiquote.org/wiki/Main_Page">Wikiquote</a></li><li id="n-Wikisource"><a href="https://en.wikisource.org/wiki/Main_Page">Wikisource</a></li><li id="n-Wikinews"><a href="https://en.wikinews.org/wiki/Main_Page">Wikinews</a></li><li id="n-Wikivoyage"><a href="https://en.wikivoyage.org/wiki/Main_Page">Wikivoyage</a></li><li id="n-Commons"><a href="https://commons.wikimedia.org/wiki/Main_Page">Commons</a></li><li id="n-Wikidata"><a href="https://www.wikidata.org/wiki/Wikidata:Main_Page">Wikidata</a></li>					</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-coll-print_export" aria-labelledby="p-coll-print_export-label">
+			<h3 id="p-coll-print_export-label">Print/export</h3>
+
+			<div class="body">
+									<ul>
+						<li id="coll-create_a_book"><a href="https://en.wikibooks.org/w/index.php?title=Special:Book&amp;bookcmd=book_creator&amp;referer=X86+Assembly%2FProgrammable+Interrupt+Controller">Create a collection</a></li><li id="coll-download-as-rdf2latex"><a href="https://en.wikibooks.org/w/index.php?title=Special:Book&amp;bookcmd=render_article&amp;arttitle=X86+Assembly%2FProgrammable+Interrupt+Controller&amp;returnto=X86+Assembly%2FProgrammable+Interrupt+Controller&amp;oldid=3007803&amp;writer=rdf2latex">Download as PDF</a></li><li id="t-print"><a href="https://en.wikibooks.org/w/index.php?title=X86_Assembly/Programmable_Interrupt_Controller&amp;printable=yes" title="Printable version of this page [Alt+Shift+p]" accesskey="p">Printable version</a></li>					</ul>
+							</div>
+		</div>
+				</div>
+		</div>
+		<div id="footer" role="contentinfo">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 18 October 2015, at 14:37.</li>
+											<li id="footer-info-copyright">Text is available under the <a href="https://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike License.</a>; additional terms may apply.  By using this site, you agree to the <a href="https://wikimediafoundation.org/wiki/Terms_of_Use">Terms of Use</a> and <a href="https://wikimediafoundation.org/wiki/Privacy_policy">Privacy Policy.</a></li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="https://wikimediafoundation.org/wiki/Privacy_policy" class="extiw" title="wmf:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="https://en.wikibooks.org/wiki/Wikibooks:Welcome" title="Wikibooks:Welcome">About Wikibooks</a></li>
+											<li id="footer-places-disclaimer"><a href="https://en.wikibooks.org/wiki/Wikibooks:General_disclaimer" title="Wikibooks:General disclaimer">Disclaimers</a></li>
+											<li id="footer-places-developers"><a href="https://www.mediawiki.org/wiki/Special:MyLanguage/How_to_contribute">Developers</a></li>
+											<li id="footer-places-cookiestatement"><a href="https://wikimediafoundation.org/wiki/Cookie_statement">Cookie statement</a></li>
+											<li id="footer-places-mobileview"><a href="https://en.m.wikibooks.org/w/index.php?title=X86_Assembly/Programmable_Interrupt_Controller&amp;mobileaction=toggle_view_mobile" class="noprint stopMobileRedirectToggle">Mobile view</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+											<li id="footer-copyrightico">
+							<a href="https://wikimediafoundation.org/"><img src="X86%20Assembly_Programmable%20Interrupt%20Controller%20-%20Wikibooks,%20open%20books%20for%20an%20open%20world_files/wikimedia-button.png" srcset="/static/images/wikimedia-button-1.5x.png 1.5x, /static/images/wikimedia-button-2x.png 2x" alt="Wikimedia Foundation" width="88" height="31"></a>						</li>
+											<li id="footer-poweredbyico">
+							<a href="https://www.mediawiki.org/"><img src="X86%20Assembly_Programmable%20Interrupt%20Controller%20-%20Wikibooks,%20open%20books%20for%20an%20open%20world_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/static/images/poweredby_mediawiki_132x47.png 1.5x, /static/images/poweredby_mediawiki_176x62.png 2x" width="88" height="31"></a>						</li>
+									</ul>
+						<div style="clear:both"></div>
+		</div>
+		<script>(window.RLQ=window.RLQ||[]).push(function(){mw.loader.load(["mediawiki.toc","mediawiki.action.view.postEdit","site","mediawiki.user","mediawiki.hidpi","mediawiki.page.ready","mediawiki.searchSuggest","ext.gadget.extlinks","ext.gadget.commons-file","mmv.bootstrap.autostart","ext.visualEditor.targetLoader","ext.eventLogging.subscriber","ext.wikimediaEvents","ext.navigationTiming","ext.uls.eventlogger","ext.uls.init","ext.uls.compactlinks","ext.centralNotice.geoIP","ext.centralNotice.startUp","ext.flaggedRevs.advanced"]);});</script><script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":72,"wgHostname":"mw1273"});});</script>
+	
+
+<div style="display: none; font-size: 13px;" class="suggestions"><div class="suggestions-results"></div><div class="suggestions-special"></div></div></body></html>

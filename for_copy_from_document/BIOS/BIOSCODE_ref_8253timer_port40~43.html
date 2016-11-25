@@ -1,0 +1,47 @@
+<html>
+<head>
+        <title>PIC -- 8253/8254</title>
+</head>
+<body>
+        <header>
+                <h2>PIC -- 8253/8254</h2>
+        </header>
+<section id="">
+<pre class="code">
+
+</pre>
+</section>
+
+
+<section>
+
+<ul>
+	<li>Port 43 R/W -- 8253/8254 chipset 1</li>
+	<li>Port 53 R/W -- 8253/8254 chipset 2</li>
+</ul>
+<h5>IRQ 0</h5>
+<pre>The timer is usually assigned to IRQ-0 (highest priority hardware interrupt) because of the critical function it performs and because so many devices depend on it.</pre>
+<h5>Example</h5>
+<pre>
+		cli			# This is necessary
+		mov $0x36,%al
+		mov $0x43,%dx
+		outb %al,%dx  		# select counter 0, r/w all bits ,select mode 3,binary used
+		mov $11930180/n,%ax	# n=f,n=100,means 100Hz,1/100 s. If n=1, then 1s every once
+		outb %al,%dx
+		mov %ah,%al
+		outb %al,%dx 		 # NOTE : you can only use al to access to dx.
+</pre>
+<h5>Handler Requirement</h5>
+<pre>It is the handler's responsibility to send EOI to channel 0(IRQ0).like this:
+	...(some code)
+	mov $0x20,%al
+	out %al,$0x20
+	iret
+Write to 0x20 port to send PIC commands.see <a href="http://wiki.osdev.org/Programmable_Interval_Timer">Timer</a>
+
+
+</section>
+</body>
+</html>
+

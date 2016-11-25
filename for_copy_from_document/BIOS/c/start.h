@@ -58,16 +58,35 @@ __asm__ ( \
 "_start:\n\t" \
 "ljmp $" STRING(seg)", $_here\n\t" \
 "_here:\n\t" \
+"cli \n\t"\
 "mov %cs,%ax\n\t" \
 "mov %ax,%ds\n\t" \
 "mov %ax,%es\n\t" \
 "mov %ax,%ss \n\t" \
 "mov $" STRING(stackoff) ", %eax\n\t" \
 "mov %eax,%esp\n\t" \
+\
+"#mov $0xffff,%eax \n\t" \
+"#mov %eax,%esp \n\t" \
+"#add $0x4,%esp \n\t"\
+"#sub $0x4,%esp \n\t"\
+"#pop %eax \n\t"\
+\
 "pushl $0\n\t" \
 "pushl $0\n\t" \
 "call " STRING(entry) " \n\t" \
-"addl $8,%esp\n\t" );\
+"addl $8,%esp\n\t" \
+"#mov $0x6,%ah \n\t"\
+"#xor %cx,%cx \n\t"\
+"#mov $0x1,%dh \n\t"\
+"#int $0x1a \n\t"\
+"#you should check CF(=1 failed) \n\t"\
+"sti #this really works.Without this, the character even do not change.\n\t"\
+"#int $0x8 \n\t" \
+"#int $0x70 \n\t"\
+"#xor %edx,%edx\n\t" \
+"#div %edx \n\t"\
+);\
 GODIE()
-
+/*see clocker,see http://www.bioscentral.com/misc/interrupts.htm*/
 #endif /*END this file*/

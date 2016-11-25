@@ -38,3 +38,4 @@ void clear_screen(int count)
 	for(int i=0;i<count;i++)
 		putchar(0,0,i);
 }
+

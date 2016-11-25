@@ -7,6 +7,7 @@
 #define SYSLEN 1
 #define SECSIZE 512
 #define BOOTSEG 0x7c0
+#define FILESIZE 3211
 
 GENLOADER(BOOTSEG,_stack,enter_main);
 
@@ -14,7 +15,7 @@ void enter_mid();
 
 int enter_main(int argc,char* argv[]) /*don't use main, gcc will change something*/
 {
-	read_sector(BOOTSEG,SECSIZE*2,0,0,0,3,3); /* read logical the 1 sector */
+	read_sector(BOOTSEG,SECSIZE*2,0,0,0,3,(FILESIZE-SECSIZE)/SECSIZE); /* read logical the 3 sector,4 sectors */
 	enter_mid();
 	return 0;
 }

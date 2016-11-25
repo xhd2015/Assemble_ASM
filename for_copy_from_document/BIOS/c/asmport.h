@@ -21,9 +21,9 @@ __asm__ __volatile__(\
         :"d"((port))\
         :)
 
-#define ASSIGN_VALUE(var) \
+#define ASSIGN_VALUE(var,value) \
 __asm__ __volatile__(\
-        ""\
+        "mov $" STRING(value) ", %%eax \n\t"\
         :"=a"(var)\
         :\
         :)

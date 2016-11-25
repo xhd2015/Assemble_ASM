@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>时钟滴答（clock tick） - lovewcl - 博客园</title>
+<link type="text/css" rel="stylesheet" href="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-WinXPBlue.css">
+<link id="mobile-style" media="only screen and (max-width: 768px)" type="text/css" rel="stylesheet" href="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-WinXPBlue-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/hjslovewcl/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/hjslovewcl/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/hjslovewcl/wlwmanifest.xml">
+<script src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'hjslovewcl', cb_enable_mathjax=false;var isLogined=true;</script>
+<script src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<div id="top">
+	
+<div>
+	<table>
+		<tbody><tr>
+			<td class="HeaderTitles">
+                <h1 class="HeaderTitle"><a id="Header1_HeaderTitle" class="HeaderMainTitle" href="http://www.cnblogs.com/hjslovewcl/">c++</a></h1>
+				<p id="tagline"></p>
+			</td>
+		</tr>
+	</tbody></table>
+</div>
+<div class="HeaderBar">
+	<table id="HeaderBar" class="HeaderBar">
+		<tbody><tr>
+		    <td class="HeaderBarTab" nowrap="nowrap">
+		        <img id="Header1_StartButton" src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/BlueTabRight.gif" align="absmiddle">
+		        <a id="blog_nav_sitehome" href="http://www.cnblogs.com/">博客园</a><img id="Header1_MyLinks1_Divider1" src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/divider.gif" align="absmiddle">
+<a id="blog_nav_myhome" href="http://www.cnblogs.com/hjslovewcl/">首页</a><img id="Header1_MyLinks1_Image1" src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/divider.gif" align="absmiddle">
+<a id="blog_nav_newpost" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a><img id="Header1_MyLinks1_Image2" src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/divider.gif" align="absmiddle">
+<a id="blog_nav_contact" accesskey="9" rel="nofollow" href="https://msg.cnblogs.com/send/lovewcl">联系</a><img id="Header1_MyLinks1_Divider2" src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/divider.gif" align="absmiddle">
+<a id="blog_nav_rss" href="http://www.cnblogs.com/hjslovewcl/rss" target="_blank">订阅</a><img id="Header1_MyLinks1_Divider3" src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/divider.gif" align="absmiddle">
+<!--<a id="Header1_MyLinks1_Syndication2" href="../../../../../Atom.aspx" target="_blank">Syndicate this Site (Atom)</a><img id="Header1_MyLinks1_Divider6" src="../../../../../Skins/WinXPBlue/Images/divider.gif" align="absmiddle" />
+<a id="blog_nav_rss_image" class="XMLLink" href="http://www.cnblogs.com/hjslovewcl/rss" target="_blank"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>-->
+<a id="blog_nav_admin" rel="nofollow" href="https://i.cnblogs.com/">管理</a><img id="Header1_MyLinks1_Divider5" src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/divider.gif" align="absmiddle">
+
+			</td>
+			<td class="HeaderBarTabBack" width="100%" nowrap="nowrap">
+				<div id="blog_stats">
+<div class="BlogStatsBar">
+	<table class="BlogStatsBar">
+		<tbody><tr>
+			<td width="100%">
+			</td>
+			<td class="BlogStatsBar" nowrap="nowrap">
+				&nbsp;
+				61 
+				Posts&nbsp;::
+				23 Stories
+				::
+				10 Comments
+				::
+				0 Trackbacks
+			</td>
+		</tr>
+	</tbody></table>
+</div>
+</div>
+			</td>
+		</tr>
+	</tbody></table>
+</div>
+
+</div>
+<div id="leftmenu">
+	
+		
+<h3>公告</h3>
+<div class="News">
+	<div id="blog-news"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/hjslovewcl/">lovewcl</a><br>园龄：<a href="http://home.cnblogs.com/u/hjslovewcl/" title="入园时间：2012-01-05">4年10个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/hjslovewcl/followers/">28</a><br>关注：<a href="http://home.cnblogs.com/u/hjslovewcl/followees/">0</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('2744e994-5737-e111-b988-842b2b196315')">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+		<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/hjslovewcl/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/hjslovewcl/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/hjslovewcl/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/hjslovewcl/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/hjslovewcl/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+
+</div></div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+		<h3>随笔分类</h3>
+		
+				<ul>
+			
+				<li> <a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/hjslovewcl/category/347808.html">c++编程(8)</a></li>
+			
+				<li> <a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/hjslovewcl/category/347807.html">can开发</a></li>
+			
+				<li> <a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/hjslovewcl/category/347798.html">c编程(10)</a></li>
+			
+				<li> <a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/hjslovewcl/category/347799.html">linux C开发(17)</a></li>
+			
+				<li> <a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/hjslovewcl/category/347744.html">linux使用(20)</a></li>
+			
+				<li> <a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/hjslovewcl/category/347867.html">MFC编程(2)</a></li>
+			
+				<li> <a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/hjslovewcl/category/347801.html">minigui开发(1)</a></li>
+			
+				<li> <a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/hjslovewcl/category/347804.html">Nice电视剧</a></li>
+			
+				<li> <a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/hjslovewcl/category/347806.html">xml学习</a></li>
+			
+				<li> <a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/hjslovewcl/category/347745.html">串口编程</a></li>
+			
+				<li> <a id="CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/hjslovewcl/category/347802.html">嵌入式(2)</a></li>
+			
+				<li> <a id="CatList_LinkList_0_Link_11" href="http://www.cnblogs.com/hjslovewcl/category/347743.html">设计模式</a></li>
+			
+				<li> <a id="CatList_LinkList_0_Link_12" href="http://www.cnblogs.com/hjslovewcl/category/347816.html">数据库(2)</a></li>
+			
+				<li> <a id="CatList_LinkList_0_Link_13" href="http://www.cnblogs.com/hjslovewcl/category/347746.html">网络编程(3)</a></li>
+			
+				<li> <a id="CatList_LinkList_0_Link_14" href="http://www.cnblogs.com/hjslovewcl/category/347805.html">线程编程</a></li>
+			
+				</ul>
+			
+	
+		<h3>随笔档案</h3>
+		
+				<ul>
+			
+				<li> <a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/hjslovewcl/archive/2013/08.html">2013年8月 (1)</a></li>
+			
+				<li> <a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/hjslovewcl/archive/2011/07.html">2011年7月 (4)</a></li>
+			
+				<li> <a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/hjslovewcl/archive/2011/06.html">2011年6月 (5)</a></li>
+			
+				<li> <a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/hjslovewcl/archive/2011/04.html">2011年4月 (1)</a></li>
+			
+				<li> <a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/hjslovewcl/archive/2011/03.html">2011年3月 (19)</a></li>
+			
+				<li> <a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/hjslovewcl/archive/2011/02.html">2011年2月 (8)</a></li>
+			
+				<li> <a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/hjslovewcl/archive/2011/01.html">2011年1月 (2)</a></li>
+			
+				<li> <a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/hjslovewcl/archive/2010/12.html">2010年12月 (1)</a></li>
+			
+				<li> <a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/hjslovewcl/archive/2010/11.html">2010年11月 (19)</a></li>
+			
+				</ul>
+			
+	</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<h3 class="catListTitle">最新评论</h3>
+<div class="RecentComment" id="RecentComments">
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/01/10/2314356.html#3348719">1. Re:C/C++ 标准输入输出重定向</a></li>
+        <li class="recent_comment_body">c++部分有点难诶</li>
+        <li class="recent_comment_author">--夏日星123</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/03/03/2314342.html#3253129">2. Re:linux-多线程-互斥锁在多进程共享</a></li>
+        <li class="recent_comment_body">是不是缺少这个啊pthread_mutex_init(&amp;mutex,&amp;mutexattr); 要是没有关联起来的话，互斥锁初始化时失败的</li>
+        <li class="recent_comment_author">--An青鸟眷林</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/03/16/2314330.html#3136914">3. Re:Linux下select函数的使用</a></li>
+        <li class="recent_comment_body">tv_usec单位是微秒，所以文中【第二，若将时间值设为0秒0毫秒，就变成一个纯粹的非阻塞函数】里的毫秒应该写微秒</li>
+        <li class="recent_comment_author">--icebrain</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/03/16/2314330.html#3091492">4. Re:Linux下select函数的使用</a></li>
+        <li class="recent_comment_body">和windows下的有区别，一会儿说明<br>求windows</li>
+        <li class="recent_comment_author">--toda</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/03/03/2314341.html#3066780">5. Re:linux c 信号量编程</a></li>
+        <li class="recent_comment_body">测试了，有问题。不知道楼主有没有好好的测试过？</li>
+        <li class="recent_comment_author">--qianli</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<h3 class="catListTitle">阅读排行榜</h3>
+<div class="RecentComment" id="TopViewPosts"> 
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/06/28/2314323.html">1. linux 修改时间 date(66988)</a></li><li><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/03/03/2314341.html">2. linux c 信号量编程(36613)</a></li><li><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/03/16/2314330.html">3. Linux下select函数的使用(13064)</a></li><li><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/01/10/2314356.html">4. C/C++ 标准输入输出重定向(7128)</a></li><li><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/03/09/2314336.html">5. office2010简体中文正式版、visio2010简体中文正式版破解补丁(4923)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<h3 class="catListTitle">评论排行榜</h3>
+<div class="RecentComment" id="TopCommentsPosts">
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/03/16/2314330.html">1. Linux下select函数的使用(4)</a></li><li><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/03/03/2314341.html">2. linux c 信号量编程(1)</a></li><li><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/03/03/2314342.html">3. linux-多线程-互斥锁在多进程共享(1)</a></li><li><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/01/10/2314356.html">4. C/C++ 标准输入输出重定向(1)</a></li></ul></div>
+</div></div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/03/16/2314330.html">1. Linux下select函数的使用(2)</a></li><li><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/03/03/2314341.html">2. linux c 信号量编程(1)</a></li><li><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/03/03/2314344.html">3. ftok的陷阱(1)</a></li><li><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/01/10/2314356.html">4. C/C++ 标准输入输出重定向(1)</a></li><li><a href="http://www.cnblogs.com/hjslovewcl/p/3275378.html">5. nginx入门(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+	
+</div>
+
+<div id="main">
+	
+<div id="post_detail">
+<div class="post">
+	<div class="postTitle">
+		<a id="cb_post_title_url" href="http://www.cnblogs.com/hjslovewcl/archive/2011/06/28/2314322.html">时钟滴答（clock tick）</a>
+	</div>
+	
+	<div class="postText">
+		<div id="cnblogs_post_body"><p><span>
+</span></p><span style="font-family: mceinline;">
+</span><table style="width: 100%;" cellspacing="0" cellpadding="0" border="0">
+<tbody>
+<tr>
+<td align="center">
+<table style="width: 100%;" cellspacing="0" cellpadding="0" border="0">
+<tbody>
+<tr>
+<td>
+<div id="art">
+<div>请问时间的嘀嗒数是根据什么来设定的<br>有必要明确一些Linux内核时钟驱动中的基本概念。&nbsp;<br>（1）时钟周期（clock cycle）的频率：8253／8254 PIT的本质就是对由晶体振荡器产生的时钟周期进行计数，晶体振荡器在1秒时间内产生的时钟脉冲个数就是时钟周期的频率。Linux用宏 CLOCK_TICK_RATE来表示8254 PIT的输入时钟脉冲的频率（在PC机中这个值通常是1193180HZ），该宏定义在include/asm-i386/timex.h头文件中：&nbsp;<br>#define CLOCK_TICK_RATE 1193180 /* Underlying HZ */&nbsp;<br>（2）时钟滴答（clock tick）：我们知道，当PIT通道0的计数器减到0值时，它就在IRQ0上产生一次时钟中断，也即一次时钟滴答。PIT通道0的计数器的初始值决定了要过多少时钟周期才产生一次时钟中断，因此也就决定了一次时钟滴答的时间间隔长度。&nbsp;<br>（3）时钟滴答的频率（HZ）：也即1秒时间内PIT所产生的时钟滴答次数。类似地，这个值也是由PIT通道0的计数器初值决定的（反过来说，确定了时钟滴答的频率值后也就可以确定8254 PIT通道0的计数器初值）。Linux内核用宏HZ来表示时钟滴答的频率，而且在不同的平台上HZ有不同的定义值。对于ALPHA和IA62平台HZ的值是1024，对于SPARC、MIPS、ARM和i386等平台HZ的值都是100。该宏在i386平台上的定义如下（include/asm- i386/param.h）：&nbsp;<br>#ifndef HZ&nbsp;<br>#define HZ 100&nbsp;<br>#endif&nbsp;<br>根据HZ的值，我们也可以知道一次时钟滴答的具体时间间隔应该是（1000ms／HZ）＝10ms。&nbsp;<br>（4）时钟滴答的时间间隔：Linux用全局变量tick来表示时钟滴答的时间间隔长度，该变量定义在kernel/timer.c文件中，如下：&nbsp;<br>long tick = (1000000 + HZ/2) / HZ; /* timer interrupt period */&nbsp;<br>tick变量的单位是微妙（μs），由于在不同平台上宏HZ的值会有所不同，因此方程式tick＝1000000÷HZ的结果可能会是个小数，因此将其进行四舍五入成一个整数，所以Linux将tick定义成（1000000＋HZ／2）／HZ，其中被除数表达式中的HZ／2的作用就是用来将 tick值向上圆整成一个整型数。&nbsp;<br>另外，Linux还用宏TICK_SIZE来作为tick变量的引用别名（alias），其定义如下（arch／i386/kernel/time.c）：&nbsp;<br>#define TICK_SIZE tick&nbsp;<br>（5）宏LATCH：Linux用宏LATCH来定义要写到PIT通道0的计数器中的值，它表示PIT将没隔多少个时钟周期产生一次时钟中断。显然LATCH应该由下列公式计算：&nbsp;<br>LATCH＝（1秒之内的时钟周期个数）÷（1秒之内的时钟中断次数）＝（CLOCK_TICK_RATE）÷（HZ）&nbsp;<br>类似地，上述公式的结果可能会是个小数，应该对其进行四舍五入。所以，Linux将LATCH定义为（include/linux/timex.h）：&nbsp;<br>/* LATCH is used in the interval timer and ftape setup. */&nbsp;<br>#define LATCH ((CLOCK_TICK_RATE + HZ/2) / HZ) /* For divider */&nbsp;<br>类似地，被除数表达式中的HZ／2也是用来将LATCH向上圆整成一个整数。</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+</td>
+</tr>
+<tr>
+<td height="25">&nbsp;<span style="color: #000099;"><strong>原文地址</strong></span>&nbsp;<a href="http://www.oldlinux.org/oldlinux/archiver/?tid-5261.html" target="_blank">http://www.oldlinux.org/oldlinux/archiver/?tid-5261.html</a></td>
+</tr>
+
+</tbody>
+</table>
+<p></p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/hjslovewcl/category/347799.html" target="_blank">linux C开发</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(2314322,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('2744e994-5737-e111-b988-842b2b196315');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/hjslovewcl/" target="_blank"><img src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/u367348.jpg" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/hjslovewcl/">lovewcl</a><br>
+            <a href="http://home.cnblogs.com/u/hjslovewcl/followees">关注 - 0</a><br>
+            <a href="http://home.cnblogs.com/u/hjslovewcl/followers">粉丝 - 28</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('2744e994-5737-e111-b988-842b2b196315');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(2314322,'Digg')">
+        <span class="diggnum" id="digg_count">1</span>
+    </div>
+    <div class="buryit" onclick="votePost(2314322,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/06/28/2314323.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/hjslovewcl/archive/2011/06/28/2314323.html" title="发布于2011-06-28 15:43">linux 修改时间 date</a><br><a href="http://www.cnblogs.com/hjslovewcl/archive/2011/06/29/2314321.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/hjslovewcl/archive/2011/06/29/2314321.html" title="发布于2011-06-29 15:58">Linux中调用 system的返回值</a><br></div>
+</div>
+
+
+	</div>
+	
+	<div class="postfoot">
+		posted on <span id="post-date">2011-06-28 17:16</span> <a href="http://www.cnblogs.com/hjslovewcl/">lovewcl</a> 阅读(<span id="post_view_count">2786</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=2314322" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(2314322);return false;">收藏</a>
+	</div>
+</div>
+<script type="text/javascript">var allowComments=true,cb_blogId=106272,cb_entryId=2314322,cb_blogApp=currentBlogApp,cb_blogUserGuid='2744e994-5737-e111-b988-842b2b196315',cb_entryCreatedDate='2011/6/28 17:16:00';loadViewCount(cb_entryId);</script>
+<script src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/syntax_highlighter_csdn.js" type="text/javascript"></script>
+
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container">
+<div id="commentform_title">发表评论</div>
+<span id="tip_comment" style="color:Red"></span>
+<p>
+昵称：<input id="tbCommentAuthor" class="author" disabled="disabled" size="50" value="Douglas_at_HIT" type="text">
+</p>
+<div class="commentbox_main">
+<div class="commentbox_title">
+<div class="commentbox_title_left">评论内容：</div>
+<div class="commentbox_title_right">
+<img id="ubb_quote" class="comment_icon" src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/quote.gif" alt="引用" title="添加引用" onclick="insertUBB('tbCommentBody','quote')">
+<img id="ubb_bold" class="comment_icon" src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/b.png" alt="粗体" title="添加粗体" onclick="insertUBB('tbCommentBody','b')">
+<img id="ubb_url" class="comment_icon" src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/lk.png" alt="链接" title="添加链接" onclick="insertUbbUrl('tbCommentBody')">
+<img id="ubb_indent" class="comment_icon" src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/indent.png" alt="缩进" title="添加首行缩进" onclick="insertIndent('tbCommentBody')">
+<img id="ubb_code" class="comment_icon" src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/InsertCode.gif" alt="代码" title="添加代码" onclick="insertUbbCode()">
+<img id="ubb_img" class="comment_icon" src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/img.gif" alt="图片" title="上传图片" onclick="OpenImageUploadWindow();">
+</div>
+</div>
+<div class="clear"></div>
+<textarea id="tbCommentBody" class="comment_textarea"></textarea>
+</div>
+<p id="commentbox_opt">
+<input id="btn_comment_submit" class="comment_btn" value="提交评论" type="button">
+<span id="span_comment_canceledit" style="display:none"><a href="javascript:void(0);" onclick="return CancelCommentEdit()">不改了</a></span>
+<a href="javascript:void(0);" onclick="return logout();">退出登录</a>
+        <a id="commentbox_opt_sub" href="javascript:void(0);" title="订阅后有新评论时会邮件通知您" onclick="commentManager.Subscribe()">订阅评论</a>
+</p>
+<div id="tip_comment2" style="color:Red"></div>
+<p>
+[Ctrl+Enter快捷键提交]
+</p>
+<div style="display:none">
+<span id="comment_edit_id"></span><span id="span_parentcomment_id"></span>
+<span id="span_parent_id"></span>
+<span id="span_comment_replyto"></span>
+<span id="span_comment_posted"></span>
+</div>
+</div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="http://vcloud.163.com/?adchannel=bp_cnblogs2" target="_blank">【推荐】用1%的研发投入，搭载3倍性能的网易视频云技术</a><br><a href="http://rongcloud.cn/reports/journal2" target="_blank">【推荐】融云发布 App 社交化白皮书 IM 提升活跃超 8 倍</a><br></div>
+<div id="opt_under_post"></div>
+<div id="ad_c1" class="c_ad_block"><a href="http://www.gcpowertools.com.cn/products/spreadjs/?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS&amp;utm_campaign=community" target="_blank"><img src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20161031104652361-1905759806.gif" alt="" width="300" height="250"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/557868/" target="_blank">真格基金王强：无知与远方</a><br> ·  <a href="http://news.cnblogs.com/n/557858/" target="_blank">【实测】砰的一声火就灭了 灭火弹真的靠谱么？</a><br> ·  <a href="http://news.cnblogs.com/n/557864/" target="_blank">他雇人每天刷5000单，从京东骗了800万，辩称“不是诈骗”</a><br> ·  <a href="http://news.cnblogs.com/n/557867/" target="_blank">首款万能感冒疫苗或将问世</a><br> ·  <a href="http://news.cnblogs.com/n/557866/" target="_blank">苹果在线商店 美、加“黑色星期五”促销活动正式上线</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="ad_c2" class="c_ad_block"><a href="https://www.jiguang.cn/devservice/?from=cnblogs01" target="_blank"><img src="%E6%97%B6%E9%92%9F%E6%BB%B4%E7%AD%94%EF%BC%88clock%20tick%EF%BC%89%20-%20lovewcl%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20161114133622451-1554357151.jpg" alt="" width="468" height="60"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/555750/" target="_blank">循序渐进地代码重构</a><br> ·  <a href="http://kb.cnblogs.com/page/554496/" target="_blank">技术的正宗与野路子</a><br> ·  <a href="http://kb.cnblogs.com/page/553682/" target="_blank">陈皓：什么是工程师文化？</a><br> ·  <a href="http://kb.cnblogs.com/page/551422/" target="_blank">没那么难，谈CSS的设计模式</a><br> ·  <a href="http://kb.cnblogs.com/page/550625/" target="_blank">程序猿媳妇儿注意事项</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+</div>
+
+<p id="footer">
+	Powered by: 
+	<br>
+	
+	<a id="Footer1_Hyperlink3" name="Hyperlink1" href="http://www.cnblogs.com/" style="font-family:Verdana;font-size:12px;">博客园</a>
+	<br>
+	Copyright © lovewcl
+</p>
+
+
+
+</body></html>

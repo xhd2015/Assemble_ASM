@@ -36,22 +36,40 @@ __asm__(STRING(loc) " " STRING(off) "\n\t" \
 //===========Macro MGETL memory get long========
 #define MGETL(var,seg,offset) ({\
 __asm__ __volatile__(\
+	"push %%edx \n\t" \
+	"push %%ebx \n\t"\
 	"push %%es \n\t"\
 	"mov %%ax,%%es \n\t" \
 	"movl %%es:(%%ebx),%%eax \n\t" \
 	"pop %%es \n\t" \
+	"pop %%ebx \n\t"\
+	"pop %%edx \n\t"\
 	:"=a"(var) \
 	:"a"(seg),"b"(offset) \
 	:);\
 var;})
+//MGETL(var,0,0x5*4);
 
 
-//=====ebx is affected====
-#define MGETLU(var,offset) \
+
+//=====ebx ,eax,es are affected====
+#define MGETLU(var,seg,offset) \
 __asm__ __volatile__(\
+	"mov %%ax,%%es \n\t"\
 	"movl %%es:(%%ebx) %%eax \n\t" \
 	:"=a"(var) \
-	:"b"(offset) \
+	:"b"(offset),"a"(seg)\
 	:)
+//MGETLU(var,0,0x5*4);
+
+
+#define MSETLU(var,seg,offset) \
+__asm__ __volatile__(\
+	"mov %%ax,%%es \n\t"\
+	"movl %%edx, %%es:(%%ebx) \n\t" \
+	: \
+	:"b"(offset),"a"(seg),"d"(var)\
+	:)
+//MSETLU(var,0,0x5*4);
 
 #endif /*END this file*/
