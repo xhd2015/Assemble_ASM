@@ -422,15 +422,19 @@ set
 000fe1fe: (                    ): call .-16133              ; e8fbc0
 	a little longer and more complicated subprocess
 	In this process,the header information of BIOS was output.
-	This process continues check every 2KB in memory,check the first two bytes,if it is 0xaa55,then do summation check and if checked,execute its programs.
+	This process continues check every 2KB in memory,check the first two bytes,if it is 0xAA55,then do summation check and if checked,execute its programs.
 	Speaking directly,it detects the extended BIOS ROM.(reference to a book).
 000fe201: (                    ): call .+12223              ; e8bf2f
-	Not very long,even one call inside it has ever appeared.
+	<a href="#000f11c3"></a>
+	<textarea type="hidden">Starting time: Mon Nov 28 13:31:41 PHT 2016</textarea>
+	<textarea type="hidden">Not very long,even one call inside it has ever appeared.</textarea>
 	Inside this procedure printed out the first 3 gray lines on the screen.
-	It produces some message like 'Bochs BIOS...'
+	<a href="BIOSCODE_call_10">print BIOS ROM information</a>
 000fe204: (                    ): call .-19197              ; e803b5
+<pre style="display: none;">
 	Not very long, several IO operations,no sub calling.
 	Nothing output.
+</pre>
 000fe207: (                    ): call .-19065              ; e887b5
 	Much longer,but all of the instructions are IO related,not sub callings.
 	Set the BIOS Area Data Specified field to their own value or clear them(set to 0).
@@ -451,8 +455,6 @@ set
 	Much longer
 000fe222: (                    ): sti                       ; fb
 000fe223: (                    ): int 0x19                  ; cd19
-000fe225: (                    ): add byte ptr ds:[bx+si], al ; 0000
-.....(All of the rest are 0s)
 </section>
 
 </body>

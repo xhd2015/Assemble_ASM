@@ -1,0 +1,41 @@
+<html>
+<head>
+        <title>Print BIOS Roms information</title>
+</head>
+<body>
+        <header>
+                <h2>Print BIOS Roms Information /h2>
+        </header>
+<section id="">
+<pre class="code">
+<h6 id="000f11c3">of Main Call 10</h6>
+000f11c3: (                    ): push bp                   ; 55
+000f11c4: (                    ): mov bp, sp                ; 89e5
+000f11c6: (                    ): mov bx, 0x0165            ; bb6501
+000f11c9: (                    ): push bx                   ; 53
+000f11ca: (                    ): mov bx, 0xd96b            ; bb6bd9
+000f11cd: (                    ): push bx                   ; 53
+000f11ce: (                    ): mov bx, 0xd974            ; bb74d9
+000f11d1: (                    ): push bx                   ; 53
+000f11d2: (                    ): mov ax, 0x0002            ; b80200
+000f11d5: (                    ): push ax                   ; 50
+000f11d6: (                    ): call .-2223               ; e851f7
+<a href="BIOSCODE_call_1_call.html#000f092a">BIOS_printf(SCREEN,...)</a>
+000f11d9: (                    ): mov sp, bp                ; 89ec
+000f11db: (                    ): mov bx, 0xd93d            ; bb3dd9
+000f11de: (                    ): push bx                   ; 53
+000f11df: (                    ): mov ax, 0x0002            ; b80200
+000f11e2: (                    ): push ax                   ; 50
+000f11e3: (                    ): call .-2236               ; e844f7
+<a href="BIOSCODE_call_1_call.html#000f092a">BIOS_printf(SCREEN,...)</a>,print "Options: ampbios pcibios ... rombios32", all other optional BIOS rom
+000f11e6: (                    ): mov sp, bp                ; 89ec
+000f11e8: (                    ): pop bp                    ; 5d
+000f11e9: (                    ): ret                       ; c3
+
+</pre>
+</section>
+
+
+</body>
+</html>
+

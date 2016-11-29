@@ -1,0 +1,610 @@
+<html>
+<head>
+        <title>Bootsector Loader</title>
+</head>
+<body>
+        <header>
+                <h2>Check, Load, Verify, Startup & Loop</h2>
+<pre>This procedure will do the following stuff:
+	1.Determine boot device:none,floppy,hard disk,cd-rom,network
+		*NOTE*:Cd-rom &amp; network are listed but not implemented.So if booted from this two types,it will sent error message and start over again.(Infinit loop,with times retried recorded)
+	2.If it is from floppy or hard disk, then read the first sector into 0:0x7c00,and check the last word.If it is 0xaa55,then jmp to 0x0:0x7c00(by iret).Else print error message and try again.
+	3.If the booted program starting from 0x0:0x7c00 returned,in which case it must return by using ret,it will do this again,and the times of starting up is incremented and recored.
+	*NOTE*:This program runs like a infinit loop,and truely it is.
+        </header>
+<section id="">
+<pre class="code code_s">
+<h6 id="000f8f1b">This should be a main function,because it aligns the sp to be multiple of 4</h6>
+000f8f1b: (                    ): push bp                   ; 55
+000f8f1c: (                    ): mov bp, sp                ; 89e5
+000f8f1e: (                    ): dec sp                    ; 4c
+000f8f1f: (                    ): dec sp                    ; 4c
+000f8f20: (                    ): mov ax, word ptr ds:0x040e ; a10e04
+000f8f23: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+000f8f26: (                    ): add sp, 0xffe4            ; 83c4e4
+000f8f29: (                    ): mov ax, 0x003d            ; b83d00
+000f8f2c: (                    ): push ax                   ; 50
+000f8f2d: (                    ): call .+30270              ; e83e76
+000f8f30: (                    ): inc sp                    ; 44
+000f8f31: (                    ): inc sp                    ; 44
+	local_1 = BDA(0x0e)
+	<a href="BIOSCODE_call_1_call.html#000f056e">CMOS_read(0x3d)</a>
+000f8f32: (                    ): xor ah, ah                ; 30e4
+000f8f34: (                    ): mov word ptr ss:[bp-4], ax ; 8946fc
+000f8f37: (                    ): mov ax, 0x0038            ; b83800
+000f8f3a: (                    ): push ax                   ; 50
+000f8f3b: (                    ): call .+30256              ; e83076
+000f8f3e: (                    ): inc sp                    ; 44
+000f8f3f: (                    ): inc sp                    ; 44
+	local_2 = (char) CMOS(0x3d) (==1)
+	<a href="BIOSCODE_call_1_call.html#000f056e">CMOS_read(0x38)</a>,(==0)
+000f8f40: (                    ): and al, 0xf0              ; 24f0
+000f8f42: (                    ): xor ah, ah                ; 30e4
+000f8f44: (                    ): mov cl, 0x04              ; b104
+000f8f46: (                    ): shl ax, cl                ; d3e0
+000f8f48: (                    ): or ax, word ptr ss:[bp-4] ; 0b46fc
+000f8f4b: (                    ): mov word ptr ss:[bp-4], ax ; 8946fc
+	local_2 = 0000 0000 0000 res2[7~4] | res1
+000f8f4e: (                    ): mov ax, word ptr ss:[bp+4] ; 8b4604
+000f8f51: (                    ): shl ax, 1                 ; d1e0
+000f8f53: (                    ): shl ax, 1                 ; d1e0
+000f8f55: (                    ): mov bx, ax                ; 89c3
+000f8f57: (                    ): mov ax, word ptr ss:[bp-4] ; 8b46fc
+000f8f5a: (                    ): mov cx, bx                ; 89d9
+000f8f5c: (                    ): shr ax, cl                ; d3e8
+000f8f5e: (                    ): mov word ptr ss:[bp-4], ax ; 8946fc
+	local_2 = local_2 &gt;&gt; (arg1 * 4)
+000f8f61: (                    ): mov al, byte ptr ss:[bp-4] ; 8a46fc
+000f8f64: (                    ): and al, 0x0f              ; 240f
+000f8f66: (                    ): xor ah, ah                ; 30e4
+000f8f68: (                    ): mov word ptr ss:[bp-4], ax ; 8946fc
+000f8f6b: (                    ): mov ax, 0x9ff0            ; b8f09f
+000f8f6e: (                    ): push ax                   ; 50
+000f8f6f: (                    ): mov ax, 0x0084            ; b88400
+000f8f72: (                    ): push ax                   ; 50
+000f8f73: (                    ): call .+30327              ; e87776
+000f8f76: (                    ): add sp, 0x0004            ; 83c404
+	local_2 = local_2[3~0]
+	<a href="">read_word(0x84, 0x9ff0)</a>, NOTE that, 0x9ff0:0x84 was ever assigned with 0
+000f8f79: (                    ): mov word ptr ss:[bp-14], ax ; 8946f2
+000f8f7c: (                    ): mov ax, word ptr ss:[bp-14] ; 8b46f2
+000f8f7f: (                    ): cmp ax, 0xffff            ; 3dffff
+000f8f82: (                    ): jz .+44                   ; 742c
+	local_7 = 0x9ff0:0x84 (==0xffff)
+	if(local_7==0xffff) then jmp <a href="#000f8fb0">H</a>
+000f8f84: (                    ): mov ax, word ptr ss:[bp-14] ; 8b46f2
+000f8f87: (                    ): mov word ptr ss:[bp-4], ax ; 8946fc
+000f8f8a: (                    ): mov ax, 0x9ff0            ; b8f09f
+000f8f8d: (                    ): push ax                   ; 50
+000f8f8e: (                    ): mov ax, 0x0084            ; b88400
+000f8f91: (                    ): push ax                   ; 50
+000f8f92: (                    ): mov ax, 0xffff            ; b8ffff
+000f8f95: (                    ): push ax                   ; 50
+000f8f96: (                    ): call .+30325              ; e87576
+000f8f99: (                    ): add sp, 0x0006            ; 83c406
+	<a href="#">call(0xffff,0x84,0x9ff0)</a>
+
+000f8f9c: (                    ): mov ax, 0x9ff0            ; b8f09f
+000f8f9f: (                    ): push ax                   ; 50
+000f8fa0: (                    ): mov ax, 0x0082            ; b88200
+000f8fa3: (                    ): push ax                   ; 50
+000f8fa4: (                    ): mov ax, 0xffff            ; b8ffff
+000f8fa7: (                    ): push ax                   ; 50
+000f8fa8: (                    ): call .+30307              ; e86376
+000f8fab: (                    ): add sp, 0x0006            ; 83c406
+	<a href="#">call(0xffff,0x82,0x9ff0)</a>
+
+000f8fae: (                    ): jmp .+21                  ; eb15
+	jump to <a href="#000f8fc5">H</a>
+<h6 id="000f8fb0"></h6>
+000f8fb0: (                    ): mov ax, word ptr ss:[bp-4] ; 8b46fc
+000f8fb3: (                    ): test ax, ax               ; 85c0
+000f8fb5: (                    ): jnz .+14                  ; 750e
+	jump to <a href="#000f8fc5">H</a>
+000f8fb7: (                    ): mov bx, 0xcd11            ; bb11cd
+000f8fba: (                    ): push bx                   ; 53
+000f8fbb: (                    ): mov ax, 0x0007            ; b80700
+000f8fbe: (                    ): push ax                   ; 50
+000f8fbf: (                    ): call .+31080              ; e86879
+000f8fc2: (                    ): add sp, 0x0004            ; 83c404
+	if local_2 == 0, <a href="#">call(7,cd11)</a>,where 0xf000:0xcd11=No bootable device
+<h6 id="000f8fc5"></h6>
+000f8fc5: (                    ): mov ax, word ptr ss:[bp-4] ; 8b46fc
+000f8fc8: (                    ): dec ax                    ; 48
+000f8fc9: (                    ): mov word ptr ss:[bp-4], ax ; 8946fc
+000f8fcc: (                    ): lea bx, word ptr ss:[bp-30] ; 8d5ee2
+000f8fcf: (                    ): push bx                   ; 53
+000f8fd0: (                    ): push word ptr ss:[bp-4]   ; ff76fc
+000f8fd3: (                    ): call .-31883              ; e87583
+000f8fd6: (                    ): add sp, 0x0004            ; 83c404
+	local_2 = local_2 -1
+	<a href="#000f134b">check_or_copy_to_stack(local_2, &local_15)</a>
+000f8fd9: (                    ): test al, al               ; 84c0
+	al=0, noncopy
+	al=1, copied
+000f8fdb: (                    ): jnz .+21                  ; 7515
+000f8fdd: (                    ): push word ptr ss:[bp-4]   ; ff76fc
+000f8fe0: (                    ): mov bx, 0xccf5            ; bbf5cc
+000f8fe3: (                    ): push bx                   ; 53
+000f8fe4: (                    ): mov ax, 0x0004            ; b80400
+000f8fe7: (                    ): push ax                   ; 50
+000f8fe8: (                    ): call .+31039              ; e83f79
+	calls for the int 0xd(13,#GP).Because .+31039 is over the memory.
+000f8feb: (                    ): add sp, 0x0006            ; 83c406
+	if not copied(==true),<a href="#">call(4,0xccf5,local_2)</a>, print information "Invalid boot device"
+		and then return
+	else jmp to <a href="#000f8fee"></a>
+000f8fee: (                    ): mov sp, bp                ; 89ec
+000f8ff0: (                    ): pop bp                    ; 5d
+000f8ff1: (                    ): ret                       ; c3
+
+<h6 id="000f8ff2">Process Copied Data:check_boot_device</h6>
+000f8ff2: (                    ): lea bx, word ptr ss:[bp-30] ; 8d5ee2
+000f8ff5: (                    ): push bx                   ; 53
+000f8ff6: (                    ): call .-31336              ; e89885
+000f8ff9: (                    ): inc sp                    ; 44
+000f8ffa: (                    ): inc sp                    ; 44
+	<a href="BIOSCODE_call_1_call.html#000f1591">check_booting_type(copied_addr)</a>, it will check the booting type if it is 0(none),1(floppy),2(hdisk),3(cdrom),4(network),if it is networking,it will do some necessary working.(*This process is not parsed*).
+	However,this process treats network(0x4) the same with none(0).So actually network starting up is not currently supported.
+000f8ffb: (                    ): mov ax, word ptr ss:[bp-30] ; 8b46e2
+000f8ffe: (                    ): jmp .+281                 ; e91901
+	jmp to <a href="#000f911a">H</a>
+
+<h6 id="000f9001">In Case local_15 == 0x1 or 0x2... </h6>
+Read Booting Sector from Boot Device into 0x7c0.This is in case boot device is floopy or hard disk.Their process is similar so were put together.
+This process can be renamed to load_regurlar_boot_sector(e.g. hdisk,floppy)
+000f9001: (                    ): mov ax, word ptr ss:[bp-30] ; 8b46e2
+000f9004: (                    ): cmp ax, 0x0002            ; 3d0200
+	if local_15 == 0x2
+		al=0x80
+	else
+		al=0
+000f9007: (                    ): jnz .+4                   ; 7504
+000f9009: (                    ): mov al, 0x80              ; b080
+000f900b: (                    ): jmp .+2                   ; eb02
+000f900d: (                    ): xor al, al                ; 30c0
+000f900f: (                    ): mov byte ptr ss:[bp-5], al ; 8846fb
+	local_3_high = al
+000f9012: (                    ): mov ax, 0x07c0            ; b8c007
+000f9015: (                    ): mov word ptr ss:[bp-8], ax ; 8946f8
+000f9018: (                    ): xor ax, ax                ; 31c0
+000f901a: (                    ): mov word ptr ss:[bp-12], ax ; 8946f4
+	local_6 = 0
+	local_4 = 0x7c0
+000f901d: (                    ): push bp                   ; 55
+000f901e: (                    ): mov bp, sp                ; 89e5
+000f9020: (                    ): push ax                   ; 50
+000f9021: (                    ): push bx                   ; 53
+000f9022: (                    ): push cx                   ; 51
+000f9023: (                    ): push dx                   ; 52
+000f9024: (                    ): mov dl, byte ptr ss:[bp+27] ; 8a561b
+000f9027: (                    ): mov ax, word ptr ss:[bp+24] ; 8b4618
+000f902a: (                    ): mov es, ax                ; 8ec0
+000f902c: (                    ): xor bx, bx                ; 31db
+000f902e: (                    ): mov ah, 0x02              ; b402
+000f9030: (                    ): mov al, 0x01              ; b001
+000f9032: (                    ): mov ch, 0x00              ; b500
+000f9034: (                    ): mov cl, 0x01              ; b101
+000f9036: (                    ): mov dh, 0x00              ; b600
+000f9038: (                    ): int 0x13                  ; cd13
+	<a href="">int 0x13</a> with {ah=0x2,al=0x1,ch=0x0,cl=0x1,dh=0x0} and {es=,bl=0}
+000f903a: (                    ): jnb .+6                   ; 7306
+000f903c: (                    ): mov ax, 0x0001            ; b80100
+000f903f: (                    ): mov word ptr ss:[bp+20], ax ; 894614
+000f9042: (                    ): pop dx                    ; 5a
+000f9043: (                    ): pop cx                    ; 59
+000f9044: (                    ): pop bx                    ; 5b
+000f9045: (                    ): pop ax                    ; 58
+000f9046: (                    ): pop bp                    ; 5d
+
+
+000f9047: (                    ): mov ax, word ptr ss:[bp-12] ; 8b46f4
+000f904a: (                    ): test ax, ax               ; 85c0
+000f904c: (                    ): jz .+17                   ; 7411
+	if (local_6 != 0)
+	{
+		<a href="BIOSCODE_call_1_call.html#000f1674">print_error_message(,0x1)</a>
+		return;
+	}
+		
+000f904e: (                    ): mov ax, 0x0001            ; b80100
+000f9051: (                    ): push ax                   ; 50
+000f9052: (                    ): push word ptr ss:[bp-30]  ; ff76e2
+000f9055: (                    ): call .-31204              ; e81c86
+000f9058: (                    ): add sp, 0x0004            ; 83c404
+000f905b: (                    ): mov sp, bp                ; 89ec
+000f905d: (                    ): pop bp                    ; 5d
+000f905e: (                    ): ret                       ; c3
+
+000f905f: (                    ): mov ax, word ptr ss:[bp-30] ; 8b46e2
+000f9062: (                    ): cmp ax, 0x0001            ; 3d0100
+000f9065: (                    ): jnz .+15                  ; 750f
+000f9067: (                    ): mov ax, 0x0038            ; b83800
+000f906a: (                    ): push ax                   ; 50
+000f906b: (                    ): call .+29952              ; e80075
+000f906e: (                    ): inc sp                    ; 44
+000f906f: (                    ): inc sp                    ; 44
+000f9070: (                    ): and al, 0x01              ; 2401
+000f9072: (                    ): test al, al               ; 84c0
+000f9074: (                    ): jnz .+34                  ; 7522
+	if(local_15!=0x1 ||
+		<a href="#">CMOS_read(0x38)[0] </a> == 0)
+	{
+		//see <a href="http://www.bioscentral.com/misc/cmosmap.htm">CMOS Map</a>
+		// CMOS(0x38) is the encrypted password
+		last_word=<a href="#">read_word(0x01fe,0x7c0)</a>
+		if(last_word!=0xaa55)
+		{
+			<a href="BIOSCODE_call_1_call.html#000f1974">print_error_message(local_15,0)</a>
+			return;
+		}
+	}
+	
+000f9076: (                    ): push word ptr ss:[bp-8]   ; ff76f8
+000f9079: (                    ): mov ax, 0x01fe            ; b8fe01
+000f907c: (                    ): push ax                   ; 50
+000f907d: (                    ): call .+30061              ; e86d75
+000f9080: (                    ): add sp, 0x0004            ; 83c404
+000f9083: (                    ): cmp ax, 0xaa55            ; 3d55aa
+000f9086: (                    ): jz .+16                   ; 7410
+000f9088: (                    ): xor ax, ax                ; 31c0
+000f908a: (                    ): push ax                   ; 50
+000f908b: (                    ): push word ptr ss:[bp-30]  ; ff76e2
+000f908e: (                    ): call .-31261              ; e8e385
+000f9091: (                    ): add sp, 0x0004            ; 83c404
+000f9094: (                    ): mov sp, bp                ; 89ec
+000f9096: (                    ): pop bp                    ; 5d
+000f9097: (                    ): ret                       ; c3
+<h6 id="000f9098">Valid Boot Mark</h6>
+000f9098: (                    ): mov ax, word ptr ss:[bp-8] ; 8b46f8
+000f909b: (                    ): and ax, 0x0fff            ; 25ff0f
+000f909e: (                    ): mov cl, 0x04              ; b104
+000f90a0: (                    ): shl ax, cl                ; d3e0
+000f90a2: (                    ): mov word ptr ss:[bp-10], ax ; 8946f6
+000f90a5: (                    ): mov ax, word ptr ss:[bp-8] ; 8b46f8
+000f90a8: (                    ): and ax, 0xf000            ; 2500f0
+000f90ab: (                    ): mov word ptr ss:[bp-8], ax ; 8946f8
+000f90ae: (                    ): jmp .+133                 ; e98500
+	local_5 = local_4[11~0] 0000 (offset==0x7c00)
+	local_4 = local_4[15~12] 0000 0000 0000 (segment=0x0)
+	jmp to <a href="#000f9136">Start Jump to 0x0:0x7c00</a>
+000f90b1: (                    ): call .-23058              ; e8eea5
+000f90b4: (                    ): mov word ptr ss:[bp-12], ax ; 8946f4
+000f90b7: (                    ): mov al, byte ptr ss:[bp-12] ; 8a46f4
+000f90ba: (                    ): test al, al               ; 84c0
+000f90bc: (                    ): jz .+25                   ; 7419
+000f90be: (                    ): push word ptr ss:[bp-12]  ; ff76f4
+000f90c1: (                    ): call .-31210              ; e81686
+000f90c4: (                    ): inc sp                    ; 44
+000f90c5: (                    ): inc sp                    ; 44
+000f90c6: (                    ): mov ax, 0x0001            ; b80100
+000f90c9: (                    ): push ax                   ; 50
+000f90ca: (                    ): push word ptr ss:[bp-30]  ; ff76e2
+000f90cd: (                    ): call .-31324              ; e8a485
+000f90d0: (                    ): add sp, 0x0004            ; 83c404
+000f90d3: (                    ): mov sp, bp                ; 89ec
+000f90d5: (                    ): pop bp                    ; 5d
+000f90d6: (                    ): ret                       ; c3
+
+000f90d7: (                    ): mov ax, word ptr ss:[bp-12] ; 8b46f4
+000f90da: (                    ): mov al, ah                ; 88e0
+000f90dc: (                    ): xor ah, ah                ; 30e4
+000f90de: (                    ): mov byte ptr ss:[bp-5], al ; 8846fb
+000f90e1: (                    ): push word ptr ss:[bp-2]   ; ff76fe
+000f90e4: (                    ): mov ax, 0x0266            ; b86602
+000f90e7: (                    ): push ax                   ; 50
+000f90e8: (                    ): call .+29954              ; e80275
+000f90eb: (                    ): add sp, 0x0004            ; 83c404
+000f90ee: (                    ): mov word ptr ss:[bp-8], ax ; 8946f8
+000f90f1: (                    ): xor ax, ax                ; 31c0
+000f90f3: (                    ): mov word ptr ss:[bp-10], ax ; 8946f6
+000f90f6: (                    ): jmp .+62                  ; eb3e
+000f90f8: (                    ): mov ax, word ptr ss:[bp-26] ; 8b46e6
+000f90fb: (                    ): mov bx, word ptr ss:[bp-24] ; 8b5ee8
+000f90fe: (                    ): xchg bx, ax               ; 93
+000f90ff: (                    ): xor bx, bx                ; 31db
+000f9101: (                    ): mov word ptr ss:[bp-8], ax ; 8946f8
+000f9104: (                    ): mov ax, 0xffff            ; b8ffff
+000f9107: (                    ): xor bx, bx                ; 31db
+000f9109: (                    ): lea di, word ptr ss:[bp-26] ; 8d7ee6
+000f910c: (                    ): call .+28541              ; e87d6f
+000f910f: (                    ): mov word ptr ss:[bp-10], ax ; 8946f6
+000f9112: (                    ): jmp .+34                  ; eb22
+000f9114: (                    ): mov sp, bp                ; 89ec
+000f9116: (                    ): pop bp                    ; 5d
+000f9117: (                    ): ret                       ; c3
+000f9118: (                    ): jmp .+28                  ; eb1c
+
+<h6 id="000f911a"></h6>
+with ax=local_15
+000f911a: (                    ): sub ax, 0x0001            ; 2d0100
+000f911d: (                    ): jz .-288                  ; 0f84e0fe
+	if local_15 == 0x1 ,jmp to <a href="#000f9001">Read Sector into 0x0:0x7c00</a>
+
+000f9121: (                    ): sub ax, 0x0001            ; 2d0100
+000f9124: (                    ): jz .-295                  ; 0f84d9fe
+	if local_15 == 0x2
+
+000f9128: (                    ): sub ax, 0x0001            ; 2d0100
+000f912b: (                    ): jz .-126                  ; 0f8482ff
+	if local_15 == 0x3
+
+000f912f: (                    ): sub ax, 0x007d            ; 2d7d00
+000f9132: (                    ): jz .-60                   ; 74c4
+	if local_15 == 0x80
+000f9134: (                    ): jmp .-34                  ; ebde
+	else 
+
+<h6 id="000f9136">Jump to 0x0:0x7c00<h6>
+000f9136: (                    ): push word ptr ss:[bp-10]  ; ff76f6
+000f9139: (                    ): push word ptr ss:[bp-8]   ; ff76f8
+000f913c: (                    ): mov bx, 0xcce1            ; bbe1cc
+000f913f: (                    ): push bx                   ; 53
+000f9140: (                    ): mov ax, 0x0004            ; b80400
+000f9143: (                    ): push ax                   ; 50
+000f9144: (                    ): call .+30691              ; e8e377
+000f9147: (                    ): add sp, 0x0008            ; 83c408
+	<a href="">call(0x4,0xcce1,local_4==0(segment),local_5==0x7c00(offset))</a>,bios_printf(DEBUG_IO,"Booting from %x:%x",0,0x7c00)
+000f914a: (                    ): mov bp, sp                ; 89e5
+	as never called this procedure.
+000f914c: (                    ): push cs                   ; 0e
+000f914d: (                    ): push 0x96d2               ; 68d296
+000f9150: (                    ): pushf                     ; 9c
+000f9151: (                    ): mov ax, word ptr ss:[bp+22] ; 8b4616
+000f9154: (                    ): push ax                   ; 50
+000f9155: (                    ): mov ax, word ptr ss:[bp+20] ; 8b4614
+000f9158: (                    ): push ax                   ; 50
+000f9159: (                    ): mov ax, 0xaa55            ; b855aa
+000f915c: (                    ): mov dl, byte ptr ss:[bp+25] ; 8a5619
+000f915f: (                    ): xor bx, bx                ; 31db
+000f9161: (                    ): mov ds, bx                ; 8edb
+000f9163: (                    ): mov es, bx                ; 8ec3
+000f9165: (                    ): mov bp, bx                ; 89dd
+000f9167: (                    ): iret                      ; cf
+	jmp to 0x0:0x7c00.By iret
+	stack:
+		old_cs(==0xf000)
+		0x96d2
+		eflags(IF=0)
+		local_x_sp@22(0x0)
+		local_x_sp@20(0x7c00)
+	regs:
+		ax=0xaa55
+		dl=local_x_sp@25
+		ds=es=ss=0(the bottom)
+		bp=0
+		sp=(unchanged)	(it is advised using the old stack)
+	So when it normally started the first sector as boot sector,it acts like that it started it from a normall call.Like:
+		<a href="BIOSCODE_int19#000f96d2">0xf000:0x96d2 : call 0x7c00</a>,this again called again the int 19.
+
+</pre>
+</section>
+
+<section>
+<pre class="code code_s">
+<h6 id="000f134b">check_or_copy_to_stack(word_80_uplimit,stack_off)</h6>
+000f134b: (                    ): push bp                   ; 55
+000f134c: (                    ): mov bp, sp                ; 89e5
+000f134e: (                    ): add sp, 0xfffc            ; 83c4fc
+	sp = sp + 4
+000f1351: (                    ): call .-3322               ; e806f3
+000f1354: (                    ): mov word ptr ss:[bp-4], ax ; 8946fc
+	old_ss = get_ss()
+000f1357: (                    ): mov ax, 0x9ff0            ; b8f09f
+000f135a: (                    ): push ax                   ; 50
+000f135b: (                    ): mov ax, 0x0080            ; b88000
+000f135e: (                    ): push ax                   ; 50
+000f135f: (                    ): call .-3445               ; e88bf2
+000f1362: (                    ): add sp, 0x0004            ; 83c404
+000f1365: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+	word_80 = <a href="#">read_word(0x80,0x9ff0)</a>,(==3)
+000f1368: (                    ): mov ax, word ptr ss:[bp+4] ; 8b4604
+000f136b: (                    ): cmp ax, word ptr ss:[bp-2] ; 3b46fe
+000f136e: (                    ): jb .+6                    ; 7206
+	if word_80 &lt;= arg1 then
+		return 0
+	else jmp to <a href="#000f1376">copy 0x10 bytes</a>
+000f1370: (                    ): xor al, al                ; 30c0
+000f1372: (                    ): mov sp, bp                ; 89ec
+000f1374: (                    ): pop bp                    ; 5d
+000f1375: (                    ): ret                       ; c3
+
+<h6 id="000f1376">Copy Memory</h6>
+000f1376: (                    ): mov ax, 0x0010            ; b81000
+000f1379: (                    ): push ax                   ; 50
+000f137a: (                    ): mov ax, 0x9ff0            ; b8f09f
+000f137d: (                    ): push ax                   ; 50
+000f137e: (                    ): mov ax, word ptr ss:[bp+4] ; 8b4604
+000f1381: (                    ): mov cl, 0x04              ; b104
+000f1383: (                    ): shl ax, cl                ; d3e0
+000f1385: (                    ): push ax                   ; 50
+000f1386: (                    ): push word ptr ss:[bp-4]   ; ff76fc
+000f1389: (                    ): push word ptr ss:[bp+6]   ; ff7606
+000f138c: (                    ): call .-4980               ; e88cec
+	<a href="BIOSCODE_call_1_call.html#000f001b">mem_copy(arg2,old_ss,arg1*16,0x9ff0,0x10)</a>, from 0x9ff0:arg1*16 copy 0x10 bytes to old_ss:arg2
+000f138f: (                    ): add sp, 0x000a            ; 83c40a
+000f1392: (                    ): mov al, 0x01              ; b001
+000f1394: (                    ): mov sp, bp                ; 89ec
+000f1396: (                    ): pop bp                    ; 5d
+000f1397: (                    ): ret                       ; c3
+	return 1
+
+
+000f1398: (                    ): push bp                   ; 55
+000f1399: (                    ): mov bp, sp                ; 89e5
+000f139b: (                    ): add sp, 0xffc8            ; 83c4c8
+000f139e: (                    ): call .-3399               ; e8b9f2
+000f13a1: (                    ): mov word ptr ss:[bp-56], ax ; 8946c8
+000f13a4: (                    ): dec sp                    ; 4c
+000f13a5: (                    ): dec sp                    ; 4c
+000f13a6: (                    ): xor ax, ax                ; 31c0
+000f13a8: (                    ): mov word ptr ss:[bp-58], ax ; 8946c6
+000f13ab: (                    ): jmp .+3                   ; eb03
+000f13ad: (                    ): call .-2751               ; e841f5
+000f13b0: (                    ): call .-2768               ; e830f5
+000f13b3: (                    ): test al, al               ; 84c0
+000f13b5: (                    ): jnz .-10                  ; 75f6
+000f13b7: (                    ): mov bx, 0xd922            ; bb22d9
+000f13ba: (                    ): push bx                   ; 53
+000f13bb: (                    ): mov ax, 0x0002            ; b80200
+000f13be: (                    ): push ax                   ; 50
+000f13bf: (                    ): call .-2712               ; e868f5
+000f13c2: (                    ): add sp, 0x0004            ; 83c404
+000f13c5: (                    ): mov ax, 0x0005            ; b80500
+000f13c8: (                    ): push ax                   ; 50
+000f13c9: (                    ): mov ax, 0x000b            ; b80b00
+000f13cc: (                    ): push ax                   ; 50
+000f13cd: (                    ): call .-2775               ; e829f5
+000f13d0: (                    ): add sp, 0x0004            ; 83c404
+000f13d3: (                    ): call .-2803               ; e80df5
+000f13d6: (                    ): test al, al               ; 84c0
+000f13d8: (                    ): jz .+433                  ; 0f84b101
+000f13dc: (                    ): call .-2798               ; e812f5
+000f13df: (                    ): mov byte ptr ss:[bp-52], al ; 8846cc
+000f13e2: (                    ): mov al, byte ptr ss:[bp-52] ; 8a46cc
+000f13e5: (                    ): cmp al, 0x86              ; 3c86
+000f13e7: (                    ): jnz .+418                 ; 0f85a201
+000f13eb: (                    ): jmp .+3                   ; eb03
+000f13ed: (                    ): call .-2815               ; e801f5
+000f13f0: (                    ): call .-2832               ; e8f0f4
+000f13f3: (                    ): test al, al               ; 84c0
+000f13f5: (                    ): jnz .-10                  ; 75f6
+000f13f7: (                    ): mov bx, 0xd90c            ; bb0cd9
+000f13fa: (                    ): push bx                   ; 53
+000f13fb: (                    ): mov ax, 0x0002            ; b80200
+000f13fe: (                    ): push ax                   ; 50
+000f13ff: (                    ): call .-2776               ; e828f5
+000f1402: (                    ): add sp, 0x0004            ; 83c404
+000f1405: (                    ): mov ax, 0x9ff0            ; b8f09f
+000f1408: (                    ): push ax                   ; 50
+000f1409: (                    ): mov ax, 0x0080            ; b88000
+000f140c: (                    ): push ax                   ; 50
+000f140d: (                    ): call .-3619               ; e8ddf1
+000f1410: (                    ): add sp, 0x0004            ; 83c404
+000f1413: (                    ): mov word ptr ss:[bp-18], ax ; 8946ee
+000f1416: (                    ): xor al, al                ; 30c0
+000f1418: (                    ): mov byte ptr ss:[bp-53], al ; 8846cb
+000f141b: (                    ): jmp .+252                 ; e9fc00
+000f141e: (                    ): mov ax, 0x0010            ; b81000
+000f1421: (                    ): push ax                   ; 50
+000f1422: (                    ): mov ax, 0x9ff0            ; b8f09f
+000f1425: (                    ): push ax                   ; 50
+000f1426: (                    ): mov al, byte ptr ss:[bp-53] ; 8a46cb
+000f1429: (                    ): xor ah, ah                ; 30e4
+000f142b: (                    ): mov cl, 0x04              ; b104
+000f142d: (                    ): shl ax, cl                ; d3e0
+000f142f: (                    ): push ax                   ; 50
+000f1430: (                    ): push word ptr ss:[bp-56]  ; ff76c8
+000f1433: (                    ): lea bx, word ptr ss:[bp-16] ; 8d5ef0
+000f1436: (                    ): push bx                   ; 53
+000f1437: (                    ): call .-5151               ; e8e1eb
+000f143a: (                    ): add sp, 0x000a            ; 83c40a
+000f143d: (                    ): mov al, byte ptr ss:[bp-53] ; 8a46cb
+000f1440: (                    ): xor ah, ah                ; 30e4
+000f1442: (                    ): inc ax                    ; 40
+000f1443: (                    ): push ax                   ; 50
+000f1444: (                    ): mov bx, 0xd907            ; bb07d9
+000f1447: (                    ): push bx                   ; 53
+000f1448: (                    ): mov ax, 0x0002            ; b80200
+000f144b: (                    ): push ax                   ; 50
+000f144c: (                    ): call .-2853               ; e8dbf4
+000f144f: (                    ): add sp, 0x0006            ; 83c406
+000f1452: (                    ): mov ax, word ptr ss:[bp-16] ; 8b46f0
+000f1455: (                    ): jmp .+159                 ; e99f00
+000f1458: (                    ): mov bx, word ptr ss:[bp-16] ; 8b5ef0
+000f145b: (                    ): mov dx, bx                ; 89da
+
+</pre>
+</section>
+<section>
+<h4>boot_inished()</h4>
+<pre class="code code_s">
+<h6 id="000f96d2"></h6>
+000f96d2: (                    ): mov ax, 0xfffe            ; b8feff
+000f96d5: (                    ): mov sp, ax                ; 89c4
+000f96d7: (                    ): xor ax, ax                ; 31c0
+000f96d9: (                    ): mov ss, ax                ; 8ed0
+000f96db: (                    ): mov bx, 0x9ff0            ; bbf09f
+000f96de: (                    ): mov ds, bx                ; 8edb
+000f96e0: (                    ): mov bx, word ptr ds:0x0082 ; 8b1e8200
+000f96e4: (                    ): inc bx                    ; 43
+000f96e5: (                    ): mov word ptr ds:0x0082, bx ; 891e8200
+000f96e9: (                    ): mov ds, ax                ; 8ed8
+	sp=0xfffe
+	ss=0
+	0x9ff0:0x82++
+	ds=0
+000f96eb: (                    ): push bx                   ; 53
+000f96ec: (                    ): jmp .+23                  ; eb17
+
+<h6 id="000f96ee">int 19's jmp target</h6>
+000f96ee: (                    ): push bp                   ; 55
+000f96ef: (                    ): mov bp, sp                ; 89e5
+000f96f1: (                    ): mov ax, 0xfffe            ; b8feff
+000f96f4: (                    ): mov sp, ax                ; 89c4
+000f96f6: (                    ): xor ax, ax                ; 31c0
+000f96f8: (                    ): mov ss, ax                ; 8ed0
+000f96fa: (                    ): mov bx, 0x9ff0            ; bbf09f
+000f96fd: (                    ): mov ds, bx                ; 8edb
+000f96ff: (                    ): mov word ptr ds:0x0082, ax ; a38200
+000f9702: (                    ): mov ds, ax                ; 8ed8
+000f9704: (                    ): push ax                   ; 50
+000f9705: (                    ): call .-2029               ; e813f8
+000f9708: (                    ): int 0x18                  ; cd18
+000f970a: (                    ): xor ax, ax                ; 31c0
+000f970c: (                    ): mov ds, ax                ; 8ed8
+000f970e: (                    ): mov al, 0x00              ; b000
+000f9710: (                    ): mov byte ptr ds:0x043e, al ; a23e04
+000f9713: (                    ): mov byte ptr ds:0x043f, al ; a23f04
+000f9716: (                    ): mov byte ptr ds:0x0440, al ; a24004
+000f9719: (                    ): mov byte ptr ds:0x0441, al ; a24104
+000f971c: (                    ): mov byte ptr ds:0x0442, al ; a24204
+000f971f: (                    ): mov byte ptr ds:0x0443, al ; a24304
+000f9722: (                    ): mov byte ptr ds:0x0444, al ; a24404
+000f9725: (                    ): mov byte ptr ds:0x0445, al ; a24504
+000f9728: (                    ): mov byte ptr ds:0x0446, al ; a24604
+000f972b: (                    ): mov byte ptr ds:0x0447, al ; a24704
+000f972e: (                    ): mov byte ptr ds:0x0448, al ; a24804
+000f9731: (                    ): mov byte ptr ds:0x048b, al ; a28b04
+000f9734: (                    ): mov al, 0x10              ; b010
+000f9736: (                    ): out 0x70, al              ; e670
+000f9738: (                    ): in al, 0x71               ; e471
+000f973a: (                    ): mov ah, al                ; 88c4
+000f973c: (                    ): shr al, 0x04              ; c0e804
+000f973f: (                    ): jz .+4                    ; 7404
+000f9741: (                    ): mov bl, 0x07              ; b307
+000f9743: (                    ): jmp .+2                   ; eb02
+000f9745: (                    ): mov bl, 0x00              ; b300
+000f9747: (                    ): mov al, ah                ; 88e0
+000f9749: (                    ): and al, 0x0f              ; 240f
+000f974b: (                    ): jz .+3                    ; 7403
+000f974d: (                    ): or bl, 0x70               ; 80cb70
+000f9750: (                    ): mov byte ptr ds:0x048f, bl ; 881e8f04
+000f9754: (                    ): mov al, 0x00              ; b000
+000f9756: (                    ): mov byte ptr ds:0x0490, al ; a29004
+000f9759: (                    ): mov byte ptr ds:0x0491, al ; a29104
+000f975c: (                    ): mov byte ptr ds:0x0492, al ; a29204
+000f975f: (                    ): mov byte ptr ds:0x0493, al ; a29304
+000f9762: (                    ): mov byte ptr ds:0x0494, al ; a29404
+000f9765: (                    ): mov byte ptr ds:0x0495, al ; a29504
+000f9768: (                    ): mov al, 0x02              ; b002
+000f976a: (                    ): out 0x0a, al              ; e60a
+000f976c: (                    ): mov ax, 0xefde            ; b8deef
+000f976f: (                    ): mov word ptr ds:0x0078, ax ; a37800
+000f9772: (                    ): mov ax, 0xf000            ; b800f0
+000f9775: (                    ): mov word ptr ds:0x007a, ax ; a37a00
+000f9778: (                    ): mov ax, 0xec59            ; b859ec
+000f977b: (                    ): mov word ptr ds:0x0100, ax ; a30001
+000f977e: (                    ): mov ax, 0xf000            ; b800f0
+000f9781: (                    ): mov word ptr ds:0x0102, ax ; a30201
+000f9784: (                    ): mov ax, 0xef57            ; b857ef
+000f9787: (                    ): mov word ptr ds:0x0038, ax ; a33800
+000f978a: (                    ): mov ax, 0xf000            ; b800f0
+000f978d: (                    ): mov word ptr ds:0x003a, ax ; a33a00
+000f9790: (                    ): ret                       ; c3
+</pre>
+
+</section>
+</body>
+</html>
+

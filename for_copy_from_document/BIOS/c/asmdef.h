@@ -22,7 +22,8 @@ __asm__(STRING(loc) " " STRING(off) "\n\t" \
 #define DEFCSYM(sym,value)	__asm__(STRING(sym) " = " STRING(value) " \n\t")
 #define DEFOP(op,v1,v2)		__asm__(STRING(op) " " STRING(v1) ", "  STRING(v2) " \n\t")
 #define DEFOP1(op,v1)		__asm__(STRING(op) " " STRING(v1) " \n\t")
-#define DEFOP0(op)		__asm__(STRING(op) " \n\t")
+#define DEFOP0(op)		DEFOP1(op,)
+
 /*maybe useful: def in current position*/
 /**
  *  *usage:
@@ -32,6 +33,13 @@ __asm__(STRING(loc) " " STRING(off) "\n\t" \
  *  * DEF
  *  *
  *  */
+
+//#define DDEFOP(op,v1,v2) __asm__ __volatile__(\
+		STRING(op) " %%eax, %%ebx \n\t" \
+		: \
+		:"a"(v1),"b"(v2)\
+		:)
+
 
 //===========Macro MGETL memory get long========
 #define MGETL(var,seg,offset) ({\

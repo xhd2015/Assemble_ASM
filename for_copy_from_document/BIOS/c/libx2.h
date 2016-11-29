@@ -1,4 +1,5 @@
 //=========FILE: libx2.h======
+//=========ONLY 32-bit, consistence prefect========
 #ifndef __LIBX2_H__ /*START this file,define once*/
 #define __LIBX2_H__
 
@@ -31,7 +32,7 @@ int atos(int x,char *p) {\
 	*p--=0;\
 	reverse(previous,p); \
 	\
-	return(p-previous);}
+	return(p - previous);}
 /*Very huge depression.Compare in AT&T,reversed order.*/
 #define FDEFREVERSE()\
 void reverse(char* start,char* end) \

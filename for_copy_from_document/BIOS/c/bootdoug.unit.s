@@ -7,6 +7,8 @@
 	ljmp $0x7c0, $_here
 	_here:
 	cli 
+	int3 
+	int $0x18
 	mov %cs,%ax
 	mov %ax,%ds
 	mov %ax,%es
@@ -33,7 +35,7 @@
 	#xor %edx,%edx
 	#div %edx 
 	
-	_die: 
+	_die:  
 	
 	jmp _die 
 	
@@ -46,7 +48,7 @@ enter_main:
 	movl	%esp, %ebp
 	subl	$8, %esp
 	subl	$4, %esp
-	pushl	$5
+	pushl	$14
 	pushl	$3
 	pushl	$0
 	pushl	$0
@@ -117,6 +119,10 @@ read_sector:
 	ret
 	.size	read_sector, .-read_sector
 #APP
+	.global _stack 
+	
+	.set _stack, 512*2 
+	
 	.org 510
 	
 	.word 0xAA55
@@ -125,7 +131,7 @@ read_sector:
 	
 	 
 	
-	.string "now can you see me, Douglas Fulton Shaw?" 
+	.string "Now can you see me, Douglas Fulton Shaw?" 
 	
 	.org .+1
 	
@@ -138,7 +144,7 @@ reverse:
 	pushl	%ebp
 	movl	%esp, %ebp
 #APP
-# 102 "bootdoug.unit.c" 1
+# 107 "bootdoug.unit.c" 1
 	push %edx 
 	push %ebx 
 	movl (4+4*1)(%ebp), %ebx 
@@ -248,7 +254,7 @@ setint:
 	movw	%dx, -8(%ebp)
 	movw	%ax, -12(%ebp)
 #APP
-# 104 "bootdoug.unit.c" 1
+# 109 "bootdoug.unit.c" 1
 	pushf 
 	cli 
 	push %ebx 
@@ -283,7 +289,7 @@ settimeval:
 	movzwl	-2(%ebp), %eax
 	movl	%eax, %ecx
 #APP
-# 105 "bootdoug.unit.c" 1
+# 110 "bootdoug.unit.c" 1
 	pushf 
 	cli 
 	push %eax 
@@ -325,6 +331,8 @@ settimeval:
 .LC5:
 	.string	"Setting up interrupt..."
 .LC6:
+	.string	"Running tasks..."
+.LC7:
 	.string	">>"
 	.text
 	.globl	enter_mid
@@ -501,7 +509,7 @@ enter_mid:
 	pushl	$100
 	call	settimeval
 	addl	$16, %esp
-	movl	$putter, %eax
+	movl	$manager, %eax
 	cwtl
 	subl	$4, %esp
 	pushl	%eax
@@ -522,6 +530,21 @@ enter_mid:
 	pushl	%eax
 	pushl	$7
 	pushl	$.LC6
+	call	putstr
+	addl	$16, %esp
+	movl	curx, %eax
+	addl	$1, %eax
+	movl	%eax, curx
+	movl	$0, cury
+	movl	curx, %edx
+	movl	col, %eax
+	imull	%eax, %edx
+	movl	cury, %eax
+	addl	%edx, %eax
+	subl	$4, %esp
+	pushl	%eax
+	pushl	$7
+	pushl	$.LC7
 	call	putstr
 	addl	$16, %esp
 	movl	col, %ecx
@@ -548,7 +571,7 @@ putter:
 	movl	%esp, %ebp
 	subl	$24, %esp
 #APP
-# 192 "bootdoug.unit.c" 1
+# 199 "bootdoug.unit.c" 1
 	cli 
 	mov $0x20, %al 
 	out %al, $0x20 
@@ -612,7 +635,7 @@ putter:
 	addl	$16, %esp
 .L17:
 #APP
-# 205 "bootdoug.unit.c" 1
+# 212 "bootdoug.unit.c" 1
 	leave 
 	sti 
 	iretw 
@@ -623,8 +646,291 @@ putter:
 	leave
 	ret
 	.size	putter, .-putter
+	.globl	running
+	.bss
+	.align 4
+	.type	running, @object
+	.size	running, 4
+running:
+	.zero	4
+	.globl	executed
+	.align 4
+	.type	executed, @object
+	.size	executed, 4
+executed:
+	.zero	4
+	.comm	enter_esp,4,4
+	.comm	enter_ebp,4,4
 	.section	.rodata
-.LC7:
+.LC8:
+	.string	"A is running"
+.LC9:
+	.string	"A is ended"
+	.text
+	.globl	taskA
+	.type	taskA, @function
+taskA:
+	pushl	%ebp
+	movl	%esp, %ebp
+	subl	$24, %esp
+	movl	curx, %edx
+	movl	col, %eax
+	imull	%eax, %edx
+	movl	cury, %eax
+	addl	%edx, %eax
+	subl	$4, %esp
+	pushl	%eax
+	pushl	$7
+	pushl	$.LC8
+	call	putstr
+	addl	$16, %esp
+#APP
+# 228 "bootdoug.unit.c" 1
+	cli  
+	
+# 0 "" 2
+#NO_APP
+	movl	$0, -12(%ebp)
+	jmp	.L21
+.L22:
+	movl	curx, %eax
+	leal	1(%eax), %edx
+	movl	col, %eax
+	imull	%eax, %edx
+	movl	-12(%ebp), %eax
+	addl	%edx, %eax
+	subl	$4, %esp
+	pushl	%eax
+	pushl	$7
+	pushl	$65
+	call	putchar
+	addl	$16, %esp
+	addl	$1, -12(%ebp)
+.L21:
+	movl	col, %eax
+	cmpl	%eax, -12(%ebp)
+	jl	.L22
+#APP
+# 231 "bootdoug.unit.c" 1
+	sti  
+	
+# 0 "" 2
+#NO_APP
+	movl	curx, %eax
+	leal	2(%eax), %edx
+	movl	col, %eax
+	imull	%eax, %edx
+	movl	cury, %eax
+	addl	%edx, %eax
+	subl	$4, %esp
+	pushl	%eax
+	pushl	$7
+	pushl	$.LC9
+	call	putstr
+	addl	$16, %esp
+	nop
+	leave
+	ret
+	.size	taskA, .-taskA
+	.section	.rodata
+.LC10:
+	.string	"B is running"
+.LC11:
+	.string	"B is ended"
+	.text
+	.globl	taskB
+	.type	taskB, @function
+taskB:
+	pushl	%ebp
+	movl	%esp, %ebp
+	subl	$24, %esp
+	movl	curx, %edx
+	movl	col, %eax
+	imull	%eax, %edx
+	movl	cury, %eax
+	addl	%edx, %eax
+	subl	$4, %esp
+	pushl	%eax
+	pushl	$7
+	pushl	$.LC10
+	call	putstr
+	addl	$16, %esp
+#APP
+# 238 "bootdoug.unit.c" 1
+	cli  
+	
+# 0 "" 2
+#NO_APP
+	movl	$0, -12(%ebp)
+	jmp	.L24
+.L25:
+	movl	curx, %eax
+	leal	1(%eax), %edx
+	movl	col, %eax
+	imull	%eax, %edx
+	movl	-12(%ebp), %eax
+	addl	%edx, %eax
+	subl	$4, %esp
+	pushl	%eax
+	pushl	$7
+	pushl	$66
+	call	putchar
+	addl	$16, %esp
+	addl	$1, -12(%ebp)
+.L24:
+	movl	col, %eax
+	cmpl	%eax, -12(%ebp)
+	jl	.L25
+#APP
+# 241 "bootdoug.unit.c" 1
+	sti  
+	
+# 0 "" 2
+#NO_APP
+	movl	curx, %eax
+	leal	2(%eax), %edx
+	movl	col, %eax
+	imull	%eax, %edx
+	movl	cury, %eax
+	addl	%edx, %eax
+	subl	$4, %esp
+	pushl	%eax
+	pushl	$7
+	pushl	$.LC11
+	call	putstr
+	addl	$16, %esp
+	nop
+	leave
+	ret
+	.size	taskB, .-taskB
+	.globl	last_process_id
+	.data
+	.align 4
+	.type	last_process_id, @object
+	.size	last_process_id, 4
+last_process_id:
+	.long	1
+	.text
+	.globl	resume
+	.type	resume, @function
+resume:
+	pushl	%ebp
+	movl	%esp, %ebp
+	subl	$16, %esp
+#APP
+# 304 "bootdoug.unit.c" 1
+	cli  
+	
+# 0 "" 2
+#NO_APP
+	movl	8(%ebp), %eax
+	movl	12(%eax), %eax
+	movl	%eax, -4(%ebp)
+	movl	8(%ebp), %eax
+	movl	4(%eax), %eax
+	testl	%eax, %eax
+	jne	.L27
+	movl	8(%ebp), %eax
+	movl	$1, 4(%eax)
+#APP
+# 309 "bootdoug.unit.c" 1
+	sti  
+	
+# 0 "" 2
+# 310 "bootdoug.unit.c" 1
+	iretw  
+	
+# 0 "" 2
+#NO_APP
+.L27:
+#APP
+# 312 "bootdoug.unit.c" 1
+	sti  
+	
+# 0 "" 2
+#NO_APP
+	nop
+	leave
+	ret
+	.size	resume, .-resume
+	.globl	manager
+	.type	manager, @function
+manager:
+	pushl	%ebp
+	movl	%esp, %ebp
+	subl	$8, %esp
+#APP
+# 318 "bootdoug.unit.c" 1
+	cli 
+	
+# 0 "" 2
+#NO_APP
+	movl	executed, %eax
+	testl	%eax, %eax
+	jne	.L29
+#APP
+# 323 "bootdoug.unit.c" 1
+	mov %esp,enter_esp 
+	mov %ebp,enter_ebp 
+	
+# 0 "" 2
+#NO_APP
+	movl	$1, executed
+	jmp	.L30
+.L29:
+#APP
+# 329 "bootdoug.unit.c" 1
+	mov enter_esp,%esp 
+	mov enter_ebp,%ebp 
+	
+# 0 "" 2
+#NO_APP
+.L30:
+#APP
+# 334 "bootdoug.unit.c" 1
+	sti 
+	mov $0x20,%al 
+	out %al,$0x20 
+	
+# 0 "" 2
+#NO_APP
+	movl	running, %eax
+	testl	%eax, %eax
+	jne	.L31
+	movl	$taskA, %eax
+	movl	%eax, running
+	call	taskA
+	jmp	.L32
+.L31:
+	movl	running, %eax
+	cmpl	$taskA, %eax
+	jne	.L33
+	movl	$taskB, %eax
+	movl	%eax, running
+	call	taskB
+	jmp	.L32
+.L33:
+	movl	running, %eax
+	cmpl	$taskB, %eax
+	jne	.L32
+	movl	$taskA, %eax
+	movl	%eax, running
+	call	taskA
+.L32:
+	movl	$1, executed
+#APP
+# 351 "bootdoug.unit.c" 1
+	leave 
+	iretw 
+	
+# 0 "" 2
+#NO_APP
+	nop
+	leave
+	ret
+	.size	manager, .-manager
+	.section	.rodata
+.LC12:
 	.string	"int 13"
 	.text
 	.globl	new_int13
@@ -634,7 +940,7 @@ new_int13:
 	movl	%esp, %ebp
 	subl	$8, %esp
 #APP
-# 217 "bootdoug.unit.c" 1
+# 359 "bootdoug.unit.c" 1
 	cli 
 	
 # 0 "" 2
@@ -642,11 +948,11 @@ new_int13:
 	subl	$4, %esp
 	pushl	$2
 	pushl	$7
-	pushl	$.LC7
+	pushl	$.LC12
 	call	putstr
 	addl	$16, %esp
 #APP
-# 221 "bootdoug.unit.c" 1
+# 363 "bootdoug.unit.c" 1
 	leave 
 	iretw 
 	
@@ -657,7 +963,7 @@ new_int13:
 	ret
 	.size	new_int13, .-new_int13
 	.section	.rodata
-.LC8:
+.LC13:
 	.string	"int 12"
 	.text
 	.globl	new_int12
@@ -667,7 +973,7 @@ new_int12:
 	movl	%esp, %ebp
 	subl	$8, %esp
 #APP
-# 229 "bootdoug.unit.c" 1
+# 371 "bootdoug.unit.c" 1
 	cli 
 	
 # 0 "" 2
@@ -675,11 +981,11 @@ new_int12:
 	subl	$4, %esp
 	pushl	$2
 	pushl	$7
-	pushl	$.LC8
+	pushl	$.LC13
 	call	putstr
 	addl	$16, %esp
 #APP
-# 233 "bootdoug.unit.c" 1
+# 375 "bootdoug.unit.c" 1
 	leave 
 	iretw 
 	
@@ -695,7 +1001,7 @@ peekchar:
 	pushl	%ebp
 	movl	%esp, %ebp
 #APP
-# 245 "bootdoug.unit.c" 1
+# 387 "bootdoug.unit.c" 1
 	mov $0x11, %ah 
 	int $0x16	
 	jz 1f		
@@ -714,7 +1020,7 @@ getchar:
 	pushl	%ebp
 	movl	%esp, %ebp
 #APP
-# 258 "bootdoug.unit.c" 1
+# 400 "bootdoug.unit.c" 1
 	mov $0x10, %ah 
 	int $0x16	
 	
@@ -740,7 +1046,7 @@ memcopy:
 	movl	20(%ebp), %edi
 	movl	%edx, %ebx
 #APP
-# 274 "bootdoug.unit.c" 1
+# 416 "bootdoug.unit.c" 1
 	cli 
 	push %es 
 	push %ds 
@@ -776,7 +1082,7 @@ putchar:
 	movb	%dl, -8(%ebp)
 	movb	%al, -12(%ebp)
 #APP
-# 299 "bootdoug.unit.c" 1
+# 441 "bootdoug.unit.c" 1
 	push %es 
 	mov 8(%ebp),%cl 
 	mov 12(%ebp),%ch 
@@ -807,8 +1113,8 @@ putstr:
 	movb	%al, -20(%ebp)
 	movl	16(%ebp), %eax
 	movl	%eax, -4(%ebp)
-	jmp	.L28
-.L29:
+	jmp	.L42
+.L43:
 	movsbl	-20(%ebp), %edx
 	movl	8(%ebp), %eax
 	movzbl	(%eax), %eax
@@ -820,11 +1126,11 @@ putstr:
 	addl	$12, %esp
 	movl	%eax, -4(%ebp)
 	addl	$1, 8(%ebp)
-.L28:
+.L42:
 	movl	8(%ebp), %eax
 	movzbl	(%eax), %eax
 	testb	%al, %al
-	jne	.L29
+	jne	.L43
 	movl	-4(%ebp), %eax
 	leave
 	ret
@@ -836,18 +1142,18 @@ clear_screen:
 	movl	%esp, %ebp
 	subl	$16, %esp
 	movl	$0, -4(%ebp)
-	jmp	.L32
-.L33:
+	jmp	.L46
+.L47:
 	pushl	-4(%ebp)
 	pushl	$0
 	pushl	$0
 	call	putchar
 	addl	$12, %esp
 	addl	$1, -4(%ebp)
-.L32:
+.L46:
 	movl	-4(%ebp), %eax
 	cmpl	8(%ebp), %eax
-	jl	.L33
+	jl	.L47
 	nop
 	leave
 	ret
@@ -863,7 +1169,7 @@ get_screen_column:
 	movl	$74, %edx
 	movl	%edx, %ebx
 #APP
-# 341 "bootdoug.unit.c" 1
+# 483 "bootdoug.unit.c" 1
 	push %edx 
 	push %ebx 
 	push %es 
@@ -890,10 +1196,6 @@ get_screen_column:
 	.global _gdtm 
 	
 	.global _gdt 
-	
-	.global _stack 
-	
-	.set _stack, 512*2 
 	
 	.ident	"GCC: (GNU) 6.2.1 20160916 (Red Hat 6.2.1-2)"
 	.section	.note.GNU-stack,"",@progbits

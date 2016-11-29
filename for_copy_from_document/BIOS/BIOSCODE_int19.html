@@ -1,0 +1,111 @@
+<html>
+<head>
+        <title>BIOSCODE_int19</title>
+</head>
+<body>
+        <header>
+                <h2>int 0x19</h2>
+<pre>int 19 and int 18's routine have the following structure,with different intialization and the same sharing calling:
+
+int 19:(init)
+	bp saved
+	init={
+	0x9ff0:0x82=0
+	sp=0xfffe
+	ds=ss=0
+	}
+int 18:(increment)
+	init={
+	0x9ff0:0x82++
+	sp=0xfffe
+	ds=ss=0
+	}
+verifier_loader:
+	use init
+	do checking and verifying
+	loading
+	on system returned,call system_return	
+
+system_return:
+	int 0x18;
+
+</pre>
+        </header>
+<section id="">
+<pre class="code code_s">
+<h6 id="000fe6f2"></h6>
+000fe6f2: (                    ): jmp .-20487               ; e9f9af
+<a href="#000f96ee">Jmp verifying & loading</a>
+</pre>
+</section>
+
+<section>
+<pre class="code code_s">
+<h6 id="000f96ee"></h6>
+000f96ee: (                    ): push bp                   ; 55
+000f96ef: (                    ): mov bp, sp                ; 89e5
+000f96f1: (                    ): mov ax, 0xfffe            ; b8feff
+000f96f4: (                    ): mov sp, ax                ; 89c4
+000f96f6: (                    ): xor ax, ax                ; 31c0
+000f96f8: (                    ): mov ss, ax                ; 8ed0
+000f96fa: (                    ): mov bx, 0x9ff0            ; bbf09f
+000f96fd: (                    ): mov ds, bx                ; 8edb
+000f96ff: (                    ): mov word ptr ds:0x0082, ax ; a38200
+000f9702: (                    ): mov ds, ax                ; 8ed8
+	sp = 0xfffe
+	ss = 0
+	ds = 0
+	0x9ff0(from bx):0x82 = 0
+000f9704: (                    ): push ax                   ; 50
+
+<h6 id="000f9705"></h6>
+000f9705: (                    ): call .-2029               ; e813f8
+	<a href="BIOSCODE_int19_call_1.html#000f8f1b">Check, Load, Verify, Startup & Loop(times=0)</a>
+	This procedure check the booting device,verify the last word of the loading sector,if it is 0xaa55,then start it,else prompt error message.
+	What is important is that,it has also set the routine that called after the sector returned(If it happens).That routine,is not other thing,it is exactly this procedure.
+	So we would like to come with this conclusion,in normal logic,a system if returned control to BIOS,bios will try to start it again.
+000f9708: (                    ): int 0x18                  ; cd18
+	<a href="BIOSCODE_int18#000f96d2">reset</a>
+
+<h6>This will never be reached.</h6>
+000f970a: (                    ): xor ax, ax                ; 31c0
+000f970c: (                    ): mov ds, ax                ; 8ed8
+000f970e: (                    ): mov al, 0x00              ; b000
+000f9710: (                    ): mov byte ptr ds:0x043e, al ; a23e04
+000f9713: (                    ): mov byte ptr ds:0x043f, al ; a23f04
+000f9716: (                    ): mov byte ptr ds:0x0440, al ; a24004
+000f9719: (                    ): mov byte ptr ds:0x0441, al ; a24104
+000f971c: (                    ): mov byte ptr ds:0x0442, al ; a24204
+000f971f: (                    ): mov byte ptr ds:0x0443, al ; a24304
+000f9722: (                    ): mov byte ptr ds:0x0444, al ; a24404
+000f9725: (                    ): mov byte ptr ds:0x0445, al ; a24504
+000f9728: (                    ): mov byte ptr ds:0x0446, al ; a24604
+000f972b: (                    ): mov byte ptr ds:0x0447, al ; a24704
+000f972e: (                    ): mov byte ptr ds:0x0448, al ; a24804
+000f9731: (                    ): mov byte ptr ds:0x048b, al ; a28b04
+	clear some Bios Data Area data.
+000f9734: (                    ): mov al, 0x10              ; b010
+000f9736: (                    ): out 0x70, al              ; e670
+000f9738: (                    ): in al, 0x71               ; e471
+000f973a: (                    ): mov ah, al                ; 88c4
+000f973c: (                    ): shr al, 0x04              ; c0e804
+000f973f: (                    ): jz .+4                    ; 7404
+	ah = CMOS(0x10)
+	if CMOS(0x10)[7~4]==0, jmp to <a href="#000f9745">H</a>
+000f9741: (                    ): mov bl, 0x07              ; b307
+000f9743: (                    ): jmp .+2                   ; eb02
+
+000f9745: (                    ): mov bl, 0x00              ; b300
+000f9747: (                    ): mov al, ah                ; 88e0
+000f9749: (                    ): and al, 0x0f              ; 240f
+000f974b: (                    ): jz .+3                    ; 7403
+000f974d: (                    ): or bl, 0x70               ; 80cb70
+	if CMOS(0x10)[3~0]==0, then bl=bl | 0x70.
+000f9750: (                    ): mov byte ptr ds:0x048f, bl ; 881e8f04
+</pre>
+</section>
+
+
+</body>
+</html>
+

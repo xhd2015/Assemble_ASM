@@ -7,7 +7,7 @@
 #define SYSLEN 1
 #define SECSIZE 512
 #define BOOTSEG 0x7c0
-#define FILESIZE 3211
+#define FILESIZE 8148
 
 GENLOADER(BOOTSEG,_stack,enter_main);
 

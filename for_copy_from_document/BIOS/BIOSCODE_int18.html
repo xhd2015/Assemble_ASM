@@ -1,0 +1,37 @@
+<html>
+<head>
+        <title>BIOSCODE_int18</title>
+</head>
+<body>
+        <header>
+                <h2>int 0x18</h2>
+<pre>int 18 calls int 19 for service</pre>
+        </header>
+<section id="">
+<pre class="code">
+<h6 id="000f96d2"></h6>
+000f96d2: (                    ): mov ax, 0xfffe            ; b8feff
+000f96d5: (                    ): mov sp, ax                ; 89c4
+000f96d7: (                    ): xor ax, ax                ; 31c0
+000f96d9: (                    ): mov ss, ax                ; 8ed0
+000f96db: (                    ): mov bx, 0x9ff0            ; bbf09f
+000f96de: (                    ): mov ds, bx                ; 8edb
+000f96e0: (                    ): mov bx, word ptr ds:0x0082 ; 8b1e8200
+000f96e4: (                    ): inc bx                    ; 43
+000f96e5: (                    ): mov word ptr ds:0x0082, bx ; 891e8200
+000f96e9: (                    ): mov ds, ax                ; 8ed8
+000f96eb: (                    ): push bx                   ; 53
+000f96ec: (                    ): jmp .+23                  ; eb17
+	jmp to <a href="BIOSCODE_int19#000f9705">Check, Load, Verify, Startup & Loop(times++)</a>
+
+<h6>This is where int 19 jumps to.</h6>	
+000f96ee: (                    ): push bp                   ; 55
+000f96ef: (                    ): mov bp, sp                ; 89e5
+000f96f1: (                    ): mov ax, 0xfffe            ; b8feff
+000f96f4: (                    ): mov sp, ax                ; 89c4
+....
+</pre>
+</section>
+</body>
+</html>
+

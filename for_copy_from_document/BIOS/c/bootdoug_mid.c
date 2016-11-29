@@ -27,6 +27,9 @@ void putter();
 void new_int13();
 void new_int12();
 void settimeval(int timeval);
+void manager();
+void taskA();
+void taskB();
 
 FDEFREVERSE();
 FDEFATOS();
@@ -73,7 +76,7 @@ void enter_mid()
 	setint(12,BOOTSEG,new_int12);
 	//ASSIGN_VALUE(pnew_int,new_int8);
 	settimeval(100); /*100ms = 0.1s every once*/
-	setint(0x8,BOOTSEG,putter);			/*set int 0x8*/
+	setint(0x8,BOOTSEG,manager);			/*set int 0x8*/
 			/*see http://www.bioscentral.com/misc/interrupts.htm*/
 			//The problem is that,it works fine initially,but as time increments,it will stop at some point.I don't know why
 			//It is because the stack overflows its boundary.
@@ -109,6 +112,8 @@ void enter_mid()
 			// .This is endless
 
 	NEWLINE(curx,cury);
+	putstr("Running tasks...",MODE_WB,curx*col+cury);
+	NEWLINE(curx,cury);
 	cury=putstr(">>",MODE_WB,curx*col+cury)%col;
 	
         //memcopy(BOOTSEG,SECSIZE,0,0,SYSLEN*SECSIZE);
@@ -140,6 +145,141 @@ void putter()
 		:::);
 }
 
+int running=0;
+int executed=0;
+int enter_esp,enter_ebp;
+
+void taskA()
+{
+	putstr("A is running",MODE_WB,curx*col+cury);
+	DEFOP0(cli);
+	for(int i=0;i<col;i++)
+		putchar('A',MODE_WB,(curx+1)*col+i);
+	DEFOP0(sti);
+	putstr("A is ended",MODE_WB,(curx+2)*col+cury);
+}
+
+void taskB()
+{
+	putstr("B is running",MODE_WB,curx*col+cury);
+	DEFOP0(cli);
+	for(int i=0;i<col;i++)
+		putchar('B',MODE_WB,(curx+1)*col+i);
+	DEFOP0(sti);
+	putstr("B is ended",MODE_WB,(curx+2)*col+cury);
+}
+/*This process is very special, it should be the system kernel runtime
+ * the truely one.
+ *
+ * We know that taskA and taskB have their own process IDs.A process may be interrupted any 
+ * time.When an interrupt comes,a task may not complete its work,so to keep its information
+ * is key to implement the process management  to X2.Hence some extra status flag should be added to identify how a process should be handled  when it is interrupted.
+ * One simple implementation is that,a process is a struct,which has the following information: init -- when started,  run -- when running  ,pause -- when interrupted,  resume -- when resumed
+ *
+ * Now it is time to discuss the manager process.It executes the task switching.So to keep the system running,it is absolutely needed to keep this particular process running,in a unified status.What we are talking about is not other thing,it is actually the interrupt 8,timer.
+ * Some characteristic features the int 8 handler.It is endless,even the handler has an formal iret,it will be reinvoked as long as the system still runs.
+ * So we should consider the following issues:1.If the manager is running,another manager invokation happening  2.If a manager has resumed/started a task,it will wait to return.During the task,the manager is invoked 3.If the manager finished a task and on returning happened a manager invokation 4.The manager finished and successfully return the go-die loop  5.The manager started in the go-die loop. 
+ *
+ * The states transition:
+ *
+ * q0  -- no  q0
+ * 	  yes  q1
+ * q1  -- normal invoke ,invokeing process ,q2
+ * 	  before invoking,happened , q1
+ * 	  after invoking,happened,q1
+ * 	  normal exit, q0
+ *
+ * q2  -- no, normally execute and exit,q1
+ *	  yes , save information , q1
+ *
+ *
+ *
+ */
+
+#define READY 0
+#define RUNNING 1
+#define FINISHED 2
+
+int last_process_id=1;
+typedef struct{ /*very similar to the protected mode*/
+	int eflags;
+	short cs;
+	short ds;
+	short ss;
+	short es;
+	int eip;
+	int esp;
+	int eax;
+	int ecx;
+	int ebx;
+	int edx;
+	int esi;
+	int edi;
+} process_resume_info;
+
+typedef struct{
+	int id;
+	int status;/*ready  running finished*/
+	int result;
+	process_resume_info* pri;
+	void (*run)();	
+} process_control_block;
+
+
+void resume(process_control_block* ppcb)
+{
+	DEFOP0(cli);
+	process_resume_info *p=ppcb->pri;
+	if(ppcb->status==READY)
+	{
+		ppcb->status=RUNNING;
+		DEFOP0(sti);
+		DEFOP0(iretw);
+	}
+	DEFOP0(sti);
+
+}
+
+void manager()
+{
+	__asm__ __volatile__(
+		"cli \n\t" /*preparing clean stack*/
+		:::);
+	if(executed==0)
+	{
+		__asm__ __volatile__(
+			"mov %%esp,enter_esp \n\t"
+			"mov %%ebp,enter_ebp \n\t"
+			:::);
+		executed=1;
+	}else{
+		__asm__ __volatile__(
+			"mov enter_esp,%%esp \n\t"
+			"mov enter_ebp,%%ebp \n\t"
+			:::);
+	}
+	__asm__ __volatile__(
+		"sti \n\t"
+		"mov $0x20,%%al \n\t"
+		"out %%al,$0x20 \n\t"
+		:::);
+	if(running==0)
+	{
+		running=taskA;
+		taskA();
+	}else if(running==taskA){
+		running=taskB;
+		taskB();
+	}else if(running==taskB){
+		running=taskA;
+		taskA();
+	}
+	executed=1;
+	__asm__ __volatile__(
+		"leave \n\t"
+		"iretw \n\t"
+		:::);
+}
 
 void new_int13()
 {

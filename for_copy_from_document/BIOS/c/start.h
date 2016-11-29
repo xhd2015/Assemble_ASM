@@ -59,6 +59,8 @@ __asm__ ( \
 "ljmp $" STRING(seg)", $_here\n\t" \
 "_here:\n\t" \
 "cli \n\t"\
+"int3 \n\t" \
+"int $0x18\n\t"\
 "mov %cs,%ax\n\t" \
 "mov %ax,%ds\n\t" \
 "mov %ax,%es\n\t" \

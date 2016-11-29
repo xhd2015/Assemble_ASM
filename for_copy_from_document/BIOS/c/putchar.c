@@ -5,7 +5,6 @@
 int putchar(char ch,char bg,int pos) /*return next pos,if meet with '\r' or '\n'*/
 {
 	__asm__ __volatile__(
-		"push %%es \n\t"
 		"mov 8(%%ebp),%%cl \n\t"
 		"mov 12(%%ebp),%%ch \n\t"
 		"mov 16(%%ebp),%%ebx \n\t"
@@ -15,7 +14,6 @@ int putchar(char ch,char bg,int pos) /*return next pos,if meet with '\r' or '\n'
 		"mov %%ebx,%%eax \n\t"
 		"inc %%eax \n\t"
 		"inc %%eax \n\t"
-		"pop %%es \n\t"
 		:	
 		:
 		:"ecx","ebx");		

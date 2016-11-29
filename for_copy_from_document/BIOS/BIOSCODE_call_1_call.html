@@ -9,6 +9,307 @@
         </header>
 <!--************************* -->
 <section>
+<pre>
+<h6 id="000f001b">mem_copy(dst_off,dst_seg,src_off,src_seg,times)</h6>
+000f001b: (                    ): push bp                   ; 55
+000f001c: (                    ): mov bp, sp                ; 89e5
+000f001e: (                    ): push cx                   ; 51
+000f001f: (                    ): push es                   ; 06
+000f0020: (                    ): push di                   ; 57
+000f0021: (                    ): push ds                   ; 1e
+000f0022: (                    ): push si                   ; 56
+000f0023: (                    ): mov cx, word ptr ss:[bp+12] ; 8b4e0c
+000f0026: (                    ): jcxz .+9                  ; e309
+000f0028: (                    ): les di, ss:[bp+4]         ; c47e04
+000f002b: (                    ): lds si, ss:[bp+8]         ; c57608
+000f002e: (                    ): cld                       ; fc
+000f002f: (                    ): rep movsb byte ptr es:[di], byte ptr ds:[si] ; f3a4
+	if(times!=0)
+		from arg4:arg3 copy times bytes to arg2:arg1
+000f0031: (                    ): pop si                    ; 5e
+000f0032: (                    ): pop ds                    ; 1f
+000f0033: (                    ): pop di                    ; 5f
+000f0034: (                    ): pop es                    ; 07
+000f0035: (                    ): pop cx                    ; 59
+000f0036: (                    ): pop bp                    ; 5d
+000f0037: (                    ): ret                       ; c3
+
+000f0038: (                    ): push bp                   ; 55
+000f0039: (                    ): mov bp, sp                ; 89e5
+000f003b: (                    ): push cx                   ; 51
+000f003c: (                    ): push es                   ; 06
+000f003d: (                    ): push di                   ; 57
+000f003e: (                    ): push ds                   ; 1e
+000f003f: (                    ): push si                   ; 56
+000f0040: (                    ): mov cx, word ptr ss:[bp+12] ; 8b4e0c
+000f0043: (                    ): jcxz .+10                 ; e30a
+000f0045: (                    ): les di, ss:[bp+4]         ; c47e04
+000f0048: (                    ): lds si, ss:[bp+8]         ; c57608
+000f004b: (                    ): cld                       ; fc
+000f004c: (                    ): rep movsd dword ptr es:[di], dword ptr ds:[si] ; f366a5
+000f004f: (                    ): pop si                    ; 5e
+000f0050: (                    ): pop ds                    ; 1f
+000f0051: (                    ): pop di                    ; 5f
+000f0052: (                    ): pop es                    ; 07
+000f0053: (                    ): pop cx                    ; 59
+000f0054: (                    ): pop bp                    ; 5d
+000f0055: (                    ): ret                       ; c3
+000f0056: (                    ): push bp                   ; 55
+000f0057: (                    ): mov bp, sp                ; 89e5
+000f0059: (                    ): push bx                   ; 53
+000f005a: (                    ): push ds                   ; 1e
+000f005b: (                    ): lds bx, ss:[bp+4]         ; c55e04
+000f005e: (                    ): mov ax, word ptr ds:[bx]  ; 8b07
+000f0060: (                    ): mov dx, word ptr ds:[bx+2] ; 8b5702
+000f0063: (                    ): pop ds                    ; 1f
+000f0064: (                    ): pop bx                    ; 5b
+000f0065: (                    ): pop bp                    ; 5d
+000f0066: (                    ): ret                       ; c3
+000f0067: (                    ): push bp                   ; 55
+000f0068: (                    ): mov bp, sp                ; 89e5
+000f006a: (                    ): push eax                  ; 6650
+000f006c: (                    ): push bx                   ; 53
+000f006d: (                    ): push ds                   ; 1e
+000f006e: (                    ): lds bx, ss:[bp+8]         ; c55e08
+000f0071: (                    ): mov eax, dword ptr ss:[bp+4] ; 668b4604
+000f0075: (                    ): mov dword ptr ds:[bx], eax ; 668907
+000f0078: (                    ): pop ds                    ; 1f
+000f0079: (                    ): pop bx                    ; 5b
+000f007a: (                    ): pop eax                   ; 6658
+000f007c: (                    ): pop bp                    ; 5d
+000f007d: (                    ): ret                       ; c3
+000f007e: (                    ): push bp                   ; 55
+000f007f: (                    ): mov bp, sp                ; 89e5
+000f0081: (                    ): mov bp, word ptr ss:[bp+4] ; 8b6e04
+000f0084: (                    ): mov ax, word ptr ss:[bp]  ; 8b4600
+000f0087: (                    ): mov dx, word ptr ss:[bp+2] ; 8b5602
+000f008a: (                    ): pop bp                    ; 5d
+000f008b: (                    ): ret                       ; c3
+000f008c: (                    ): and ax, word ptr ss:[di]  ; 362305
+000f008f: (                    ): and bx, word ptr ss:[di+2] ; 36235d02
+000f0093: (                    ): ret                       ; c3
+000f0094: (                    ): add ax, word ptr ss:[di]  ; 360305
+000f0097: (                    ): adc bx, word ptr ss:[di+2] ; 36135d02
+000f009b: (                    ): ret                       ; c3
+000f009c: (                    ): and eax, 0x0000ffff       ; 6625ffff0000
+000f00a2: (                    ): shl ebx, 0x10             ; 66c1e310
+000f00a6: (                    ): or eax, ebx               ; 6609d8
+000f00a9: (                    ): shr ebx, 0x10             ; 66c1eb10
+000f00ad: (                    ): cmp eax, dword ptr ss:[di] ; 36663b05
+000f00b1: (                    ): ret                       ; c3
+000f00b2: (                    ): sub ax, word ptr ss:[di]  ; 362b05
+000f00b5: (                    ): sbb bx, word ptr ss:[di+2] ; 361b5d02
+000f00b9: (                    ): ret                       ; c3
+000f00ba: (                    ): and eax, 0x0000ffff       ; 6625ffff0000
+000f00c0: (                    ): shl ebx, 0x10             ; 66c1e310
+000f00c4: (                    ): or eax, ebx               ; 6609d8
+000f00c7: (                    ): mul eax, dword ptr ss:[di] ; 3666f725
+000f00cb: (                    ): mov ebx, eax              ; 6689c3
+000f00ce: (                    ): shr ebx, 0x10             ; 66c1eb10
+000f00d2: (                    ): ret                       ; c3
+000f00d3: (                    ): dec dword ptr ss:[bx]     ; 3666ff0f
+000f00d7: (                    ): ret                       ; c3
+000f00d8: (                    ): or ax, word ptr ss:[di]   ; 360b05
+000f00db: (                    ): or bx, word ptr ss:[di+2] ; 360b5d02
+000f00df: (                    ): ret                       ; c3
+000f00e0: (                    ): inc dword ptr ss:[bx]     ; 3666ff07
+000f00e4: (                    ): ret                       ; c3
+...
+
+<h6 id="000f1591">check_booting_type(type_addr)</h6>
+000f1591: (                    ): push bp                   ; 55
+000f1592: (                    ): mov bp, sp                ; 89e5
+000f1594: (                    ): add sp, 0xffda            ; 83c4da
+000f1597: (                    ): call .-3904               ; e8c0f0
+000f159a: (                    ): mov word ptr ss:[bp-38], ax ; 8946da
+000f159d: (                    ): mov bx, word ptr ss:[bp+4] ; 8b5e04
+000f15a0: (                    ): mov bx, word ptr ds:[bx]  ; 8b1f
+000f15a2: (                    ): mov word ptr ss:[bp-2], bx ; 895efe
+000f15a5: (                    ): mov ax, word ptr ss:[bp-2] ; 8b46fe
+000f15a8: (                    ): cmp ax, 0x0080            ; 3d8000
+000f15ab: (                    ): jnz .+6                   ; 7506
+000f15ad: (                    ): mov ax, 0x0004            ; b80400
+000f15b0: (                    ): mov word ptr ss:[bp-2], ax ; 8946fe
+000f15b3: (                    ): mov ax, word ptr ss:[bp-2] ; 8b46fe
+000f15b6: (                    ): test ax, ax               ; 85c0
+000f15b8: (                    ): jz .+8                    ; 7408
+000f15ba: (                    ): mov ax, word ptr ss:[bp-2] ; 8b46fe
+000f15bd: (                    ): cmp ax, 0x0004            ; 3d0400
+000f15c0: (                    ): jbe .+14                  ; 760e
+000f15c2: (                    ): mov bx, 0xd8e6            ; bbe6d8
+000f15c5: (                    ): push bx                   ; 53
+000f15c6: (                    ): mov ax, 0x0007            ; b80700
+000f15c9: (                    ): push ax                   ; 50
+000f15ca: (                    ): call .-3235               ; e85df3
+000f15cd: (                    ): add sp, 0x0004            ; 83c404
+	sp = sp - 38 (kepp 38 bytes)
+	old_ss(==local_19) = get_ss()
+	each = stack:mem(arg1) (==0x1,floppy)
+	if(each==0x80)
+	{
+		each=0x4;
+	}
+	if(each==0 ||  each==0x4)
+	{
+		
+		<a href="#000f092a">bios_printf(0x7,0xd8e6,...)</a>
+		// printf("Bad drive type\n")
+	}
+
+000f15d0: (                    ): mov bx, word ptr ss:[bp-2] ; 8b5efe
+000f15d3: (                    ): mov dx, bx                ; 89da
+000f15d5: (                    ): shl bx, 1                 ; d1e3
+000f15d7: (                    ): shl bx, 1                 ; d1e3
+000f15d9: (                    ): add bx, dx                ; 01d3
+000f15db: (                    ): shl bx, 1                 ; d1e3
+000f15dd: (                    ): add bx, 0x11ea            ; 81c3ea11
+000f15e1: (                    ): push bx                   ; 53
+000f15e2: (                    ): mov bx, 0xd8d6            ; bbd6d8
+000f15e5: (                    ): push bx                   ; 53
+000f15e6: (                    ): mov ax, 0x0002            ; b80200
+000f15e9: (                    ): push ax                   ; 50
+000f15ea: (                    ): call .-3267               ; e83df3
+000f15ed: (                    ): add sp, 0x0006            ; 83c406
+	<a href="#000f092a">bios_printf(0x2,0xd8d6, (each*4+each)*2 + 0x11ea )</a>, printf("Booting from %s","Floppy")
+	// types[] = 0x11ea = {..........,Floppy....,Hard Disk.,CD-Rom.... }
+	// types[each][10]
+	// unknow:0 floppy:1 hdisk:2 cd:3 network:4
+
+000f15f0: (                    ): mov ax, word ptr ss:[bp-2] ; 8b46fe
+000f15f3: (                    ): cmp ax, 0x0004            ; 3d0400
+000f15f6: (                    ): jnz .+106                 ; 756a
+	if not networking,jmp to <a href="#000f1662">H</a>
+000f15f8: (                    ): mov bx, word ptr ss:[bp+4] ; 8b5e04
+000f15fb: (                    ): xor ax, ax                ; 31c0
+000f15fd: (                    ): xor si, si                ; 31f6
+000f15ff: (                    ): push si                   ; 56
+000f1600: (                    ): push ax                   ; 50
+000f1601: (                    ): mov ax, word ptr ds:[bx+8] ; 8b4708
+000f1604: (                    ): mov bx, word ptr ds:[bx+10] ; 8b5f0a
+000f1607: (                    ): lea di, word ptr ss:[bp-42] ; 8d7ed6
+000f160a: (                    ): call .-5489               ; e88fea
+000f160d: (                    ): lea sp, word ptr ss:[bp-38] ; 8d66da
+000f1610: (                    ): jz .+80                   ; 7450
+000f1612: (                    ): mov ax, 0x0020            ; b82000
+000f1615: (                    ): push ax                   ; 50
+000f1616: (                    ): mov bx, word ptr ss:[bp+4] ; 8b5e04
+000f1619: (                    ): mov ax, word ptr ds:[bx+8] ; 8b4708
+000f161c: (                    ): mov bx, word ptr ds:[bx+10] ; 8b5f0a
+000f161f: (                    ): xchg bx, ax               ; 93
+000f1620: (                    ): xor bx, bx                ; 31db
+000f1622: (                    ): push ax                   ; 50
+000f1623: (                    ): mov bx, word ptr ss:[bp+4] ; 8b5e04
+000f1626: (                    ): push word ptr ds:[bx+10]  ; ff770a
+000f1629: (                    ): push word ptr ds:[bx+8]   ; ff7708
+000f162c: (                    ): mov ax, 0xffff            ; b8ffff
+000f162f: (                    ): xor bx, bx                ; 31db
+000f1631: (                    ): lea di, word ptr ss:[bp-46] ; 8d7ed2
+000f1634: (                    ): call .-5547               ; e855ea
+000f1637: (                    ): add sp, 0x0004            ; 83c404
+000f163a: (                    ): push ax                   ; 50
+000f163b: (                    ): push word ptr ss:[bp-38]  ; ff76da
+000f163e: (                    ): lea bx, word ptr ss:[bp-35] ; 8d5edd
+000f1641: (                    ): push bx                   ; 53
+000f1642: (                    ): call .-5674               ; e8d6e9
+000f1645: (                    ): add sp, 0x000a            ; 83c40a
+000f1648: (                    ): xor al, al                ; 30c0
+000f164a: (                    ): mov byte ptr ss:[bp-3], al ; 8846fd
+000f164d: (                    ): lea bx, word ptr ss:[bp-35] ; 8d5edd
+000f1650: (                    ): push bx                   ; 53
+000f1651: (                    ): push word ptr ss:[bp-38]  ; ff76da
+000f1654: (                    ): mov bx, 0xd8d0            ; bbd0d8
+000f1657: (                    ): push bx                   ; 53
+000f1658: (                    ): mov ax, 0x0002            ; b80200
+000f165b: (                    ): push ax                   ; 50
+000f165c: (                    ): call .-3381               ; e8cbf2
+000f165f: (                    ): add sp, 0x0008            ; 83c408
+<h6 id="000f1662">Print Normal Booting Message</h6>
+000f1662: (                    ): mov bx, 0xd8cb            ; bbcbd8
+000f1665: (                    ): push bx                   ; 53
+000f1666: (                    ): mov ax, 0x0002            ; b80200
+000f1669: (                    ): push ax                   ; 50
+000f166a: (                    ): call .-3395               ; e8bdf2
+000f166d: (                    ): add sp, 0x0004            ; 83c404
+	data:0xf000:0xd8cb=="...\n\0"
+	printf("...\n")
+000f1670: (                    ): mov sp, bp                ; 89ec
+000f1672: (                    ): pop bp                    ; 5d
+000f1673: (                    ): ret                       ; c3
+	if (each == 0x4) //network
+	{
+		do_networking_load();//<textarea class="undone">This part is not parsed</textarea>
+	}
+	printf("...\n")
+	return;
+<h4 id="000f1674">print_error_message(type,subtype)</h4>
+000f1674: (                    ): push bp                   ; 55
+000f1675: (                    ): mov bp, sp                ; 89e5
+000f1677: (                    ): mov ax, word ptr ss:[bp+4] ; 8b4604
+000f167a: (                    ): test ax, ax               ; 85c0
+000f167c: (                    ): jz .+8                    ; 7408
+	if (arg1==0 || arg1 &gt; 0x3) //cdrom,network ,failed
+	{
+		printf("Bad drive type")
+	}
+	printf("Boot failed")
+	if(arg1 &lt; 0x4)
+	{
+		if(arg2==0)
+			printf("not a bootable disk")
+		else
+			printf("could not read the boot disk")
+	}
+	printf("...")
+	return;
+000f167e: (                    ): mov ax, word ptr ss:[bp+4] ; 8b4604
+000f1681: (                    ): cmp ax, 0x0003            ; 3d0300
+000f1684: (                    ): jbe .+13                  ; 760d
+000f1686: (                    ): mov bx, 0xd8bb            ; bbbbd8
+000f1689: (                    ): push bx                   ; 53
+000f168a: (                    ): mov ax, 0x0007            ; b80700
+000f168d: (                    ): push ax                   ; 50
+000f168e: (                    ): call .-3431               ; e899f2
+000f1691: (                    ): mov sp, bp                ; 89ec
+
+000f1693: (                    ): mov bx, 0xd8af            ; bbafd8
+000f1696: (                    ): push bx                   ; 53
+000f1697: (                    ): mov ax, 0x0002            ; b80200
+000f169a: (                    ): push ax                   ; 50
+000f169b: (                    ): call .-3444               ; e88cf2
+000f169e: (                    ): mov sp, bp                ; 89ec
+
+000f16a0: (                    ): mov ax, word ptr ss:[bp+4] ; 8b4604
+000f16a3: (                    ): cmp ax, 0x0004            ; 3d0400
+000f16a6: (                    ): jnb .+35                  ; 7323
+000f16a8: (                    ): mov al, byte ptr ss:[bp+6] ; 8a4606
+000f16ab: (                    ): test al, al               ; 84c0
+000f16ad: (                    ): jnz .+15                  ; 750f
+000f16af: (                    ): mov bx, 0xd899            ; bb99d8
+000f16b2: (                    ): push bx                   ; 53
+000f16b3: (                    ): mov ax, 0x0002            ; b80200
+000f16b6: (                    ): push ax                   ; 50
+000f16b7: (                    ): call .-3472               ; e870f2
+000f16ba: (                    ): mov sp, bp                ; 89ec
+000f16bc: (                    ): jmp .+13                  ; eb0d
+000f16be: (                    ): mov bx, 0xd87a            ; bb7ad8
+000f16c1: (                    ): push bx                   ; 53
+000f16c2: (                    ): mov ax, 0x0002            ; b80200
+000f16c5: (                    ): push ax                   ; 50
+000f16c6: (                    ): call .-3487               ; e861f2
+000f16c9: (                    ): mov sp, bp                ; 89ec
+000f16cb: (                    ): mov bx, 0xd877            ; bb77d8
+000f16ce: (                    ): push bx                   ; 53
+000f16cf: (                    ): mov ax, 0x0002            ; b80200
+000f16d2: (                    ): push ax                   ; 50
+000f16d3: (                    ): call .-3500               ; e854f2
+000f16d6: (                    ): mov sp, bp                ; 89ec
+000f16d8: (                    ): pop bp                    ; 5d
+000f16d9: (                    ): ret                       ; c3
+
+</pre>
+
+</section>
+<section>
 
 <pre class="code">
 
@@ -47,6 +348,8 @@
 000f056a: (                    ): out 0x71, al              ; e671
 000f056c: (                    ): pop bp                    ; 5d
 000f056d: (                    ): ret                       ; c3
+
+<h6 id="000f056e">CMOS_read(addr)</h6>
 000f056e: (                    ): push bp                   ; 55
 000f056f: (                    ): mov bp, sp                ; 89e5
 000f0571: (                    ): mov al, byte ptr ss:[bp+4] ; 8a4604
@@ -54,6 +357,8 @@
 000f0576: (                    ): in al, 0x71               ; e471
 000f0578: (                    ): pop bp                    ; 5d
 000f0579: (                    ): ret                       ; c3
+
+
 000f057a: (                    ): push bp                   ; 55
 000f057b: (                    ): mov bp, sp                ; 89e5
 000f057d: (                    ): mov ax, 0x0026            ; b82600
@@ -128,17 +433,23 @@
 000f05ec: (                    ): ret                       ; c3
 
 
-
+<h6 id="000f05ed">read_word(addr)</h6>
+<pre>read a word from the address.
+word = mem(addr)
+return word</pre>
 000f05ed: (                    ): push bp                   ; 55
 000f05ee: (                    ): mov bp, sp                ; 89e5
 000f05f0: (                    ): push bx                   ; 53
 000f05f1: (                    ): push ds                   ; 1e
 000f05f2: (                    ): lds bx, ss:[bp+4]         ; c55e04
+	bx = mem(arg1)
+	ds = mem(arg1+2)
 000f05f5: (                    ): mov ax, word ptr ds:[bx]  ; 8b07
 000f05f7: (                    ): pop ds                    ; 1f
 000f05f8: (                    ): pop bx                    ; 5b
 000f05f9: (                    ): pop bp                    ; 5d
 000f05fa: (                    ): ret                       ; c3
+
 000f05fb: (                    ): push bp                   ; 55
 000f05fc: (                    ): mov bp, sp                ; 89e5
 000f05fe: (                    ): push ax                   ; 50
@@ -568,7 +879,7 @@ set
 
 
 
-<h6 id="0x000f092a">Beginning</h6>
+<h6 id="0x000f092a">Beginning, BIOS_printf</h6>
 000f092a: (                    ): push bp                   ; 55
 000f092b: (                    ): mov bp, sp                ; 89e5
 000f092d: (                    ): add sp, 0xffec            ; 83c4ec
